@@ -283,6 +283,7 @@ class SubscribeNowController extends Controller
       $arr_data['start_date']   = $request->input('start_date', null);  
       $arr_data['price']   = $request->input('price', null);
       $arr_data['total']   = $request->input('total', null);  
+      $arr_data['discount']   = $request->input('discount', null);  
       $arr_data['payment_status']   = $request->input('payment_status', null);
 
       $avoid_or_dislike_food = $request->input('avoid_or_dislike_food_id'); 

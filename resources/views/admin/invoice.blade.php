@@ -95,12 +95,12 @@
                         <tr>
                             <td colspan="1"></td>
                             <td colspan="2" align="right" style="padding: 8px;">GST 5%</td>
-                            <td align="right" style="padding: 8px;">₹ <?php echo $total_amt= $row->total * 5 /100; ?></td>
+                            <td align="right" style="padding: 8px;">₹ <?php echo $calc_gst = $row->total * 5 / 100; ?></td>
                         </tr>
                         <tr>
                             <td colspan="1"></td>
                             <td colspan="2" align="right">GRAND TOTAL</td>
-                            <td style="padding: 8px;" align="right">₹ <?php echo round($row->total + $total_amt); ?></td>
+                            <td style="padding: 8px;" align="right">₹ <?php echo round($row->total + $calc_gst); ?></td>
                         </tr>
                     </tfoot>
                 </table>

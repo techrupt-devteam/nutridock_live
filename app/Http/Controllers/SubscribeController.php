@@ -225,6 +225,7 @@ class SubscribeController extends Controller
                 $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
                 $arr_data['total'] = $request->input('total');
                 $arr_data['price'] = 1;
+                $arr_data['discount'] = $request->input('discount');
                 $arr_data['food_precautions']   = $request->input('food_precautions',null);
                 $arr_data['lifestyle_disease']   = $request->input('lifestyle_disease',null);
                 $arr_data['start_date']   =  $new_date;
@@ -294,6 +295,7 @@ class SubscribeController extends Controller
                 $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
                 $arr_data['total'] = $request->input('total');
                 $arr_data['price'] = $request->input('price');
+                $arr_data['discount'] = $request->input('discount');
                 $arr_data['food_precautions']   = $request->input('food_precautions',null);
                 $arr_data['lifestyle_disease']   = $request->input('lifestyle_disease',null);
                 $arr_data['start_date']   =  $new_date;

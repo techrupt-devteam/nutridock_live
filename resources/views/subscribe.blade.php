@@ -286,6 +286,8 @@
                                  <del>  <span style="display: block;" id="close_value"></span> </del> 
                                 </div>
                                 <input type="hidden" id="total" name="total">
+                                <input type="hidden" id="gst_value" name="discount">
+                                
                                 <span class="og"  id="rs_html"> Rs.</span> 
                                 <span class="og" id="final_value" ></span>  |
                                 <span class="og" id="final_value_details"></span>
@@ -657,15 +659,18 @@ function calculatePrice()
     
     if(no_of_days==7){
       var percente_amt = cal_value * 5 / 100;
+      //console.log(percente_amt);
       var final_value = (cal_value - percente_amt);
       
       var gst_value = final_value * 5 / 100;
       var final_gst_value = final_value + gst_value;
-      //console.log(final_gst_value);
+      
       
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);
       $('#total').val(final_value);
+      $('#gst_value').val(percente_amt);
+
       $('#final_value_details').html('Rs. 237.5 per meal');
       $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -679,6 +684,7 @@ function calculatePrice()
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);    
       $('#total').val(final_value);
+      $('#gst_value').val(percente_amt);
       $('#final_value_details').html('Rs. 220 per meal'); 
       $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -692,6 +698,7 @@ function calculatePrice()
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);
       $('#total').val(final_value);
+      $('#gst_value').val(percente_amt);
       $('#final_value_details').html('Rs. 200 per meal');   
       $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -705,6 +712,7 @@ function calculatePrice()
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);  
       $('#total').val(final_value);
+      $('#gst_value').val(percente_amt);
       $('#final_value_details').html('Rs. 187.5 per meal');      
       $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -895,6 +903,8 @@ function submitFormPersonal()
   var other_food= $("input[name='other_food']").val();
   var total= $("input[name='total']").val();
   var price= $("input[name='price']").val();
+  var discount= $("input[name='discount']").val();
+  
   var food_precautions= $("#food_precautions").val();
   var lifestyle_disease= $("#lifestyle_disease").val();
   var start_date= $("#start_date").val();
@@ -945,7 +955,7 @@ function submitFormPersonal()
   $.ajax({
         type: "POST",
         url: "{{ URL::to('/') }}/postPersonalDetails",             
-        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food,total:total, price:price, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2
+        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food,total:total, price:price,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2
         },
           'async': false,
           success: function(result){

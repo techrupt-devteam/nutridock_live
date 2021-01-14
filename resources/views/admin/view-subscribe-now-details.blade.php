@@ -232,12 +232,30 @@
                         </div>
                     </div>
 
+
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
-                                <label class="label-control">Price</label>
+                                <label class="label-control">Total</label>
+                                <input type="text" id="total" name="total" class="form-control" value="<?php echo $row->total ?? '' ?>" >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Total GST</label>
+                                <input type="text" id="gst_value" name="discount" class="form-control" value="<?php echo $row->discount ?? '' ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Net Total</label>
                                 <input type="text" class="form-control" name="price" placeholder="Price" value="<?php echo $row->price ?? '' ?>" id="price">
-                                <input type="hidden" id="total" name="total">
                             </div>
                         </div>
                     </div>
@@ -322,7 +340,7 @@
                 
                  <div class="col-lg-12" style="text-align: center;">
                     <button class="btn btn-primary btn-md mr-2" name="sumbit" type="sumbit" value="submit" > Submit </button>
-                    <a href="{{url('')}}/admin/view-blog" class="btn btn-danger btn-md"> Cancel </a>
+                    <a href="{{url('')}}/admin/view-subscribe-now" class="btn btn-danger btn-md"> Cancel </a>
                 </div>
                 
                 </div>
@@ -380,6 +398,7 @@ function calculatePrice()
       //console.log(final_gst_value);
       $('#total').val(final_value);
       $('#price').val(final_gst_value);
+      $('#gst_value').val(percente_amt);
     }else if(no_of_days_value==15){
       var percente_amt = cal_value * 12 / 100;
       var final_value = (cal_value - percente_amt);
@@ -388,6 +407,7 @@ function calculatePrice()
       
       $('#total').val(final_value);
       $('#price').val(final_gst_value);
+      $('#gst_value').val(percente_amt);
     }else if(no_of_days_value==30){
       var percente_amt = cal_value * 20 / 100;
       var final_value = (cal_value - percente_amt);
@@ -396,6 +416,7 @@ function calculatePrice()
       
       $('#total').val(final_value);
       $('#price').val(final_gst_value);
+      $('#gst_value').val(percente_amt);
     }else if(no_of_days_value==60){
       var percente_amt = cal_value * 25 / 100;
       var final_value = (cal_value - percente_amt);
@@ -403,7 +424,8 @@ function calculatePrice()
       var final_gst_value = final_value + gst_value;
       
      $('#total').val(final_value);
-      $('#price').val(final_gst_value);
+     $('#price').val(final_gst_value);
+     $('#gst_value').val(percente_amt);
     }
    
 
