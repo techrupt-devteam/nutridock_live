@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>bold-direction</title>
+    <desc>Created with Sketch.</desc>
+    <defs/>
+    <g id="Landing-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Desktop-Landing-Page" transform="translate(-444.000000, -3305.000000)" stroke="#54657E" stroke-width="2">
+            <g id="Group-31" transform="translate(149.000000, 2975.000000)">
+                <g id="easy-transfers" transform="translate(0.000000, 275.000000)">
+                    <g id="easy-transfer-icon" transform="translate(282.000000, 42.000000)">
+                        <g id="bold-direction" transform="translate(15.000000, 15.000000)">
+                            <polygon id="Shape" points="20 5 13 0 13 3 1 3 1 7 13 7 13 10"/>
+                            <polygon id="Shape" points="0 15 7 20 7 17 19 17 19 13 7 13 7 10"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

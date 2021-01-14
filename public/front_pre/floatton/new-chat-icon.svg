@@ -1,0 +1,28 @@
+<svg id="frame1" xmlns="http://www.w3.org/2000/svg" width="32" height="28" viewBox="0 0 32 28">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: #fff;
+      }
+
+      .cls-1, .cls-2 {
+        fill-rule: evenodd;
+      }
+
+      .cls-2 {
+        fill: #0f6ca2;
+      }
+    </style>
+  </defs>
+  <path id="Shape_1_copy" data-name="Shape 1 copy" class="cls-1" d="M26.8,19.122V7.038A3,3,0,0,0,23.85,4H3.954A3,3,0,0,0,1,7.038V19.122A3,3,0,0,0,3.954,22.16H4.8V25.8a1.2,1.2,0,0,0,1.19,1.217h0a1.18,1.18,0,0,0,.9-0.424l3.732-4.443H23.856A2.991,2.991,0,0,0,26.8,19.122ZM10,20c-0.235,0-.209.614-0.366,0.8L6.392,24.647,7,21a1.215,1.215,0,0,0-2-1c-0.034.032-1,0-1,0-0.745,0-1-1.234-1-2V8c0-.766.255-2,1-2H24a0.988,0.988,0,0,1,1.2,1.038V19.122C25.2,19.889,23.745,20,23,20H10Z" transform="translate(-1 -4)"/>
+  <path id="Shape_1_copy_2" data-name="Shape 1 copy 2" class="cls-2" d="M27.124,31.577a1.139,1.139,0,0,0,1.307.343,1.2,1.2,0,0,0,.771-1.143V27.134h0.843A3,3,0,0,0,33,24.1V12.012a3,3,0,0,0-2.954-3.038,0.824,0.824,0,0,0,0,1.647c0.745,0,.954.614,0.954,1.38V24a0.824,0.824,0,0,1-1,1H29c-0.445,0-2,.543-2,1l0.6,3.627L24.36,25.776A4.128,4.128,0,0,0,23,25H12a1.165,1.165,0,0,0-1,1,1.165,1.165,0,0,0,1,1H23Z" transform="translate(-1 -4)"/>
+  <circle class="cls-3" cx="7.5" cy="9.5" r="1.5">
+      <animateTransform id="skjdfhdsjk" attributeName="transform" attributeType="XML" type="translate" dur="1.3s" values="0,0;0,-1.5;0,-0.2;0,1;0,0;0,0" repeatCount="indefinite"/>
+  </circle>
+  <circle id="Ellipse_1_copy" data-name="Ellipse 1 copy" class="cls-3" cx="12.5" cy="9.5" r="1.5">
+    <animateTransform id="skjdfhdsjk" attributeName="transform" attributeType="XML" type="translate" begin="0.1s" dur="1.3s" values="0,0;0,-2.5;0,-0.5;0,1;0,0;0,0;0,0" repeatCount="indefinite"/>
+  </circle>
+  <circle id="Ellipse_1_copy_2" data-name="Ellipse 1 copy 2" class="cls-3" cx="17.5" cy="9.5" r="1.5">
+    <animateTransform id="skjdfhdsjk" attributeName="transform" attributeType="XML" type="translate" begin="0.2s" dur="1.3s" values="0,0;0,-2.5;0,-0.5;0,1;0,0;0,0;0,0" repeatCount="indefinite"/>
+  </circle>
+</svg>

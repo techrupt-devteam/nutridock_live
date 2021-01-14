@@ -1,0 +1,63 @@
+@media only screen and (max-width: 600px) {
+ #header{
+ 	padding: 7px 0 15px;
+ }
+ #intro .carousel-container{
+ 	left: 0;
+ 	right: 0;
+ 	top: 5px;
+ }
+ #intro p{
+ 	width: 100%
+ }
+ .home-slideshow .slider-content {
+    padding: 15px;
+    width: 100%;
+    text-align: center;
+}
+.home-slideshow .slide-heading {
+    font-size: 20px !important;
+    font-weight: 300;
+}
+.tm-vc_cta3-content-header h2{
+	font-size: 25px;
+}
+.data-content p{
+	font-size: 14px;
+	letter-spacing: 2px;
+	margin-bottom: 0px;
+}
+.download-btn a {
+    display: block;
+    width: 42%;
+    float: left;
+}
+.section-title {
+    font-size: 31px;
+    font-weight: 600;
+}
+#header.header-scrolled{
+	padding: 4px 0 6px;
+}
+.height-mobile {
+    max-height: 600px;
+}
+.vc_custom_heading.vc_custom_1555072035868 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+.healty-food::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #aea2a2ad;
+    content: '';
+}
+.wrp-health p{
+	color: #666;
+	font-size: 15px
+}
+
+}
