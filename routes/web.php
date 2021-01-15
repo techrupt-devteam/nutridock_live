@@ -36,6 +36,7 @@ Route::get('dynamicMenuModal/{id}',[
 ]);
 
 Route::post('/subscribe', 'HomeController@subscription');
+Route::get('/mail_test', 'HomeController@mail_test')->name('mail_test');
 Route::get('/about', 'AboutController@index')->name('about');
 Route::get('/menu', 'MenuController@index')->name('menu');
 Route::get('/page-not-found', 'PageNotFoundController@index')->name('page-not-found');
@@ -57,6 +58,7 @@ Route::post('/newsletter_store', 'HomeController@store')->name('store');
 Route::get('/faq', 'FaqController@index')->name('faq');
 Route::get('/privacy_policy', 'PrivacyPolicyController@index')->name('privacy_policy');
 Route::get('/terms_conditions', 'TermsConditionsController@index')->name('index');
+
 
 
 /*Razorpay*/

@@ -341,7 +341,7 @@ class SubscribeNowController extends Controller
           $arr_data['address2_meal'] = ''; 
       }
 
-      print_r($arr_data); die;
+      
       $status = SubscribeNow::where('id',$enc_id)->update($arr_data);      
       if($status)
       {

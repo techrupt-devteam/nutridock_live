@@ -73,10 +73,8 @@ class SubscribeController extends Controller
     public function SubscribeNowPlanDuration(Request $request){
         $value = request()->segment(2);
         $duration_data = [];
-        $duration_value     = \DB::table('subscribe_now_plan_duration')
-                        ->where('subscribe_now_duration',$value)
-                         //->where('subscribe_now_plan_duration_id',$value)
-                        ->get();
+        $duration_value     = \DB::table('subscribe_now_plan_duration','subscribe_discount')->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')->where('subscribe_now_duration',$value)->get();
+
         if($duration_value)
         {
             $duration_data = $duration_value->toArray();

@@ -631,17 +631,24 @@ function calculatePrice()
   $('#final_value').html('Rs.0');
   $('#rs_html').hide();
   var no_of_days =   $('input[name="radNoOfDays"]:checked').attr('data-id');
+  
   var subscribe_now_pkg_price_value = '';
   var subscribe_now_price_per_meal_value = '';
+  var discount_on_amount_value = '';
+  var discount_in_percent_value = '';
   $.ajax({
         type: "GET",
         url: "{{ URL::to('/') }}/getSubscribeNowPlanDuration/"+no_of_days,             
         dataType: "html",
         'async': false,
-        success: function(response){                    
+        success: function(response){
+          console.log(response);                    
+
           var obj = $.parseJSON(response);
           var i = 0;
            $.each(obj, function() {
+            discount_on_amount_value = this[0].discount_on_amount;              
+            discount_in_percent_value = this[0].discount_in_percent;              
             subscribe_now_pkg_price_value =  this[0].subscribe_now_pkg_price;
             subscribe_now_price_per_meal_value =  this[0].subscribe_now_price_per_meal;
           });
@@ -659,13 +666,10 @@ function calculatePrice()
     
     if(no_of_days==7){
       var percente_amt = cal_value * 5 / 100;
-      //console.log(percente_amt);
       var final_value = (cal_value - percente_amt);
       
       var gst_value = final_value * 5 / 100;
       var final_gst_value = final_value + gst_value;
-      
-      
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);
       $('#total').val(final_value);
@@ -720,7 +724,15 @@ function calculatePrice()
     }
   });
   }else{
-        alert(2);
+    if(no_of_days==7){
+        $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+    }else if(no_of_days==15){
+        $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+    }else if(no_of_days==30){
+        $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+    }else if(no_of_days==60){
+      $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+    }
   }
 }
 
@@ -840,7 +852,6 @@ $.each(selectValues, function(key, value) {
   });
   $("#mealtype2").append($option);
   //$.session.set("myVar", "99");
-
 }); 
 
   var subscribe_now = $('input[name="radNoOfDays"]:checked').attr('data-id');
