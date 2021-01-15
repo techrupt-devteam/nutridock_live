@@ -267,7 +267,7 @@
                         </div>
 
                         <div class="col-sm-12 mb-1">
-                          <label class="control-label"> Type of meals <span style="color:red;">*</span></label>
+                          <label class="control-label"> Type of meals99 <span style="color:red;">*</span></label>
                           <div id="meals">                            
                             <div class="chk-toolbar">
                               @foreach($data['getMealTypeData'] as $getMealTypeData)
@@ -809,6 +809,7 @@ unique = meal_type_name.filter(function(itm, i, a) {
     return i == meal_type_name.indexOf(itm);
 });
 $("#checkout_meal_type_name_value").val(unique);
+
 var checkout_meal_type_value = $("#checkout_meal_type_name_value").val();
 $("#checkout_meal_type_name").html(checkout_meal_type_value);
 

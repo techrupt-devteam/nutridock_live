@@ -286,13 +286,14 @@ class SubscribeNowController extends Controller
       $arr_data['discount']   = $request->input('discount', null);  
       $arr_data['payment_status']   = $request->input('payment_status', null);
 
-      $avoid_or_dislike_food = $request->input('avoid_or_dislike_food_id'); 
+      $avoid_or_dislike_food_value = $request->input('avoid_or_dislike_food_id'); 
 
-      if($avoid_or_dislike_food){
-          $avoid_or_dislike_food_value = implode(',',$avoid_or_dislike_food);    
-      }else{
-          $avoid_or_dislike_food_value = '';
-      }  
+      
+      // if($avoid_or_dislike_food){
+      //     $avoid_or_dislike_food_value = implode(',',$avoid_or_dislike_food);    
+      // }else{
+      //     $avoid_or_dislike_food_value = '';
+      // }  
       $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
       $arr_data['other_food'] = $request->input('other_food'); 
 
@@ -340,7 +341,7 @@ class SubscribeNowController extends Controller
           $arr_data['address2_meal'] = ''; 
       }
 
-
+      print_r($arr_data); die;
       $status = SubscribeNow::where('id',$enc_id)->update($arr_data);      
       if($status)
       {

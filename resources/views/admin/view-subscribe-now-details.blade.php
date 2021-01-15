@@ -14,7 +14,7 @@
                 <?php foreach($arr_data as $row); ?>
                 <form action="{{url('')}}/admin/subscribe-now/update/{{$row->id }}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
-                <h6 style="color:black;">Personal Details</h6>
+                <h6 style="color:black;"><strong>Personal Details</strong></h6>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="row">
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <hr>
-                <h6 style="color:black;">Health Details</h6>
+                <h6 style="color:black;"><strong>Health Details</strong></h6>
                 <div class="row">
                     <div class="col-lg-3">
                         <div class="row">
@@ -90,7 +90,7 @@
                         </div>
                     </div>
                    
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="row">
                            <div class="col-lg-12 mb-3">
                                 <label class="label-control">Physical Activity</label>
@@ -101,10 +101,8 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    
-                    
-                    <div class="col-lg-3">
+
+                        <?php if($row->avoid_or_dislike_food_id){ ?>
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food </label><br>
@@ -114,8 +112,6 @@
                                 $avoid_or_dislike_food_id = $row->avoid_or_dislike_food_id;
                                 $abc = explode(",",$avoid_or_dislike_food_id);
                                 $var_value = array_diff( $abc, ['Other'] );
-
-                                
                                 //if($avoid_or_dislike_food_id!="Other") {
                                     for($i=0;$i<count($abc); $i++){ 
 
@@ -136,23 +132,14 @@
                                     } ?>
                             </div>
                         </div>
-                    </div>
+                        <?php  } ?>
+                        
 
-                    <div class="col-lg-2">
-                        <div class="row">
-                            <div class="col-lg-12 mb-3">
-                                <label class="label-control">Other </label><br>
-                                <span style="padding: 4px;"><b><?php echo $row->other_food ?? '' ?></b></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-2">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food
                                 </label><br>
-                                <select multiple class="form-control" id="demo" name="avoid_or_dislike_food_id[]" onchange="onChangeAvoid();">
+                                <select multiple class="form-control" id="demo" onchange="onChangeAvoid();" name="radioFruit[]">
                                     <option value="None">None</option>
                                     <?php foreach($food_avoid_data as $row_food){ ?>
                                         <option value="<?php echo $row_food->food_avoid_id; ?>"><?php echo $row_food->food_avoid_name; ?></option>
@@ -160,23 +147,30 @@
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
+                            <input type="hidden" name="avoid_or_dislike_food_id" id="avoid_or_dislike_food_data" value="<?php echo $row->avoid_or_dislike_food_id ?? '' ?>">
                         </div>
                     </div>
 
-                    <div class="col-lg-2" style="display: none;" id="other_food_div">
-                        <div class="row">
-                            <div class="col-lg-12 mb-3">
-                                <label class="label-control">Other&nbsp;Food</label><br>
-                                <input type="text" name="other_food" class="form-control" placeholder="Other Food">
-                            </div>
-                        </div>
-                    </div>
-                   
+                 
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                             <label class="label-control">Any&nbsp;food&nbsp;preparation&nbsp;instructions?</label>
                                 <textarea name="food_precautions" class="form-control" rows="3" placeholder="Any Food Precautions"><?php echo $row->food_precautions ?? '' ?></textarea>
+                            </div>
+                        </div>
+                        <?php if($row->other_food){ ?>
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Other </label><br>
+                                <span style="padding: 4px;"><b><?php echo $row->other_food ?? '' ?></b></span>
+                            </div>
+                        </div>
+                        <?php } ?>
+                        <div class="row" style="display: none;" id="other_food_div">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Other&nbsp;Food</label><br>
+                                <input type="text" name="other_food" class="form-control" value="<?php echo $row->other_food ?? '' ?>" placeholder="Other Food">
                             </div>
                         </div>
                     </div>
@@ -192,7 +186,7 @@
                 
                 </div>
                 <hr>
-                <h6 style="color:black;">Choose Plan</h6>
+                <h6 style="color:black;"><strong>Choose Plan</strong></h6>
                 <div class="row">
                     <div class="col-lg-4">
                         <div class="row">
@@ -201,9 +195,9 @@
                                  <input type="date" class="form-control" name="start_date" placeholder="Start Date" value="<?php echo strftime('%Y-%m-%d',strtotime($row->start_date)); ?>">
                             </div>
                         </div>
-                    </div>
-                   
-                    <div class="col-lg-4">
+
+                        
+
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">No. of days</label>
@@ -215,11 +209,13 @@
                             </div>
                         </div>
                     </div>
+                   
+                    <div class="col-lg-4">
+
                     <?php 
                         $meal_type_id = $row->meal_type_id;
                         $explode_data = explode(",",$meal_type_id);
                         $meal_type_data = []; ?>
-                    <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Type of meals </label><br>
@@ -230,8 +226,15 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Payment Status</label>
+                                <input type="text" class="form-control" name="payment_status" placeholder="Payment Status" value="<?php echo $row->payment_status ?? '' ?>">
+                            </div>
+                        </div>
 
+                        
+                    </div>
 
                     <div class="col-lg-4">
                         <div class="row">
@@ -240,18 +243,14 @@
                                 <input type="text" id="total" name="total" class="form-control" value="<?php echo $row->total ?? '' ?>" >
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Total GST</label>
                                 <input type="text" id="gst_value" name="discount" class="form-control" value="<?php echo $row->discount ?? '' ?>">
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Net Total</label>
@@ -259,18 +258,10 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="col-lg-4">
-                        <div class="row">
-                            <div class="col-lg-12 mb-3">
-                                <label class="label-control">Payment Status</label>
-                                <input type="text" class="form-control" name="payment_status" placeholder="Payment Status" value="<?php echo $row->payment_status ?? '' ?>">
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <hr>
-                <h6 style="color:black;">Delivery Details</h6>
+                <h6 style="color:black;"><strong>Delivery Details</strong></h6>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="row">
@@ -434,20 +425,31 @@ function calculatePrice()
   }
 }
 
+
+
+
 function onChangeAvoid(){
- $('#other_food_div').hide();
- var avoid_dislike_food = $('#demo').val();
- $("#demo :selected").each(function() {
-      if(this.value == "Other")
-      {
-        $('#other_food_div').show();
-      }else if(this.value != "Other"){
-        //console.log(this.value);
-        $('#other_food_div').hide();
-      }else{
-        $('#other_food_div').hide();
-      }
-    });
+    $('#other_food_div').hide();
+    //var avoid_dislike_food = $('#demo').val();
+    
+    var selectedValues = $('#demo').val();  
+    console.log(selectedValues);
+    
+    $("#avoid_or_dislike_food_data").val(selectedValues);
+
+    $("#demo :selected").each(function() {
+       if(this.value == "Other")
+       {
+         $('#other_food_div').show();
+       }else if(this.value != "Other"){
+         //console.log(this.value);
+         $('#other_food_div').hide();
+       }else{
+         $('#other_food_div').hide();
+       }
+     });
+    
+    
 }
 
 </script>
