@@ -286,7 +286,7 @@
                                  <del>  <span style="display: block;" id="close_value"></span> </del> 
                                 </div>
                                 <input type="hidden" id="total" name="total">
-                                <input type="hidden" id="gst_value" name="discount">
+                                <input type="hidden" id="discount_value" name="discount">
                                 
                                 <span class="og"  id="rs_html"> Rs.</span> 
                                 <span class="og" id="final_value" ></span>  |
@@ -642,7 +642,7 @@ function calculatePrice()
         dataType: "html",
         'async': false,
         success: function(response){
-          console.log(response);                    
+          //console.log(response);                    
 
           var obj = $.parseJSON(response);
           var i = 0;
@@ -654,7 +654,7 @@ function calculatePrice()
           });
         }
     });
-
+    
   var mealtype=0;
   if(subscribe_now_pkg_price_value==0){
   $.each($("input[data-value='radioFruitValue']:checked"), function(){
@@ -663,22 +663,44 @@ function calculatePrice()
     $('#final_value').html('Rs.'+final_value);
     $('#price').val(final_value);*/  
     var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
-    
+    var final_gst_value = '';
     if(no_of_days==7){
-      var percente_amt = cal_value * 5 / 100;
-      var final_value = (cal_value - percente_amt);
-      
-      var gst_value = final_value * 5 / 100;
-      var final_gst_value = final_value + gst_value;
-      $('#final_value').html('Rs.'+final_value);
-      $('#price').val(final_gst_value);
-      $('#total').val(final_value);
-      $('#gst_value').val(percente_amt);
 
-      $('#final_value_details').html('Rs. 237.5 per meal');
-      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
-      $("#checkout_price").html(final_value);
-      $("#checkout_final_gst_value").html(final_gst_value);
+      if(discount_on_amount_value == 0){
+        var percente_amt = cal_value * 5 / 100;
+        var final_value = (cal_value - percente_amt);
+        
+        var gst_value = final_value * 5 / 100;
+        var final_gst_value = final_value + gst_value;
+        $('#final_value').html('Rs.'+final_value);
+        $('#price').val(final_gst_value);
+        $('#total').val(final_value);
+        $('#discount_value').val(percente_amt);
+
+        $('#final_value_details').html('Rs. 237.5 per meal');
+        $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
+        $("#checkout_price").html(final_value);
+        $("#checkout_final_gst_value").html(final_gst_value);  
+      }else{
+        
+        var final_value = cal_value - discount_on_amount_value;
+        var gst_value = final_value * 5 / 100;
+        var final_gst_value = final_value + gst_value;
+        console.log(final_gst_value);
+       
+        $('#final_value').html('Rs.'+final_value);
+        $('#price').val(final_gst_value);
+        $('#total').val(final_value);
+        $('#discount_value').val(discount_on_amount_value);
+
+        $('#final_value_details').html('Rs. 237.5 per meal');
+        $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
+        $("#checkout_price").html(final_value);
+        $("#checkout_final_gst_value").html(final_gst_value);  
+
+      }
+      
+
     }else if(no_of_days==15){
       var percente_amt = cal_value * 12 / 100;
       var final_value = (cal_value - percente_amt);
@@ -688,7 +710,7 @@ function calculatePrice()
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);    
       $('#total').val(final_value);
-      $('#gst_value').val(percente_amt);
+      $('#discount_value').val(percente_amt);
       $('#final_value_details').html('Rs. 220 per meal'); 
       $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -702,7 +724,7 @@ function calculatePrice()
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);
       $('#total').val(final_value);
-      $('#gst_value').val(percente_amt);
+      $('#discount_value').val(percente_amt);
       $('#final_value_details').html('Rs. 200 per meal');   
       $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -716,7 +738,7 @@ function calculatePrice()
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);  
       $('#total').val(final_value);
-      $('#gst_value').val(percente_amt);
+      $('#discount_value').val(percente_amt);
       $('#final_value_details').html('Rs. 187.5 per meal');      
       $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
@@ -875,7 +897,7 @@ $("#checkout_address2_meal").html();
 function selectSessionValue(id)
 {
   var idv = $('#'+id).val();
-  console.log(idv);
+  //console.log(idv);
   if(id == "mealtype1")
   {
     $("#checkout_address1_meal1").val(idv);
@@ -927,7 +949,7 @@ function submitFormPersonal()
       meal_type_id.push($(this).val());
   });
   meal_type_id = meal_type_id.toString();
-  console.log(address1_meal);
+  //console.log(address1_meal);
 
 
   var address1= $("#address1").val();
@@ -971,7 +993,7 @@ function submitFormPersonal()
         },
           'async': false,
           success: function(result){
-            console.log(result);
+            //console.log(result);
             var data = $.parseJSON(result);
             razor_amount = data.amount;
             razor_name = data.name;
