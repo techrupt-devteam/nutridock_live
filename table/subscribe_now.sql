@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 14, 2021 at 06:22 PM
--- Server version: 5.7.32
--- PHP Version: 7.3.6
+-- Host: 127.0.0.1
+-- Generation Time: Jan 18, 2021 at 08:39 AM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,16 +18,16 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `nutridoc_nutridock`
+-- Database: `nutridock`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `subscribe_now`
+-- Table structure for table `subscribe_now1`
 --
 
-CREATE TABLE `subscribe_now` (
+CREATE TABLE `subscribe_now1` (
   `id` int(10) NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -73,39 +72,20 @@ CREATE TABLE `subscribe_now` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `subscribe_now`
+-- Dumping data for table `subscribe_now1`
 --
 
-INSERT INTO `subscribe_now` (`id`, `name`, `email`, `phone_no`, `age`, `gender`, `weight`, `height_in_feet`, `height_in_inches`, `physical_activity_id`, `avoid_or_dislike_food_id`, `other_food`, `total`, `discount`, `price`, `food_precautions`, `lifestyle_disease`, `start_date`, `subscribe_now_plan_id`, `subscribe_now_plan_duration_id`, `meal_type_id`, `address1`, `state1`, `city1`, `pincode1`, `address2`, `state2`, `city2`, `pincode2`, `is_deleted`, `created_at`, `updated_at`, `session_id`, `subscription_id`, `comments`, `link`, `approve_status`, `payment_status`, `transaction_id`, `address1_meal`, `address2_meal`) VALUES
-(271, 'Sunny Saluja', 'saluja@saluja.co', 8888888660, 36, 'Male', 77, 5, 9, 4, '1,6,3', '', 12000, 3000, 12600, '', 'none', '2021-01-08', 1, 3, '2,4', '403,4th floor SS Developers Shayadree Business park,Above RBL bank, Mico circle Nashik', '', '', '422002', 'Plot 5,6,7 Sukh Villas, Bharat Enclave, Next to Guru Gobind Singh College Indira nagar Annex Nashik,', '', '', '422009', 'No', '2021-01-06 18:23:28', '2021-01-14 10:18:47', '57K68fryf1Rkc9sM0Wwq2tX681t521DMAXjl8Rt5', '100916', 'AMOUNT HAS ALREADY BEEN PAID IN CASH . NO TOFU,SOY, MUSHROOM IN FOOD .', 'https://docs.google.com/spreadsheets/d/1WY0PYOtB1KHHeny9syxLqaMcNc48cxED7RBbnx5_bQk/edit?usp=sharing', 'Approve', 'Paid', '', 'Lunch', 'Dinner'),
-(275, 'Rupal Saluja', 'rupaltuteja@gmial.com', 9766186311, 27, 'Female', 62, 5, 3, 3, '1,6,3', '', 12000, 3000, 12600, 'NONE', 'NONE', '2021-01-08', 1, 3, '2,4', 'Plot 5.6.7 Sukh Villas, Bharat Enclave, Nest to Guru Gobind Singh Foundation, Indira Nagar Annexx', '', '', '422009', '', '', '', '', 'No', '2021-01-06 18:43:24', '2021-01-14 10:29:38', 'qpv9hfzduuTWr5VLS7mrtQhBJrH2s6se3v0KCChJ', '100171', 'AMOUNT HAS ALREADY BEEN PAID IN CASH . NO TOFU,SOY, MUSHROOM IN FOOD .', 'https://docs.google.com/spreadsheets/d/1WY0PYOtB1KHHeny9syxLqaMcNc48cxED7RBbnx5_bQk/edit?usp=sharing', 'Approve', 'Paid', '', 'Lunch,Dinner', ''),
-(294, 'Urvashi Tikmani', 'urutikmani@gmail.com', 8365262818, 21, 'Female', 53, 5, 3, 3, '5', '', 0, 0, 12000, '', '', '2021-10-10', 1, 3, '1,2', 'hgyfy', '', '', '842002', '', '', '', '', 'Yes', '2021-01-07 11:42:13', '2021-01-09 14:47:52', 'EtYMqunI3cjDKdATgWtNHWPS9GIAQeMSuzywyawd', '100332', '', '', 'Disapprove', '', '', 'Breakfast,Lunch', ''),
-(296, 'Ayush Lad', 'ayushlad57.al@gmail.com', 9307168572, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-07 12:12:30', '2021-01-07 15:07:24', '', '', '', '', 'Disapprove', '', '', '', ''),
-(301, 'Gargi', 'gargichavan@gmail.com', 8390552713, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-07 13:39:07', '2021-01-07 15:06:51', '', '', '', '', 'Disapprove', '', '', '', ''),
-(302, 'Namrata', 'dandwaninamrata@gmail.com', 9503858522, 0, 'Male', 0, 0, 0, 1, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-07 15:09:09', '2021-01-07 16:56:50', '', '', '', '', 'Disapprove', '', '', '', ''),
-(305, 'Yusuf Merchant', 'yusufm52@gmail.com', 9503503650, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-07 17:20:00', '2021-01-08 16:29:11', '', '', '', '', 'Disapprove', '', '', '', ''),
-(306, 'RISHABH GOLIYA', 'goliyarishabh23@gmail.com', 7887597308, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-07 18:18:32', '2021-01-08 16:29:07', '', '', '', '', 'Disapprove', '', '', '', ''),
-(307, 'Pooja Chandak', 'puja_jesrani@hotmail.com', 99300, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-07 20:44:20', '2021-01-08 16:29:03', '', '', '', '', 'Disapprove', '', '', '', ''),
-(309, 'Shivam', 'smulane@gmail.com', 8208017220, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-08 15:13:08', '2021-01-08 16:28:59', '', '', '', '', 'Disapprove', '', '', '', ''),
-(322, 'Dr.Asher Shaikh', 'drasher_s@yahoo.com', 9822217862, 49, 'Male', 84, 5, 11, 4, 'None', '', 3325, 175, 3491.25, 'THE ENTIRE FOOD NEEDS TO BE COOKED IN OLIVE OIL ONLY. NO USE OF REFINED OIL.', 'NONE', '2021-01-11', 1, 1, '2,4', 'Above Super value mall, near Prasad Circle ,Shramik Nagar, Gangapur Road, Nashik.\r\nDeliver food from Monday to Saturday at office address.', '', '', '422005', '2nd Floor, Vista Apartments, near Prasad Circle ,Shramik Nagar, Gangapur Road, Nashik.\r\nDeliver food on Sunday. Home address.', '', '', '422005', 'No', '2021-01-09 14:43:53', '2021-01-14 10:19:22', 'Y3TeZ4Prfg6O5Yi7mAnhSUUU9pg0iNH1s9CAXMyT', '100767', 'THE PAYMENT HAS ALREADY BEEN MADE IN CASH. THE PLAN FOR HAS STARTED FROM 09/01/2021 TILL 15/01/2021.  THE ENTIRE FOOD NEEDS TO BE COOKED IN OLIVE OIL ONLY. NO USE OF REFINED OIL', 'https://docs.google.com/spreadsheets/d/1iRAh4PSItyiT_qGPFiF9U2Pap7V4yfidjy0Q0pJirkc/edit?usp=drivesdk', 'Approve', 'Paid', '', 'Lunch,Dinner', ''),
-(331, 'Prathmesh Baviskar', 'prathmeshbaviskar@gmail.com', 9960339175, 30, 'Male', 80, 5, 7, 2, '', '', 4987.5, 262.5, 5236.88, 'Less oil, less spicy, less sweet', 'NONE', '2021-01-14', 1, 1, '1,2,4', 'C-302 Tulsi hari Sankul, Near Tulsi Eye Hospital, Happy home colony, Near Gen Vadiya Nagar, Dwarka, Nashik', '', '', '422011', '', '', '', '', 'No', '2021-01-10 18:38:25', '2021-01-14 14:45:09', '3b26GNDLCAdJaN35mBiD38V1XpUEkJSHDLWD6WyT', '100857', '', '', 'Disapprove', 'Paid', 'pay_GNcDpQhhJozaYk', 'Breakfast,Lunch,Dinner', ''),
-(333, 'Omkar Bhoye', 'omkarbhoye117@gmail.com', 9420470117, 24, 'Male', 86, 5, 11, 4, 'None', '', 4987.5, 262.5, 5236.88, 'Less oil', 'NONE', '2021-01-14', 1, 1, '1,2,4', '3,Veronica Park, Vrindavan Colony, Gen Vaidya Nagar, Dwarka ,Nashik', '', '', '422011', '', '', '', '', 'No', '2021-01-10 18:46:17', '2021-01-11 11:09:53', 'i8xdi1xKLdGyRCGoInAa3LLjJgvyY52PyzyFzh7z', '100408', '', '', 'Disapprove', 'Paid', 'pay_GNcKMav7DqotiS', 'Breakfast,Lunch,Dinner', ''),
-(334, 'Dhara Jain', 'sdhara311@yahoo.com', 8275016396, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-10 21:17:46', '2021-01-10 21:17:46', '', '', '', '', 'Approve', '', '', '', ''),
-(336, 'Urvashi', 'urvashitikmani1310@gmail.com', 8375833971, 23, 'Female', 52, 5, 4, 3, '1', '', 0, 0, 6300, '', '', '2021-01-13', 1, 3, '1', 'abc', '', '', '842202', '', '', '', '', 'Yes', '2021-01-11 12:50:00', '2021-01-11 21:11:15', 'xuzRzRm1x9zCqTmJmU1XeNFCO80TrT5pa4PX4NAJ', '100166', '', '', 'Disapprove', '', '', 'Breakfast', ''),
-(379, 'raa maa', 'developer@techrupt.in', 9975649868, 0, 'Male', 0, 0, 0, 1, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 1, '', '', '', '', '', '', '', '', '', 'No', '2021-01-12 17:49:04', '2021-01-13 15:58:10', '', '', '', '', 'Approve', '', '', '', ''),
-(380, 'Urvashi Tikmani', 'marketing@nutridock.com', 8375833971, 0, 'Male', 0, 0, 0, 1, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 1, '1,2', '', '', '', '', '', '', '', '', 'No', '2021-01-12 18:02:51', '2021-01-13 18:38:51', '', '', '', '', 'Approve', '', '', '', ''),
-(382, 'Aditya Bafna', 'bafna.aaditya@gmail.com', 9766976666, 30, 'Male', 80, 5, 11, 4, 'None', '', 18000, 4500, 18900, 'High Proteins', 'Borderline Diabetic', '2021-01-14', 1, 3, '1,2,4', 'Nexa Ambad, Workshop :B-17, Ambad MIDC, Nashik', '', '', '422010', 'Seva Sadan, 7/10 Next to Abhinav Apartment, Bhujbal farm road, Nashik', '', '', '422009', 'No', '2021-01-12 21:10:47', '2021-01-14 10:17:07', 'R9f7rwNe6vKMMPu1XYj7UMukwSRb8ro2JKlMbAOe', '100757', '', '', 'Disapprove', 'Paid', '', 'Lunch', 'Dinner'),
-(386, 'Rehab Wani', 'wani.r.rehab@gmail.com', 918374415474, 0, 'Male', 0, 0, 0, 0, '', '', 0, 0, 0, '', '', '0000-00-00', 0, 0, '', '', '', '', '', '', '', '', '', 'No', '2021-01-13 21:07:17', '2021-01-13 21:07:17', '', '', '', '', 'Approve', '', '', '', ''),
-(387, 'Vikrant Khune', 'vikrants0009@gmail.com', 8390760009, 0, 'Male', 0, 0, 0, 1, 'None', '', 0, 0, 0, '', '', '0000-00-00', 0, 1, '', '', '', '', '', '', '', '', '', 'No', '2021-01-13 22:29:59', '2021-01-14 12:04:17', '', '', '', '', 'Approve', '', '', '', '');
+INSERT INTO `subscribe_now1` (`id`, `name`, `email`, `phone_no`, `age`, `gender`, `weight`, `height_in_feet`, `height_in_inches`, `physical_activity_id`, `avoid_or_dislike_food_id`, `other_food`, `total`, `discount`, `price`, `food_precautions`, `lifestyle_disease`, `start_date`, `subscribe_now_plan_id`, `subscribe_now_plan_duration_id`, `meal_type_id`, `address1`, `state1`, `city1`, `pincode1`, `address2`, `state2`, `city2`, `pincode2`, `is_deleted`, `created_at`, `updated_at`, `session_id`, `subscription_id`, `comments`, `link`, `approve_status`, `payment_status`, `transaction_id`, `address1_meal`, `address2_meal`) VALUES
+(3, 'Amira Dhivre', 'webdeveloper@techrupt.in', 8149678010, 25, 'Female', 55, 5, 2, 4, 'None', '', 6650, 350, 6982.5, '', '', '2021-01-20', 1, 1, '1,2,3,4', 'Nashik', '', '', '425413', '', '', '', '', 'No', '2021-01-18 12:24:38', '2021-01-18 12:24:38', 'ToGCDqeHjbkBqDnLxRAnANgAWd4vdCwdoD71jocP', '100525', '', '', 'Disapprove', '', '', '', '');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `subscribe_now`
+-- Indexes for table `subscribe_now1`
 --
-ALTER TABLE `subscribe_now`
+ALTER TABLE `subscribe_now1`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -113,10 +93,10 @@ ALTER TABLE `subscribe_now`
 --
 
 --
--- AUTO_INCREMENT for table `subscribe_now`
+-- AUTO_INCREMENT for table `subscribe_now1`
 --
-ALTER TABLE `subscribe_now`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=404;
+ALTER TABLE `subscribe_now1`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

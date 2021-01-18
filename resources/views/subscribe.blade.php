@@ -99,11 +99,9 @@
                       <div class="row">
                         <div class="col-sm-12">
                           <h4 class="info-text"> Let's start with the basic details.</h4>
-                        
                             <div class="col-sm-12" style="text-align: center;">
                               <span id="alreadyexits"></span>
                             </div>
-                         
                         </div>
 
                         <div class="col-sm-12">
@@ -156,6 +154,7 @@
                            <div class="form-group label-floating">
                             <label class="control-label">Age <span style="color: red;">*</span></label>
                             <input name="age" type="text" class="form-control" placeholder="Age" required="required">
+                            <span style="color: red;font-size: 15px;" id="err_age"></span>
                           </div>
                         </div>
 
@@ -317,13 +316,13 @@
                             <label class="control-label">
                             <label class="control-label">Address <span style="color: red;">*</span></label>
                             <textarea class="form-control" placeholder="Address" name="address1" id="address1" rows="3" required="required"></textarea>
-                            <div id="err_address1" class="text-danger"></div>
+                            <span id="err_address1" class="text-danger"></span>
                          </div>
 
                          <div class="col-sm-4 mb-1">
                             <label class="control-label">Pincode <span style="color: red;">*</span></label>
                             <input type="text" placeholder="Pincode" name="pincode1" id="pincode1" class="form-control" required="required">
-                            <div id="err_pincode1" class="text-danger"></div>
+                            <span id="err_pincode1" class="text-danger"></span>
                          </div>
                           <div class="col-sm-4 mb-1" id="mealtype_div">
                             <label class="control-label">Select meal type</label>
@@ -367,7 +366,7 @@
                         <div class="col-md-12">
                             <div class="checkbox">
                               <label>
-                                <input type="checkbox" value="1" name="termsConditions" class="showDive" id="termsConditions" required="required">
+                                <input type="checkbox" name="termsConditions" class="showDive" id="termsConditions" required="required">
                               </label>
                               <a href="{{url('')}}/terms_conditions">I Agree With Terms & Conditions? <span style="color: red;">*</span></a><br>
                               <span id="err_termsConditions" style="color: red;font-size: 13px;"></span>
@@ -380,6 +379,7 @@
 
                      <!-- Checkout Section Open-->
                   <div class="tab-pane ui-tabs-panel" id="checkout">
+
                     <div class="row"> 
                       <!-- Invoice -->
                       
@@ -404,7 +404,11 @@
                                   </div>
                                 </div>
                                 <div class="col-lg-12 text-right text-danger" ><small>Note : Please check & confirm your plan details</small></div>
+
                                 <div class="col-lg-12 border-top pt-3 mt-2">
+                                  <div style="text-align: center; display: none;" id="all_details" >
+                                    <span id="err_all_details" style="color: red;"> </span>
+                                  </div>
                                   <div class="invoice-to mt-3 mb-3">
                                     <table>
                                       <tr>
@@ -469,7 +473,7 @@
                                         </tr> -->
                                           <tr>
                                             <th colspan="3" class="text-right br-0" style="border-bottom: 0px;">GST</th>
-                                            <th class="text-right bl-0" style="border-bottom: 0px;">5% </th>
+                                            <th class="text-right bl-0" style="border-bottom: 0px;" id="gst_lable">5% </th>
                                           </tr>
                                           <tr>
                                             <th colspan="3" class="text-right br-0" style="border-top: 0px;">Total</th>
@@ -643,7 +647,6 @@ function calculatePrice()
         'async': false,
         success: function(response){
           //console.log(response);                    
-
           var obj = $.parseJSON(response);
           var i = 0;
            $.each(obj, function() {
@@ -656,7 +659,7 @@ function calculatePrice()
     });
     
   var mealtype=0;
-  if(subscribe_now_pkg_price_value==0){
+  
   $.each($("input[data-value='radioFruitValue']:checked"), function(){
     mealtype++;
    /* var final_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
@@ -664,25 +667,26 @@ function calculatePrice()
     $('#price').val(final_value);*/  
     var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
     var final_gst_value = '';
-    if(no_of_days==7){
 
+
+    if(no_of_days==7){
+      if(subscribe_now_pkg_price_value==0){
       if(discount_on_amount_value == 0){
-        var percente_amt = cal_value * 5 / 100;
-        var final_value = (cal_value - percente_amt);
+        var discount_amt = cal_value * 5 / 100;
+        var final_value = (cal_value - discount_amt);
         
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
         $('#final_value').html('Rs.'+final_value);
         $('#price').val(final_gst_value);
         $('#total').val(final_value);
-        $('#discount_value').val(percente_amt);
+        $('#discount_value').val(discount_amt);
 
         $('#final_value_details').html('Rs. 237.5 per meal');
         $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
         $("#checkout_price").html(final_value);
         $("#checkout_final_gst_value").html(final_gst_value);  
       }else{
-        
         var final_value = cal_value - discount_on_amount_value;
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
@@ -697,57 +701,162 @@ function calculatePrice()
         $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
         $("#checkout_price").html(final_value);
         $("#checkout_final_gst_value").html(final_gst_value);  
-
       }
+    }else{
       
+      $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+      $('#gst_value').val(0);
+      $('#price').val(subscribe_now_pkg_price_value);
 
-    }else if(no_of_days==15){
-      var percente_amt = cal_value * 12 / 100;
-      var final_value = (cal_value - percente_amt);
+      $('#final_value_details').html('Rs. 237.5 per meal');
+      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
+      $("#checkout_price").html(subscribe_now_pkg_price_value);
+      $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
+    }
+    }
+    if(no_of_days==15){
+      if(subscribe_now_pkg_price_value==0){
+      if(discount_on_amount_value == 0){
+      var discount_amt = cal_value * 12 / 100;
+      var final_value = (cal_value - discount_amt);
       var gst_value = final_value * 5 / 100;
       var final_gst_value = final_value + gst_value;
       
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);    
       $('#total').val(final_value);
-      $('#discount_value').val(percente_amt);
+      $('#discount_value').val(discount_amt);
+
       $('#final_value_details').html('Rs. 220 per meal'); 
       $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
-      $("#checkout_price").html(final_value);
-      $("#checkout_final_gst_value").html(final_gst_value);
-    }else if(no_of_days==30){
-      var percente_amt = cal_value * 20 / 100;
-      var final_value = (cal_value - percente_amt);
+      $("#checkout_price").html(subscribe_now_pkg_price_value);
+      $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
+    }else{
+        var final_value = cal_value - discount_on_amount_value;
+        var gst_value = final_value * 5 / 100;
+        var final_gst_value = final_value + gst_value;
+       
+        $('#final_value').html('Rs.'+final_value);
+        $('#price').val(final_gst_value);
+        $('#total').val(final_value);
+        $('#discount_value').val(discount_on_amount_value);
+
+        $('#final_value_details').html('Rs. 220 per meal'); 
+        $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
+        $("#checkout_price").html(final_value);
+        $('#gst_lable').hide();
+        $("#checkout_final_gst_value").html(final_gst_value);
+    }
+      }else{
+          $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+          $('#gst_value').val(0);
+          $('#price').val(subscribe_now_pkg_price_value);
+
+          $('#final_value_details').html('Rs. 220 per meal'); 
+          $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
+          $("#checkout_price").html(subscribe_now_pkg_price_value);
+          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
+      }
+    }
+
+    if(no_of_days==30){
+      if(subscribe_now_pkg_price_value==0){
+      if(discount_on_amount_value == 0){
+      var discount_amt = cal_value * 20 / 100;
+      var final_value = (cal_value - discount_amt);
       var gst_value = final_value * 5 / 100;
       var final_gst_value = final_value + gst_value;
       
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);
       $('#total').val(final_value);
-      $('#discount_value').val(percente_amt);
+      $('#discount_value').val(discount_amt);
+
       $('#final_value_details').html('Rs. 200 per meal');   
       $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
       $("#checkout_final_gst_value").html(final_gst_value);
-    }else if(no_of_days==60){
-      var percente_amt = cal_value * 25 / 100;
-      var final_value = (cal_value - percente_amt);
+    }else{
+        var final_value = cal_value - discount_on_amount_value;
+        var gst_value = final_value * 5 / 100;
+        var final_gst_value = final_value + gst_value;
+       
+        $('#final_value').html('Rs.'+final_value);
+        $('#price').val(final_gst_value);
+        $('#total').val(final_value);
+        $('#discount_value').val(discount_on_amount_value);
+
+        $('#final_value_details').html('Rs. 200 per meal');   
+        $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
+        $("#checkout_price").html(final_value);
+        $("#checkout_final_gst_value").html(final_gst_value);
+    }
+      }else{
+          $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+          $('#gst_value').val(0);
+          $('#price').val(subscribe_now_pkg_price_value);
+
+          $('#final_value_details').html('Rs. 200 per meal');   
+          $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
+          $("#checkout_price").html(subscribe_now_pkg_price_value);
+          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
+      }
+    }
+  
+   if(no_of_days==60){
+    if(subscribe_now_pkg_price_value==0){
+      if(discount_on_amount_value == 0){
+      var discount_amt = cal_value * 25 / 100;
+      var final_value = (cal_value - discount_amt);
       var gst_value = final_value * 5 / 100;
       var final_gst_value = final_value + gst_value;
       
       $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);  
       $('#total').val(final_value);
-      $('#discount_value').val(percente_amt);
+      $('#discount_value').val(discount_amt);
+
       $('#final_value_details').html('Rs. 187.5 per meal');      
       $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
       $("#checkout_price").html(final_value);
       $("#checkout_final_gst_value").html(final_gst_value);
+    }else{
+        var final_value = cal_value - discount_on_amount_value;
+        var gst_value = final_value * 5 / 100;
+        var final_gst_value = final_value + gst_value;
+        console.log(final_gst_value);
+       
+        $('#final_value').html('Rs.'+final_value);
+        $('#price').val(final_gst_value);
+        $('#total').val(final_value);
+        $('#discount_value').val(discount_on_amount_value);
+
+        $('#final_value_details').html('Rs. 187.5 per meal');      
+        $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
+        $("#checkout_price").html(final_value);
+        $("#checkout_final_gst_value").html(final_gst_value);
     }
+    }else{
+          $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+          $('#gst_value').val(0);
+          $('#price').val(subscribe_now_pkg_price_value);
+
+         $('#final_value_details').html('Rs. 187.5 per meal');      
+         $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
+         $("#checkout_price").html(subscribe_now_pkg_price_value);
+         $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
+    }
+  }
   });
-  }else{
+
+
+  /*}else{
     if(no_of_days==7){
-        $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
+      console.log(subscribe_now_pkg_price_value);
+        
+        $('#final_value').val(subscribe_now_pkg_price_value);
+                $('#gst_value').val(0);
+                $('#price').val(subscribe_now_pkg_price_value);
     }else if(no_of_days==15){
         $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
     }else if(no_of_days==30){
@@ -755,7 +864,7 @@ function calculatePrice()
     }else if(no_of_days==60){
       $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
     }
-  }
+  }*/
 }
 
 function showAddress()
@@ -816,11 +925,12 @@ function submitFirstForm(){
               },
         'async': false,
         success: function(response){
+          console.log(response);
           var data = $.parseJSON(response);
 
           if(data.message == 'error'){
             
-            alert('You are already subscribed with us');
+            //alert('99You are already subscribed with us');
             return false;
           }
         },
@@ -949,8 +1059,16 @@ function submitFormPersonal()
       meal_type_id.push($(this).val());
   });
   meal_type_id = meal_type_id.toString();
-  //console.log(address1_meal);
+  
+/*var termsConditionsValue='';
+$('input[name="termsConditions"]:checked').each(function() {
+   console.log(this.value);
+   termsConditionsValue = this.value;
+});*/
+  /*var termsConditions = $('#termsConditions').val();
 
+  console.log(termsConditions);*/
+  console.log($('input[id="termsConditions"]:checked').length);
 
   var address1= $("#address1").val();
   var pincode1= $("#pincode1").val();
@@ -960,29 +1078,43 @@ function submitFormPersonal()
 
   if(full_name==""){
     $('#err_full_name').html("Please enter full name.");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else if(email==""){
     $('#err_email').html("Please enter email.");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else if(avoid_or_dislike_food_id==""){
-    $('#err_avoid_or_dislike_food').html("Please fill the all details!!");
+    $('#err_avoid_or_dislike_food').html("Please select the details");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else if(age==""){
-    $('#err_avoid_or_dislike_food').html("Please fill the all details!!");
+    $('#err_age').html("Please enter your age");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;   
   }else if(phone_no==""){
     $('#err_mobile_no').html("Please enter mobile no.");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else if(address1==""){
     $('#err_address1').html("Please enter address");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else if(pincode1==" "){
-    alert(1);
     $('#err_pincode1').html("Please enter pincode");
-    $('#err_all').html("Please fill all your details");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else if($('input[id="termsConditions"]:checked').length == 0 ){
     $('#err_termsConditions').html("This field is required.");
+    $('#all_details').show();
+    $('#err_all_details').html("Please fill all your details");
     return false;
   }else{
   

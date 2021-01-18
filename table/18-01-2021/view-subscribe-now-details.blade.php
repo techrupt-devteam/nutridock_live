@@ -1,7 +1,5 @@
-
 @extends('admin.layouts.master')
 @section('content')
-
 <!-- Begin Page Content -->
     <div class="container-fluid">
       
@@ -101,7 +99,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <?php if($row->avoid_or_dislike_food_id){ ?>
                         <div class="row">
                             <div class="col-lg-12 mb-3">
@@ -112,9 +109,9 @@
                                 $avoid_or_dislike_food_id = $row->avoid_or_dislike_food_id;
                                 $abc = explode(",",$avoid_or_dislike_food_id);
                                 $var_value = array_diff( $abc, ['Other'] );
+                                //print_r($var_value); die;
                                 //if($avoid_or_dislike_food_id!="Other") {
                                     for($i=0;$i<count($abc); $i++){ 
-
                                         if($abc[$i]!='Other'){
                                             $foodavoiddata = \DB::table('food_avoid')->select('food_avoid_name')->where('food_avoid_id',$abc[$i])->get();
                                             //print_r(count($foodavoiddata)); die;
@@ -124,22 +121,21 @@
                                             <strong><?php echo $food_avoid_row->food_avoid_name; ?></strong><?php endforeach;
                                          }
                                         }else{ ?>
-                                          <strong><?php echo " Other"; ?></strong> 
+                                           <strong><?php echo " Other"; ?></strong> 
                                        <?php  }
-                                       if($abc[$i]=='None'){ ?>
+                                        if($abc[$i]=='None'){ ?>
                                         <strong><?php echo "None"; ?></strong> 
-                                       <?php } 
+                                        <?php }
                                     } ?>
                             </div>
                         </div>
                         <?php  } ?>
                         
-
-                        <div class="row">
+                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food
                                 </label><br>
-                                <select multiple class="form-control" id="demo" onchange="onChangeAvoid();" name="radioFruit[]">
+                                <select multiple class="form-control" id="demo" name="radioFruit[]" onchange="onChangeAvoid();">
                                     <option value="None">None</option>
                                     <?php foreach($food_avoid_data as $row_food){ ?>
                                         <option value="<?php echo $row_food->food_avoid_id; ?>"><?php echo $row_food->food_avoid_name; ?></option>
@@ -150,16 +146,15 @@
                             <input type="hidden" name="avoid_or_dislike_food_id" id="avoid_or_dislike_food_data" value="<?php echo $row->avoid_or_dislike_food_id ?? '' ?>">
                         </div>
                     </div>
-
-                 
+                    
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
-                            <label class="label-control">Any&nbsp;food&nbsp;preparation&nbsp;instructions?</label>
+                                <label class="label-control">Any&nbsp;food&nbsp;preparation&nbsp;instructions?</label>
                                 <textarea name="food_precautions" class="form-control" rows="3" placeholder="Any Food Precautions"><?php echo $row->food_precautions ?? '' ?></textarea>
                             </div>
                         </div>
-                        <?php if($row->other_food){ ?>
+                         <?php if($row->other_food){ ?>
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Other </label><br>
@@ -167,14 +162,13 @@
                             </div>
                         </div>
                         <?php } ?>
-                        <div class="row" style="display: none;" id="other_food_div">
+                         <div class="row" style="display: none;" id="other_food_div">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Other&nbsp;Food</label><br>
-                                <input type="text" name="other_food" class="form-control" value="<?php echo $row->other_food ?? '' ?>" placeholder="Other Food">
+                                <input type="text" name="other_food" class="form-control" placeholder="Other Food">
                             </div>
                         </div>
                     </div>
-                    
                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
@@ -183,7 +177,14 @@
                             </div>
                         </div>
                     </div>
-                
+                    <!--<div class="col-lg-4">
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Other Avoid / Dislike Food</label><br>
+                                <span style="padding: 4px;"><b><u><?php echo $row->other_food ?? '' ?></u></b></span>
+                            </div>
+                        </div>
+                    </div>-->
                 </div>
                 <hr>
                 <h6 style="color:black;"><strong>Choose Plan</strong></h6>
@@ -195,9 +196,7 @@
                                  <input type="date" class="form-control" name="start_date" placeholder="Start Date" value="<?php echo strftime('%Y-%m-%d',strtotime($row->start_date)); ?>">
                             </div>
                         </div>
-
                         
-
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">No. of days</label>
@@ -209,10 +208,9 @@
                             </div>
                         </div>
                     </div>
-                   
+                    
                     <div class="col-lg-4">
-
-                    <?php 
+                        <?php 
                         $meal_type_id = $row->meal_type_id;
                         $explode_data = explode(",",$meal_type_id);
                         $meal_type_data = []; ?>
@@ -226,17 +224,16 @@
                                 </select>
                             </div>
                         </div>
+                        
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Payment Status</label>
                                 <input type="text" class="form-control" name="payment_status" placeholder="Payment Status" value="<?php echo $row->payment_status ?? '' ?>">
                             </div>
                         </div>
-
-                        
                     </div>
 
-                    <div class="col-lg-4">
+                     <div class="col-lg-4">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Total</label>
@@ -244,22 +241,24 @@
                                 <input type="hidden" id="discount_value" name="discount">
                             </div>
                         </div>
-
+                        
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Total GST</label>
                                 <input type="text" id="gst_value" class="form-control" value="<?php echo $gst = $row->total * 5 /100; ?>">
                             </div>
                         </div>
-
+                        
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Net Total</label>
-                                <input type="text" class="form-control" name="price" placeholder="Price" value="<?php echo $row->price ?? '' ?>" id="price" readonly="readonly">
+                                <input type="text" class="form-control" name="price" placeholder="Price" value="<?php echo $row->price ?? '' ?>" id="price">
                             </div>
                         </div>
                     </div>
 
+                    
+                    
                 </div>
                 <hr>
                 <h6 style="color:black;"><strong>Delivery Details</strong></h6>
@@ -280,7 +279,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 ">
+                    <div class="col-lg-3">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Pincode 1 </label>
@@ -304,7 +303,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 ">
+
+                    <div class="col-lg-3">
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Pincode 2 </label>
@@ -312,7 +312,8 @@
                             </div>
                         </div>
                     </div>
-                     <?php 
+                    
+                    <?php 
                         $address2_meal = $row->address2_meal;
                         $explode_meal_data2 = explode(",",$address2_meal);
                         $meal_type_data2 = []; ?>
@@ -342,203 +343,97 @@
       </div>
 
      </div>
-
-<script type="text/javascript">
+ <script type="text/javascript">   
 function calculatePrice()
 {
+
   var no_of_days =   $("#subscribe_now_plan_duration_id").val();
   
   var subscribe_now_pkg_price_value = '';
   var subscribe_now_price_per_meal_value = '';
   var no_of_days_value = '';
-  var discount_on_amount_value = '';
-  var discount_in_percent_value = '';
   $.ajax({
         type: "GET",
         url: "{{ URL::to('/') }}/admin/getSubscribeNowPlanDurationData/"+no_of_days,             
         dataType: "html",
         'async': false,
         success: function(response){
-            //console.log(response);
           var obj = $.parseJSON(response);
           var i = 0;
            $.each(obj, function() {
-            discount_on_amount_value = this[0].discount_on_amount;              
-            discount_in_percent_value = this[0].discount_in_percent;              
             no_of_days_value =  this[0].subscribe_now_duration;
             subscribe_now_pkg_price_value =  this[0].subscribe_now_pkg_price;
             subscribe_now_price_per_meal_value =  this[0].subscribe_now_price_per_meal;
           });
         }
     });
-    
-    //console.log(subscribe_now_pkg_price_value);
-    var mealtype=0;
+
+  var mealtype=0;
+  if(subscribe_now_pkg_price_value==0){
     var mealtype = $('#meal_type_id option:selected').length;
+    //     console.log(mealtype);
     var cal_value = no_of_days_value * mealtype * subscribe_now_price_per_meal_value;
-    var final_gst_value = '';
     
+    /*console.log(no_of_days_value);
+    console.log(mealtype);
+    console.log(subscribe_now_price_per_meal_value);
+    console.log(cal_value);*/
+
     if(no_of_days_value==7){
-        if(subscribe_now_pkg_price_value==0){
-          if(discount_on_amount_value == 0){
-          var discount_amt = cal_value * 5 / 100;
-          var final_value = (cal_value - discount_amt);
-          
-          var gst_value = final_value * 5 / 100;
-          var final_gst_value = final_value + gst_value;
-          $('#total').val(final_value);
-          $('#price').val(final_gst_value);
-          $('#gst_value').val(gst_value);
-          $('#discount_value').val(discount_amt);
-        }else{
-            
-            var final_value = cal_value - discount_on_amount_value;
-            var gst_value = final_value * 5 / 100;
-            var final_gst_value = final_value + gst_value;
-            //console.log(final_value);
-           
-            $('#final_value').html('Rs.'+final_value);
-            $('#price').val(final_gst_value);
-            $('#total').val(final_value);
-            $('#discount_value').val(discount_on_amount_value);
-            $('#gst_value').val(gst_value);
-        }
-        }else{
-            $('#total').val(subscribe_now_pkg_price_value);
-            $('#gst_value').val(0);
-            $('#price').val(subscribe_now_pkg_price_value);
-        }
-    }
-
-    if(no_of_days_value==15){
-        if(subscribe_now_pkg_price_value==0){
-            
-              if(discount_on_amount_value == 0){
-              var discount_amt = cal_value * 12 / 100;
-              var final_value = (cal_value - discount_amt);
-              var gst_value = final_value * 5 / 100;
-              var final_gst_value = final_value + gst_value;
-              
-              $('#total').val(final_value);
-              $('#price').val(final_gst_value);
-              $('#gst_value').val(gst_value);
-              $('#discount_value').val(discount_amt);
-            }else{
-                
-                var final_value = cal_value - discount_on_amount_value;
-                var gst_value = final_value * 5 / 100;
-                var final_gst_value = final_value + gst_value;
-                
-                $('#final_value').html('Rs.'+final_value);
-                $('#price').val(final_gst_value);
-                $('#total').val(final_value);
-                $('#discount_value').val(discount_on_amount_value);
-                $('#gst_value').val(gst_value);
-            }
-        }else{
-                $('#total').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
-        }
-    }
-
-    if(no_of_days_value==30){
-        if(subscribe_now_pkg_price_value==0){
-               if(discount_on_amount_value == 0){
-               var discount_amt = cal_value * 20 / 100;
-               var final_value = (cal_value - discount_amt);
-               var gst_value = final_value * 5 / 100;
-               var final_gst_value = final_value + gst_value;
-              
-               $('#total').val(final_value);
-               $('#price').val(final_gst_value);
-               $('#discount_value').val(discount_amt);
-               $('#gst_value').val(gst_value);
-              }else{
-                
-                var final_value = cal_value - discount_on_amount_value;
-                var gst_value = final_value * 5 / 100;
-                var final_gst_value = final_value + gst_value;
-               
-                $('#final_value').html('Rs.'+final_value);
-                $('#price').val(final_gst_value);
-                $('#total').val(final_value);
-                $('#discount_value').val(discount_on_amount_value);
-                $('#gst_value').val(gst_value);
-              }
-          }else{
-                $('#total').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
-          }
-    }
-
-    if(no_of_days_value==60){
-        if(subscribe_now_pkg_price_value==0){
-               if(discount_on_amount_value == 0){
-               var discount_amt = cal_value * 25 / 100;
-               var final_value = (cal_value - discount_amt);
-               var gst_value = final_value * 5 / 100;
-               var final_gst_value = final_value + gst_value;
-              
-               $('#total').val(final_value);
-               $('#price').val(final_gst_value);
-               $('#discount_value').val(discount_amt);
-               $('#gst_value').val(gst_value);
-              }else{
-                var final_value = cal_value - discount_on_amount_value;
-                var gst_value = final_value * 5 / 100;
-                var final_gst_value = final_value + gst_value;
-                //console.log(final_gst_value);
-               
-                $('#final_value').html('Rs.'+final_value);
-                $('#price').val(final_gst_value);
-                $('#total').val(final_value);
-                $('#discount_value').val(discount_on_amount_value);
-                $('#gst_value').val(gst_value);
-              }
-          }else{
-                $('#total').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
-          }
-    }
-
-    
- /* }else if(subscribe_now_pkg_price_value > 0){
-    
-    if(no_of_days_value==7){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
+      var percente_amt = cal_value * 5 / 100;
+      var final_value = (cal_value - percente_amt);
+      
+      var gst_value = final_value * 5 / 100;
+      var final_gst_value = final_value + gst_value;
+      //console.log(final_gst_value);
+      $('#total').val(final_value);
+      $('#price').val(final_gst_value);
+      $('#gst_value').val(gst_value);
+      $('#discount_value').val(percente_amt);
     }else if(no_of_days_value==15){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
+      var percente_amt = cal_value * 12 / 100;
+      var final_value = (cal_value - percente_amt);
+      var gst_value = final_value * 5 / 100;
+      var final_gst_value = final_value + gst_value;
+      
+      $('#total').val(final_value);
+      $('#price').val(final_gst_value);
+      $('#gst_value').val(gst_value);
+      $('#discount_value').val(percente_amt);
     }else if(no_of_days_value==30){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
+      var percente_amt = cal_value * 20 / 100;
+      var final_value = (cal_value - percente_amt);
+      var gst_value = final_value * 5 / 100;
+      console.log(gst_value);
+      var final_gst_value = final_value + gst_value;
+      
+      $('#total').val(final_value);
+      $('#price').val(final_gst_value);
+      $('#gst_value').val(gst_value);
+      $('#discount_value').val(percente_amt);
     }else if(no_of_days_value==60){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
+      var percente_amt = cal_value * 25 / 100;
+      var final_value = (cal_value - percente_amt);
+      var gst_value = final_value * 5 / 100;
+      var final_gst_value = final_value + gst_value;
+      
+     $('#total').val(final_value);
+     $('#price').val(final_gst_value);
+     $('#gst_value').val(gst_value);
+      $('#discount_value').val(percente_amt);
     }
-  }*/
+   
+
+  }else{
+        alert(2);
+  }
 }
-
-
-
 
 function onChangeAvoid(){
     $('#other_food_div').hide();
-    //var avoid_dislike_food = $('#demo').val();
-    
     var selectedValues = $('#demo').val();  
     console.log(selectedValues);
-    
     $("#avoid_or_dislike_food_data").val(selectedValues);
-
     $("#demo :selected").each(function() {
        if(this.value == "Other")
        {
@@ -549,10 +444,7 @@ function onChangeAvoid(){
        }else{
          $('#other_food_div').hide();
        }
-     });
-    
-    
+    });
 }
-
 </script>
 @endsection

@@ -73,7 +73,10 @@ class SubscribeController extends Controller
     public function SubscribeNowPlanDuration(Request $request){
         $value = request()->segment(2);
         $duration_data = [];
-        $duration_value = \DB::table('subscribe_now_plan_duration','subscribe_discount')->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')->where('subscribe_now_duration',$value)->get();
+        $duration_value     = \DB::table('subscribe_now_plan_duration')
+                        ->where('subscribe_now_duration',$value)
+                         //->where('subscribe_now_plan_duration_id',$value)
+                        ->get();
         if($duration_value)
         {
             $duration_data = $duration_value->toArray();
@@ -83,21 +86,6 @@ class SubscribeController extends Controller
         echo json_encode($data);
     }
 
-    public function getMealTypeDataAjax(Request $request)
-    {
-        $arr_rules['_token']         = "required";
-        $mela_type  =   $request->input('value');
-
-        $meal_data = [];
-        $meal_value     = \DB::table('meal_type')->where('meal_type_name',$mela_type)->get();
-        if($meal_value)
-        {
-            $meal_data = $meal_value->toArray();
-        }
-        $data['meal_data']  = $meal_data;
-
-        //print_r($data['meal_data']); die;
-    }
     public function postFormDetails(Request $request)
     { 
         $arr_rules['_token']         = "required";
@@ -108,6 +96,8 @@ class SubscribeController extends Controller
         $subacribe_now_value     = \DB::table('subscribe_now')->where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->get();
 
         $subacribe_now_data_exit = $subacribe_now_value->toArray();
+
+        
 
         if($subacribe_now_data_exit){
             foreach($subacribe_now_data_exit as $row){
@@ -180,18 +170,17 @@ class SubscribeController extends Controller
                 SubscribeNow::where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->where('payment_status',' ')->delete();
 
                 //SubscribeNow::where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->update($arr_data);
-                $avoid_or_dislike_food = $request->input('avoid_or_dislike_food_id'); 
+                $avoid_or_dislike_food = $request->input('avoid_or_dislike_food_id');
                 $address1_meal = $request->input('address1_meal');
                 $address2_meal = $request->input('address2_meal');
                 
-                //print_r($address1_meal); die;
                 if($avoid_or_dislike_food){
                     $avoid_or_dislike_food_value = implode(',',$avoid_or_dislike_food);    
                 }else{
                     $avoid_or_dislike_food_value = '';
                 }
                 
-              /*  if($address1_meal){
+                /*if($address1_meal){
                     $address1_meal_value = implode(',',$address1_meal);    
                 }else{
                     $address1_meal_value = '';
@@ -201,8 +190,8 @@ class SubscribeController extends Controller
                     $address2_meal_value = implode(',',$address2_meal);    
                 }else{
                     $address2_meal_value = '';
-                }
-            */
+                }*/
+            
             
 
                 $original_date = $request->input('start_date',null);
@@ -219,7 +208,7 @@ class SubscribeController extends Controller
                 $arr_data['other_food']   =   $request->input('other_food');
                 $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
                 $arr_data['total'] = $request->input('total');
-                $arr_data['price'] = 1;
+                $arr_data['price'] =  $request->input('price');
                 $arr_data['discount'] = $request->input('discount');
                 $arr_data['food_precautions']   = $request->input('food_precautions',null);
                 $arr_data['lifestyle_disease']   = $request->input('lifestyle_disease',null);
@@ -227,6 +216,8 @@ class SubscribeController extends Controller
                 $arr_data['subscribe_now_plan_id']   = 1;
                 $arr_data['subscribe_now_plan_duration_id']   = $request->input('subscribe_now_plan_duration_id',null);
                 $arr_data['meal_type_id'] = $request->input('meal_type_id',null);
+                /*$arr_data['address1_meal'] = $address1_meal_value;
+                $arr_data['address2_meal'] = $address2_meal_value;*/
                 $arr_data['address1_meal'] = $address1_meal;
                 $arr_data['address2_meal'] = $address2_meal;
                 $arr_data['approve_status'] = 'Disapprove';
@@ -378,8 +369,8 @@ class SubscribeController extends Controller
         date_default_timezone_set("Asia/Kolkata");
         try 
         {
-            $api      = new Api('rzp_test_KcySdv9YlIpqGP', 'J0vxLAtdGexEcM7O60MnQ5O0');
-            //
+            $api      = new Api('rzp_live_nIAT6tuTld7O9t', '4tdRScw58Nyfc0NQZKYnaX4R');
+            //'rzp_live_nIAT6tuTld7O9t', '4tdRScw58Nyfc0NQZKYnaX4R'
             //'rzp_test_KcySdv9YlIpqGP', 'J0vxLAtdGexEcM7O60MnQ5O0'
             //
             $payment  = $api->payment->fetch($request->input('razorpay_payment_id'))->capture(array('amount'=>$amount_*100));
@@ -413,16 +404,17 @@ class SubscribeController extends Controller
             $data['subscribe_plan'] = $subscribe_plan->subscribe_now_duration;
             
             
-           /*$cc = 'laxmipagare99@gmail.com'; 
-            $bcc = 'laxmipagare99@gmail.com'; 
+           $cc = 'fnb.nsk@nutridock.com'; //fnb.nsk@nutridock.com
+           $bcc = array('kitchen.nsk@nutridock.com','marketing@nutridock.com','nutritionist@nutridock.com'); 
             $subject = 'Confirmation email';
+           
             Mail::send('subscribenowmail', $data, function($message) use($to, $subject, $cc, $bcc) {
                 $message->to($to);
                 $message->cc($cc);
                 $message->bcc($bcc);
                 $message->subject($subject);
-                $message->from('pagarelaxmi@gmail.com','Nutridock');//
-            });*/
+                $message->from('admin@nutridock.com','Nutridock');//
+            });
 
             $data['seo_title'] = "";
             /*Recent Data*/

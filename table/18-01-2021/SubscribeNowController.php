@@ -4,13 +4,10 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Models\SubscribeNow;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use \Illuminate\Support\Str;
-use Illuminate\Support\Arr;
-
-use App\Models\MealType;
-use App\Models\SubscribeNow;
 
 
 use Sentinel;
@@ -79,6 +76,7 @@ class SubscribeNowController extends Controller
         $arr_data = [];
         $value     = \DB::table('subscribe_now')
                         ->where('id',$enc_id)
+                        ->orderBy('id','DESC')
                         ->get();
         if(!empty($value))
         {
@@ -103,7 +101,7 @@ class SubscribeNowController extends Controller
         }
         $data['physical_activity_data']      = $physical_activity_data;
         /*Physical Activity Data End*/
-
+        
         /*Avoid / Deslike Data Start*/
         $food_avoid_data = [];
         $food_avoid_value  = \DB::table('food_avoid')->get();
@@ -113,7 +111,7 @@ class SubscribeNowController extends Controller
         }
         $data['food_avoid_data']      = $food_avoid_data;
         /*Avoid / Deslike Data Start*/
-
+        
         /*Meal Type Data Start*/
         $meal_type_data = [];
         $meal_type_value  = \DB::table('meal_type')->get();
@@ -134,10 +132,11 @@ class SubscribeNowController extends Controller
         $data['subscribe_now_data_arr'] = $subscribe_now_data;
         /*Subscribe Now Data End*/
 
-       
+
         $data['page_name'] = "Subscribe Now Details";
         
         return view($this->module_view_folder.'.view-subscribe-now-details',$data)->with('no', 1);
+
         }else{
            return view('admin/auth/login');
         }
@@ -219,6 +218,7 @@ class SubscribeNowController extends Controller
       $data['physical_activity_data']      = $physical_activity_data;
       /*Physical Activity Data End*/
 
+
       return view($this->module_view_folder.'.subscribe-now-export',$data)->with('no', 1);
     }
 
@@ -252,11 +252,11 @@ class SubscribeNowController extends Controller
 
     public function update(Request $request,$enc_id)
     {
+        
       $arr_rules      = $arr_data = array();
       $status         = false;
 
       $arr_rules['_token']        = "required";
-      /*$arr_rules['address1']      = "required";*/
 
       $validator = validator::make($request->all(),$arr_rules);
 
@@ -279,14 +279,20 @@ class SubscribeNowController extends Controller
       $arr_data['physical_activity_id']   =   $request->input('physical_activity_id',null);
       $arr_data['food_precautions']  = $request->input('food_precautions',null);
       $arr_data['lifestyle_disease'] = $request->input('lifestyle_disease',null);
-                
+        
       $arr_data['start_date']   = $request->input('start_date', null);  
-      $arr_data['price']   = $request->input('price', null);
-      $arr_data['total']   = $request->input('total', null);  
+      $arr_data['price']   = $request->input('price', null);  
+      $arr_data['total']   = $request->input('total', null); 
       $arr_data['discount']   = $request->input('discount', null);  
-      $arr_data['payment_status']   = $request->input('payment_status', null);
-
+      $arr_data['payment_status']   = $request->input('payment_status', null);  
+      
       $avoid_or_dislike_food_value = $request->input('avoid_or_dislike_food_id'); 
+    
+      /*if($avoid_or_dislike_food){
+          $avoid_or_dislike_food_value = implode(',',$avoid_or_dislike_food);    
+      }else{
+          $avoid_or_dislike_food_value = '';
+      }*/ 
       
       $avoid_or_dislike_explode = explode(",",$avoid_or_dislike_food_value);
       for($i=0; $i<count($avoid_or_dislike_explode); $i++){
@@ -295,15 +301,14 @@ class SubscribeNowController extends Controller
         }else{
           $other_value = '';
         }
-      }  
-
+      }
+      
+      
       $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
       $arr_data['other_food'] = $other_value; 
-
-      $arr_data['subscribe_now_plan_duration_id'] = $request->input('subscribe_now_plan_duration_id',null);
+      
       $meal_type_id_data   = $request->input('meal_type_id', null);  
       
-
       if($meal_type_id_data)
       {
           $meal_type_id = "";
@@ -315,8 +320,7 @@ class SubscribeNowController extends Controller
       }else{
           $arr_data['meal_type_id'] = ''; 
       }
-
-
+      
       $address1_meal_data = $request->input('address1_meal', null); 
       if($address1_meal_data)
       {
@@ -343,8 +347,9 @@ class SubscribeNowController extends Controller
       }else{
           $arr_data['address2_meal'] = ''; 
       }
-
       
+      $arr_data['subscribe_now_plan_duration_id'] = $request->input('subscribe_now_plan_duration_id', null);
+        
       $status = SubscribeNow::where('id',$enc_id)->update($arr_data);      
       if($status)
       {
@@ -354,8 +359,8 @@ class SubscribeNowController extends Controller
 
       Session::flash('error', 'Something went wrong.');
       return redirect('/admin/index');
-    }   
-
+    } 
+    
     public function invoice(Request $request,$enc_id)
     {
       $user = \Sentinel::check();
@@ -439,10 +444,16 @@ class SubscribeNowController extends Controller
            return view('admin/auth/login');
         }
     }
-
+    
     public function SubscribeNowPlanDurationData(Request $request,$enc_id){
+        //$value = request()->segment(2);
+        //print_r($enc_id); die;
+
         $duration_data = [];
-        $duration_value = \DB::table('subscribe_now_plan_duration')->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')->where('subscribe_now_plan_duration_id',$enc_id)->get();
+        $duration_value     = \DB::table('subscribe_now_plan_duration')
+                        ->where('subscribe_now_plan_duration_id',$enc_id)
+                         //->where('subscribe_now_plan_duration_id',$value)
+                        ->get();
         if($duration_value)
         {
             $duration_data = $duration_value->toArray();
