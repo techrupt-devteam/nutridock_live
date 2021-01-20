@@ -32,7 +32,11 @@ class LandingRegisterController extends Controller
 	
 	public function user_register(Request $request)
 	{
-	     echo"1"; die;
+	    return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 	}
 	
 

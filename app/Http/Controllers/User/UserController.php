@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use App\Models\WebAdmin;
+use Illuminate\Support\Facades\Crypt;
+use App\Models\WebUser;
 
 use Validator;
 use Session;
@@ -13,22 +13,22 @@ use Cookie;
 use DB;
 
 
-class AuthController extends Controller
+class UserController extends Controller
 {
-    public function __construct(WebAdmin $web_admin_model)
+    public function __construct(WebUser $web_admin_model)
     {
-        $this->auth               = auth()->guard('admin');
+        $this->auth               = auth()->guard('user');
         $this->arr_view_data      = [];
-        $this->module_title       = "Admin";
-        $this->module_view_folder = "admin";
+        $this->module_title       = "User";
+        $this->module_view_folder = "user";
         $this->module_url_path    = url('/');
-        $this->WebAdmin           = $web_admin_model;
+        $this->WebUser           = $web_admin_model;
     }
 
      
     public function login()
     {
-
+        
         $this->arr_view_data['module_title']     = $this->module_title." Login";
         $this->arr_view_data['page_title']       = $this->module_title." Login";
 
@@ -55,17 +55,25 @@ class AuthController extends Controller
 
         $remember_me = $request->input('remember_me');
 
-        $obj_group_admin = $this->WebAdmin->where('email',$request->input('email'))->first();
+        $obj_group_user = $this->WebUser->where('email','webdeveloper@techrupt.in')->first();
+        $password = $obj_group_user['password'];
+        /*print_r(decrypt($password)); 
+        print_r($request->input('password')); 
+        die;*/
 
-        if($obj_group_admin) 
+        if($obj_group_user) 
         {
-            
-            if(\Auth::guard('admin')->attempt($request->only('email', 'password')))
+
+            if(decrypt($password) == $request->input('password'))
             {
+                
+                
                 //$data['user'] = $request->only('email', 'password');
                 
-                //Session::put('user', $obj_group_admin);   
-                $request->session()->put("user",$obj_group_admin);
+                //Session::put('user', $obj_group_user);   
+                print_r($request->session()->put("user",$obj_group_user)); die;
+                
+                $request->session()->put("user",$obj_group_user);
                 $request->session()->save();  
                 if($remember_me!= 'on' || $remember_me == null)
                 {
@@ -77,10 +85,11 @@ class AuthController extends Controller
                     setcookie('remember_me_email',$request->input('email'), time()+60*60*24*100);
                     setcookie('remember_me_password',$request->input('password'), time()+60*60*24*100);
                 }
-                return redirect(url('admin/index'));
+                return redirect(url('user/index'));
             }
             else
             {
+                echo"1"; die;
                 setcookie("remember_me_email","");
                 setcookie("remember_me_password","");
                 
@@ -88,9 +97,11 @@ class AuthController extends Controller
 
                 return redirect()->back();
             }
+            
         }
         else
         { 
+            echo"2"; die;
             setcookie("remember_me_email","");
             setcookie("remember_me_password","");
 

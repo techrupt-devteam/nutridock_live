@@ -3,16 +3,12 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class SubscribeNow extends Model 
+class SubscribeNowDetails extends Model 
 {
-    protected $table = 'subscribe_now';
+    protected $table = 'subscribe_now_details';
     protected $fillable = [
-    						'name',
-    						'email',
-                            'password',
-    						'phone_no',
-    						'session_id',
-    						'age',
+                            'subscribe_now_user_id',
+                            'age',
     						'gender',
     						'weight',
     						'height_in_feet',
@@ -26,6 +22,7 @@ class SubscribeNow extends Model
     						'food_precautions',
     						'lifestyle_disease',
     						'start_date',
+                            'expiry_date',
     						'subscribe_now_plan_id',
     						'subscribe_now_plan_duration_id',
     						'subscription_id',

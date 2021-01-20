@@ -46,6 +46,10 @@ class Kernel extends HttpKernel
         [
             \App\Http\Middleware\Admin\AuthMiddleware::class,
         ],
+        'auth_user'=>
+        [
+            \App\Http\Middleware\Admin\AuthMiddleware::class,
+        ],
     ];
 
     /**

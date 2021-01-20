@@ -144,6 +144,14 @@
                           <span id="err_mobile_no" style="color: red;font-size: 15px;"></span>
                             </div>
                         </div>
+
+                        <div class="col-sm-6" id="confirm_chk" style="display: none;">
+                          <label>You are already subscribed with us.</label>
+                           <div class="checkbox">
+                            <label>
+                              <input type="checkbox" value="1" name="optionsCheckboxes" class="showDive" id="optionsCheckboxes" onchange="showAddress();">
+                            </label>Want to purchase new subscription plan ?</div>
+                        </div>
                       </div>
                       
                     </div>
@@ -167,6 +175,7 @@
                               <option value="Male">Male</option> 
                               <option value="Other">Other</option>
                               </select>
+                              <input type="hidden" id="subscribe_id" name="subscribe_id">
                              </div>
                         </div>
                         <div class="col-sm-4 col-lg-3">
@@ -324,6 +333,14 @@
                             <input type="text" placeholder="Pincode" name="pincode1" id="pincode1" class="form-control" required="required">
                             <span id="err_pincode1" class="text-danger"></span>
                          </div>
+
+                          <div class="col-sm-4 mb-1">
+                            <label class="control-label">City <span style="color: red;">*</span></label>
+                            <input type="text" placeholder="City" name="city1" id="city1" class="form-control" required="required">
+                            <span id="err_city1" class="text-danger"></span>
+                         </div>
+
+
                           <div class="col-sm-4 mb-1" id="mealtype_div">
                             <label class="control-label">Select meal type</label>
                             <select multiple id="mealtype1" name="address1_meal[]" onchange="selectSessionValue('mealtype1');">
@@ -344,6 +361,14 @@
                             <label class="control-label">Pincode 2</label>
                             <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control">
                          </div>
+
+                         <div class="col-sm-4 mb-1">
+                            <label class="control-label">City 2<span style="color: red;">*</span></label>
+                            <input type="text" placeholder="City 2" name="city2" id="city2" class="form-control" required="required">
+                            <span id="err_city2" class="text-danger"></span>
+                         </div>
+
+
                           <div class="col-sm-4 mb-1">
                             <label class="control-label">Select meal type</label>
                             <select multiple id="mealtype2" name="address2_meal[]" onchange="selectSessionValue('mealtype2');">
@@ -690,7 +715,7 @@ function calculatePrice()
         var final_value = cal_value - discount_on_amount_value;
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
-        console.log(final_gst_value);
+        //console.log(final_gst_value);
        
         $('#final_value').html('Rs.'+final_value);
         $('#price').val(final_gst_value);
@@ -824,7 +849,7 @@ function calculatePrice()
         var final_value = cal_value - discount_on_amount_value;
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
-        console.log(final_gst_value);
+        //console.log(final_gst_value);
        
         $('#final_value').html('Rs.'+final_value);
         $('#price').val(final_gst_value);
@@ -895,6 +920,7 @@ function submitFirstForm(){
   var full_name = $("input[name='full_name']").val();
   var email = $("input[name='email']").val();
   var phone_no = $("input[name='phone_no']").val();
+  //$('input[id="termsConditions"]:checked').length == 0
   
   //$("#checkout_meal_type_id").html(meal_type_id1);
   var _token= '{{csrf_token()}}';
@@ -909,7 +935,6 @@ function submitFirstForm(){
     $('#err_mobile_no').html("Please enter mobile no.");
     return false;
   }else{
-
     $("#checkout_name").html(full_name);
     $("#checkout_phone_no").html(phone_no); 
     $("#checkout_email").html(email);
@@ -925,14 +950,18 @@ function submitFirstForm(){
               },
         'async': false,
         success: function(response){
-          console.log(response);
+          //console.log(response);
           var data = $.parseJSON(response);
-
+           console.log(data);
+          /*var subscribe_id = data.personal_data.id;
+          $('#subscribe_id').val(subscribe_id);*/
           if(data.message == 'error'){
-            
+            $("#confirm_chk").show();
+            //$('input[id="termsConditions"]:checked').length == 0;
             //alert('99You are already subscribed with us');
             return false;
           }
+        
         },
     });
   }
@@ -1048,7 +1077,7 @@ function submitFormPersonal()
   var total= $("input[name='total']").val();
   var price= $("input[name='price']").val();
   var discount= $("input[name='discount']").val();
-  
+  var sub_id = $('#subscribe_id').val();
   var food_precautions= $("#food_precautions").val();
   var lifestyle_disease= $("#lifestyle_disease").val();
   var start_date= $("#start_date").val();
@@ -1068,13 +1097,14 @@ $('input[name="termsConditions"]:checked').each(function() {
   /*var termsConditions = $('#termsConditions').val();
 
   console.log(termsConditions);*/
-  console.log($('input[id="termsConditions"]:checked').length);
+  //console.log($('input[id="termsConditions"]:checked').length);
 
   var address1= $("#address1").val();
   var pincode1= $("#pincode1").val();
+  var city1= $("#city1").val();
   var address2= $("#address2").val();
   var pincode2= $("#pincode2").val();
-  
+  var city2 = $("#city2").val();
 
   if(full_name==""){
     $('#err_full_name').html("Please enter full name.");
@@ -1121,18 +1151,19 @@ $('input[name="termsConditions"]:checked').each(function() {
   $.ajax({
         type: "POST",
         url: "{{ URL::to('/') }}/postPersonalDetails",             
-        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food,total:total, price:price,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2
+        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food,total:total, price:price,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2,subscribe_id:sub_id,city1:city1,city2:city2
         },
           'async': false,
           success: function(result){
-            //console.log(result);
+            console.log(result);
             var data = $.parseJSON(result);
             razor_amount = data.amount;
             razor_name = data.name;
             razor_email = data.email;
             razor_phone_no = data.phone_no;
             razor_address = data.address;
-            razor_id = data.id;
+            razor_subs_id = data.id;
+            razor_subscribe_now_user_id = data.subscribe_now_user_id;
             
           
             options = {
@@ -1146,7 +1177,7 @@ $('input[name="termsConditions"]:checked').each(function() {
               "image": "{{url('')}}/public/front/img/logo.png",
               "handler": function (response){
                 $('#razorpay_payment_id').val(response.razorpay_payment_id);
-                $('#id').val(razor_id);
+                $('#id').val(razor_subscribe_now_user_id);
                 document.getElementById("web_order_summery_form").submit();
               },
               "prefill": {

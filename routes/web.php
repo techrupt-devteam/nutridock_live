@@ -357,5 +357,18 @@ Route::group(array('prefix' => ''), function ()
 	
 	});
 
+
+	$route_slug 	   = 'user';
+	$module_controller = 'User\UserController@';
+	Route::get('/user', ['as' => $route_slug,'uses' => $module_controller.'login']);
+	Route::post('/validate_login', ['as' => $route_slug.'validate','uses' => $module_controller.'validate_login']);
+	Route::any('/logout', ['as' => $route_slug.'logout','uses' => $module_controller.'logout']);
+
+	Route::group(array('prefix' => 'user','middleware'=>'auth_user'), function (){
+		$route_slug 	   = 'user_';
+		$module_controller = "User\DashboardController@";
+		Route::get('/index',['as' => $route_slug.'index','uses' => $module_controller.'index']);
+	});
+
 });
 
