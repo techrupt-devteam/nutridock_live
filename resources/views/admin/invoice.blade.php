@@ -9,8 +9,7 @@
             <!-- <button type="button" onclick='printDiv();' id='btn' value='Print' class="btn btn-info"><i class="fa fa-print"></i> Print</button> -->
             <button onclick='printDiv();' class="btn btn-success"><i class="fa fa-print"></i> Print</button>
             <button id="btnExport" class="btn btn-info"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
-            <a href="{{url('')}}/admin/view-subscribe-now" class="btn btn-info"><i class="fas fa-long-arrow-alt-right"></i></a>
-
+            <a href="<?php echo url()->previous(); ?>" class="btn btn-info"><i class="fas fa-long-arrow-alt-right"></i></a>
             <!-- <button class="btn btn-info"><i class="fa fa-file-pdf-o"></i> <i class="fas fa-long-arrow-alt-right"></i></button> -->
         </div>
         <hr>
@@ -20,35 +19,30 @@
             <header>
                 <div class="row">
                     <div class="col">
-                        <a target="_blank" href="#">
-                            <!-- <h1>COMPANY LOGO</h1> -->
-                            <img src="{{url('')}}/public/front/img/logo.png" alt=""> 
-                            </a>
+                        <a target="_blank" href="#"><!-- <h1>COMPANY LOGO</h1> --><img src="{{url('')}}/public/front/img/logo.png" alt=""></a>
                     </div>
                     <div class="col company-details company_details ">
                         <h2 class="name">
-                            <a target="_blank" href="javascript:;" style="color: #51d26c;text-decoration: none;font-size:24px">Nutridock</a>
-                        </h2>
+                            <a target="_blank" href="javascript:;" style="color: #51d26c;text-decoration: none;font-size:24px">Nutridock</a></h2>
                         <div style="font-size: 1rem;">Nutridock, Store B-17,MIDC Ambad</div>
                         <div style="font-size: 1rem;">Nashik,Maharashtra 422010</div>
-                        <div style="font-size: 1rem;">GST EU826113958</div>
+                        <div style="font-size: 1rem; margin-bottom: 50px;" >GST EU826113958</div>
                     </div>
                 </div>
             </header>
             <?php foreach($arr_data as $row); 
-            foreach($subscribe_now_data_arr as $subscribe_now_data_row);
-            foreach($subscribe_now_plan_data_arr as $subscribe_now_plan_data_row);
-            $meal_type_id = $row->meal_type_id;
-            $explode_data = explode(",",$meal_type_id);
-            $meal_type_data = [];
-            ?>
+                foreach($subscribe_now_data_arr as $subscribe_now_data_row);
+                foreach($subscribe_now_plan_data_arr as $subscribe_now_plan_data_row);
+                $meal_type_id = $row->meal_type_id;
+                $explode_data = explode(",",$meal_type_id);
+                $meal_type_data = []; ?>
             <main>
                 <div class="row contacts">
                     <div class="col invoice-to invoice_to">
                         <div class="text-gray-light">INVOICE TO:</div>
-                        <h2 class="to"><?php echo $row->name ?? '' ?></h2>
+                        <h2 class="to"><?php foreach($subscribe_now_user as $user_row); echo $user_row->name ?? '' ?></h2>
                         <div class="address"><?php echo $row->address1 ?? '' ?></div>
-                        <div class="email"><a href="mailto:test@example.com" style="color: #51d26c;text-decoration: none;"><?php echo $row->email ?? '' ?></a></div>
+                        <div class="email"><a href="mailto:test@example.com" style="color: #51d26c;text-decoration: none;"><?php echo $user_row->email ?? '' ?></a></div>
                     </div>
                     <div class="col invoice-details print_div">
                         <h3 class="invoice-id"><small style="font-size: 14px;">Subscribe Id - </small> <?php echo $row->subscription_id ?? '' ?></h3>
@@ -67,13 +61,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
                         <tr>
                             <td class="no" style="padding: 8px;"><?php if($subscribe_now_data_arr){ echo $subscribe_now_data_row->subscribe_now_duration;}else{ echo "0"; } ?> Days</td>
                             <!-- <td class="text-left"><h3>Description 1</h3>Testing Description 1</td> -->
                             <td class="unit" style="padding: 8px;"><?php if($subscribe_now_plan_data_arr){ echo $subscribe_now_plan_data_row->subscribe_now_plan_name;}else{ echo "-"; } ?></td>
                             <td align="right" class="tax" style="padding: 8px;"><?php 
-                            
                             if($meal_type_id){
                              for($i=0;$i<count($explode_data); $i++){ 
                              $food_avoid_data = \DB::table('meal_type')->select('meal_type_name')->where('meal_type_id',$explode_data[$i])->get();

@@ -71,7 +71,7 @@ class DashboardController extends Controller
         {
             $subscribenow_arr = $subscribenow_data->toArray();
         }
-        $data['subscribenow_arr']      = $subscribenow_arr;
+        $data['subscribenow_arr'] = $subscribenow_arr;
         
         return view($this->module_view_folder.'.index',$data);
     }

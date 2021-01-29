@@ -88,17 +88,21 @@ Route::get('/subscribe-now', 'SubscribeController@index')->name('index');
 Route::any('postPersonalDetails', 'SubscribeController@postPersonalDetails')->name('postPersonalDetails');
 Route::any('postFormDetails', 'SubscribeController@postFormDetails')->name('postFormDetails');
 Route::any('getMealTypeDataAjax', 'SubscribeController@getMealTypeDataAjax')->name('getMealTypeDataAjax');
-
-
-
 Route::get('subscription-payment/{any}', 'SubscribeController@subscription_payment1')->name('subscription_payment');
+
+Route::get('getCouponCode', 'SubscribeController@getCouponCode')->name('getCouponCode');
+
+
 
 Route::group(array('prefix' => 'admin','middleware'=>'auth_admin'), function (){
 	$route_slug 	   = 'admin_';
 	$module_controller = "Admin\SubscribeNowController@";
-	Route::get('/view-subscribe-now',['as' => $route_slug.'view-subscribe-now','uses' => $module_controller.'index']);
 	
-	Route::get('/view-subscribe-now-details/{id}',['as' => $route_slug.'view','uses' => $module_controller.'view']);
+	Route::get('/view-subscribe-now-user',['as' => $route_slug.'view-subscribe-now-user','uses' => $module_controller.'index']);
+	
+	Route::any('/view-subscribe-now1/{value1}/{value2}/{value3}',['as' => $route_slug.'view_subscribe_now1','uses' => $module_controller.'view_subscribe_now1']);
+
+	Route::get('/view-subscribe-now-details/{id1}/{id2}',['as' => $route_slug.'view','uses' => $module_controller.'view']);
 
 	Route::post('/subscribe-now/store_comment_link/{id}',['as' => $route_slug.'store_comment_link','uses' => $module_controller.'store_comment_link']);
 
@@ -107,6 +111,10 @@ Route::group(array('prefix' => 'admin','middleware'=>'auth_admin'), function (){
 	Route::post('/subscribe-now/disapprove_status/{id}',['as' => $route_slug.'disapprove_status','uses' => $module_controller.'disapprove_status']);
 
 	Route::get('/subscribe-now/export/',['as' => $route_slug.'export','uses' => $module_controller.'export']);
+
+	Route::get('/subscribe-now/export_user/{id1}/{id2}/{id3}',['as' => $route_slug.'export_user','uses' => $module_controller.'export_user']);
+
+	
 	Route::get('/subscribe-now/export_subscriber/{id}',['as' => $route_slug.'export_subscriber','uses' => $module_controller.'export_subscriber']);
 
 	Route::get('/subscribe-now/delete/{id}',['as' => $route_slug.'delete',	'uses' => $module_controller.'delete']);
@@ -117,6 +125,17 @@ Route::group(array('prefix' => 'admin','middleware'=>'auth_admin'), function (){
 
 	Route::get('/invoice/{id}',['as' => $route_slug.'invoice','uses' => $module_controller.'invoice']);
 
+	Route::get('/view-coupon-code',['as' => $route_slug.'view_coupon_code','uses' => $module_controller.'view_coupon_code']);
+
+	Route::post('/store_coupon_code',['as' => $route_slug.'store_coupon_code','uses' => $module_controller.'store_coupon_code']);
+
+	Route::get('/coupon_code_delete/{id}',['as' => $route_slug.'coupon_code_delete','uses' => $module_controller.'coupon_code_delete']);
+
+	Route::post('/update_coupon_code/{id}',['as' => $route_slug.'update_coupon_code','uses' => $module_controller.'update_coupon_code']);
+
+	Route::post('/coupon_code_active/{id}',['as' => $route_slug.'coupon_code_active','uses' => $module_controller.'coupon_code_active']);
+
+	Route::post('/coupon_code_inactive/{id}',['as' => $route_slug.'coupon_code_inactive','uses' => $module_controller.'coupon_code_inactive']);
 });
 
 Route::group(array('prefix' => ''), function ()
@@ -357,11 +376,54 @@ Route::group(array('prefix' => ''), function ()
 	
 	});
 
+	Route::group(array('prefix' => 'admin','middleware'=>'auth_admin'), function (){
+	$route_slug 	   = 'admin_';
+	$module_controller = "Admin\SubscriptionNowController@";
+	
+	Route::get('/view-subscribe-now-user',['as' => $route_slug.'view-subscribe-now-user','uses' => $module_controller.'index']);
+	
+	Route::any('/view-subscribe-now/{value1}/{value2}/{value3}',['as' => $route_slug.'view_subscribe_now','uses' => $module_controller.'view_subscribe_now']);
+
+	Route::get('/view-subscribe-now-details/{id1}/{id2}',['as' => $route_slug.'view','uses' => $module_controller.'view']);
+
+	Route::post('/subscribe-now/store_comment_link/{id}',['as' => $route_slug.'store_comment_link','uses' => $module_controller.'store_comment_link']);
+
+	Route::post('/subscribe-now/approve_status/{id}',['as' => $route_slug.'approve_status','uses' => $module_controller.'approve_status']);
+
+	Route::post('/subscribe-now/disapprove_status/{id}',['as' => $route_slug.'disapprove_status','uses' => $module_controller.'disapprove_status']);
+
+	Route::get('/subscribe-now/export/',['as' => $route_slug.'export','uses' => $module_controller.'export']);
+
+	Route::get('/subscribe-now/export_user/{id1}/{id2}/{id3}',['as' => $route_slug.'export_user','uses' => $module_controller.'export_user']);
+
+	
+	Route::get('/subscribe-now/export_subscriber/{id}',['as' => $route_slug.'export_subscriber','uses' => $module_controller.'export_subscriber']);
+
+	Route::get('/subscribe-now/delete/{id}',['as' => $route_slug.'delete',	'uses' => $module_controller.'delete']);
+
+	Route::get('/getSubscribeNowPlanDurationData/{id}',['as' => $route_slug.'SubscribeNowPlanDurationData','uses' => $module_controller.'SubscribeNowPlanDurationData']);
+	
+	Route::post('subscribe-now/update/{id}',['as' => $route_slug.'update','uses' => $module_controller.'update']);
+
+	Route::get('/invoice/{id}',['as' => $route_slug.'invoice','uses' => $module_controller.'invoice']);
+
+	Route::get('/view-coupon-code',['as' => $route_slug.'view_coupon_code','uses' => $module_controller.'view_coupon_code']);
+
+	Route::post('/store_coupon_code',['as' => $route_slug.'store_coupon_code','uses' => $module_controller.'store_coupon_code']);
+
+	Route::get('/coupon_code_delete/{id}',['as' => $route_slug.'coupon_code_delete','uses' => $module_controller.'coupon_code_delete']);
+
+	Route::post('/update_coupon_code/{id}',['as' => $route_slug.'update_coupon_code','uses' => $module_controller.'update_coupon_code']);
+
+	Route::post('/coupon_code_active/{id}',['as' => $route_slug.'coupon_code_active','uses' => $module_controller.'coupon_code_active']);
+
+	Route::post('/coupon_code_inactive/{id}',['as' => $route_slug.'coupon_code_inactive','uses' => $module_controller.'coupon_code_inactive']);
+});
 
 	$route_slug 	   = 'user';
 	$module_controller = 'User\UserController@';
 	Route::get('/user', ['as' => $route_slug,'uses' => $module_controller.'login']);
-	Route::post('/validate_login', ['as' => $route_slug.'validate','uses' => $module_controller.'validate_login']);
+	Route::post('/validate_login1', ['as' => $route_slug.'validate','uses' => $module_controller.'validate_login1']);
 	Route::any('/logout', ['as' => $route_slug.'logout','uses' => $module_controller.'logout']);
 
 	Route::group(array('prefix' => 'user','middleware'=>'auth_user'), function (){

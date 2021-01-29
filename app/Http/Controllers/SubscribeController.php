@@ -111,144 +111,98 @@ class SubscribeController extends Controller
         $arr_data['email']   =   $request->input('email', null);
         $arr_data['phone_no']   =   $request->input('phone_no', null);
         $arr_data['password'] = encrypt('sub_'.rand());
-        $arr_data['session_id']   = Session::getId();
 
         $subacribe_now_value     = \DB::table('subscribe_now_user')->where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->get();
         $subacribe_now_data_exit = $subacribe_now_value->toArray();
 
         if($subacribe_now_data_exit){
-
-            
-
-            /*foreach($subacribe_now_data_exit as $row){
-                $payment_status = $row->payment_status;
-                $start_date = $row->start_date;
-                $duration_plane_id = $row->subscribe_now_plan_duration_id;
+            $data['duplicate_message'] = 'Already subscribed';
+            //$data['personal_data'] = SubscribeNowUser::create($arr_data);
+            foreach($subacribe_now_data_exit as $row){
+                $id = $row->id;
+                $data['personal_data'] = $id;
             }
-            $now_plan_duration     = \DB::table('subscribe_now_plan_duration')->where('subscribe_now_plan_duration_id',$duration_plane_id)->get();
-            foreach($now_plan_duration as $plan_row){
-                $duration_value = $plan_row->subscribe_now_duration;
-            }
-            if($payment_status != 'Paid'){
-                $data['personal_data'] = SubscribeNowUser::create($arr_data);
-            }else{
-                $todays_date = date_create();
-                $start_date_value = date_create($start_date);
-                $diff = date_diff($start_date_value,$todays_date);
-                $date_diff =  $diff->format('%a');
-                if($date_diff >= $duration_value){
-                    $data['personal_data'] = SubscribeNowUser::create($arr_data);
-                    
-                }else{
-                    $data['message'] = "error";
-                    echo json_encode($data);
-                }
-            }*/
-            $data['message'] = "error";
         }else{
-            /*$to = $arr_data['email'];
-            $cc = 'laxmipagare99@gmail.com'; 
-            $bcc = 'laxmipagare99@gmail.com'; 
-            $subject = 'Confirmation email';
-            Mail::send('subscribeinfomail', $arr_data, function($message) use($to, $subject, $cc) {//, $bcc
-                $message->to($to);
-                $message->cc($cc);
-                $message->bcc($bcc);
-                $message->subject($subject);
-                $message->from('pagarelaxmi@gmail.com','Nutridock');
-            });*/
             $data['personal_data'] = SubscribeNowUser::create($arr_data);
-            
         }
-        //$data['message'] = "success";
         echo json_encode($data);
     }
 
     public function postPersonalDetails(Request $request)
     {
-
-
         $arr_rules['_token']         = "required";
-        $arr_data['subscribe_now_user_id']   =   $request->input('subscribe_id', null);
-        
-        /*$subacribe_now_value     = \DB::table('subscribe_now')->where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->get();
-
-        $subacribe_now_data_exit = $subacribe_now_value->toArray();
-
-        foreach($subacribe_now_data_exit as $row){
-            $payment_status = $row->payment_status;
-            $start_date = $row->start_date;
-            $duration_plane_id = $row->subscribe_now_plan_duration_id;
-        }
-        
+        $duration_plane_id   = $request->input('subscribe_now_plan_duration_id',null);
         $now_plan_duration     = \DB::table('subscribe_now_plan_duration')->where('subscribe_now_plan_duration_id',$duration_plane_id)->get();
         foreach($now_plan_duration as $plan_row){
             $duration_value = $plan_row->subscribe_now_duration;
-        }*/
-    
-        /*$todays_date = date_create();
-        $start_date_value = date_create($start_date);
-        $diff = date_diff($start_date_value,$todays_date);
-        $date_diff =  $diff->format('%a');*/
+        }
         
-        //if($date_diff > $duration_value){
-
         $original_date = $request->input('start_date',null);
         $start_date = strtotime($original_date);
+        $date = strtotime("+".$duration_value." day", $start_date);
+        $expiry_date = date("Y-m-d", $date);
         $new_date = date("Y-m-d", $start_date);
-
-
+    
         $avoid_or_dislike_food = $request->input('avoid_or_dislike_food_id'); 
         $address1_meal = $request->input('address1_meal');
         $address2_meal = $request->input('address2_meal');
-
         if($avoid_or_dislike_food){
             $avoid_or_dislike_food_value = implode(',',$avoid_or_dislike_food);    
         }else{
             $avoid_or_dislike_food_value = '';
         }
 
-        
-        $arr_data['age']   =   $request->input('age',null);
+        $arr_data['coupon_code_id']   = $request->input('coupon_code_id',null);
+
+        $coupon_code_data     = \DB::table('coupon_code')->select('extension_days')->where('coupon_code_id',$arr_data['coupon_code_id'])->get();
+
+        foreach($coupon_code_data as $coupon_code_row){
+            $extension_days = $coupon_code_row->extension_days;
+        }
+
+        if($arr_data['coupon_code_id']){
+            $total_extended_days = $duration_value + $extension_days;
+            $date = strtotime("+".$total_extended_days." day", $start_date);
+            $extended_date = date("Y-m-d", $date);
+            $arr_data['extended_date'] = $extended_date;    
+        }else{
+            $arr_data['extended_date'] = '';
+        }
+        //print_r($arr_data['extended_date']); die;
+        $arr_data['subscribe_now_user_id']   =   $request->input('subscribe_id', null);
+        $arr_data['age']      =   $request->input('age',null);
         $arr_data['gender']   =   $request->input('gender',null);
         $arr_data['weight']   =   $request->input('weight',null);
         $arr_data['height_in_feet']   = $request->input('height_in_feet',null);
         $arr_data['height_in_inches']   =   $request->input('height_in_inches',null);
         $arr_data['physical_activity_id']   =   $request->input('physical_activity_id',null);
-        $arr_data['other_food']   =   $request->input('other_food');
         $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
+        $arr_data['other_food']   =   $request->input('other_food');
         $arr_data['total'] = $request->input('total');
-        $arr_data['price'] = $request->input('price');
         $arr_data['discount'] = $request->input('discount');
+        $arr_data['price'] = $request->input('price');
         $arr_data['food_precautions']   = $request->input('food_precautions',null);
         $arr_data['lifestyle_disease']   = $request->input('lifestyle_disease',null);
         $arr_data['start_date']   =  $new_date;
+        $arr_data['expiry_date'] = $expiry_date;
+        $arr_data['session_id']   = Session::getId();
         $arr_data['subscribe_now_plan_id']   = 1;
-        $arr_data['subscribe_now_plan_duration_id']   = $request->input('subscribe_now_plan_duration_id',null);
-        
+        $arr_data['subscribe_now_plan_duration_id'] =$request->input('subscribe_now_plan_duration_id',null);
         $arr_data['meal_type_id'] = $request->input('meal_type_id',null);
-        $arr_data['address1_meal'] = $address1_meal;
-        $arr_data['address2_meal'] = $address2_meal;
-        $arr_data['approve_status'] = 'Disapprove';
-        /*$arr_data['subscription_id']= "subs".date('my').'-100'. rand(1,99);*/
-        $arr_data['subscription_id'] = '100'.rand(1,999);
-        
         $arr_data['address1']   = $request->input('address1',null);
         $arr_data['pincode1']   = $request->input('pincode1',null);
         $arr_data['address2']   = $request->input('address2',null);
         $arr_data['pincode2']   = $request->input('pincode2',null);
+        $arr_data['address1_meal'] = $address1_meal;
+        $arr_data['address2_meal'] = $address2_meal;
+        $arr_data['approve_status'] = 'Disapprove';
+        //$arr_data['coupon_code_id'] = $request->input('coupon_code_value',null);
 
-        //$personal_data_status = SubscribeNow::where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->update($arr_data);
-
+        //print_r($arr_data); die;
         $data['personal_data'] = SubscribeNowDetails::create($arr_data);
 
         $valu_data = [];
         $value = \DB::table('subscribe_now_details','subscribe_now_user')->join('subscribe_now_user','subscribe_now_user.id','=','subscribe_now_details.subscribe_now_user_id')->where('subscribe_now_user_id',$arr_data['subscribe_now_user_id'])->get();
-        
-
-        //$duration_value = \DB::table('subscribe_now_plan_duration','subscribe_discount')->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')->where('subscribe_now_duration',$value)->get();
-
-        //print_r($value); die;
         if(!empty($value))
         {
             $valu_data = $value->toArray();
@@ -276,17 +230,13 @@ class SubscribeController extends Controller
                // print_r($data); die;
                 echo json_encode($data);
         }
-            
         /*}else{
             $alreadyexits = "Your plane is already going.";
             echo json_encode($alreadyexits);
         }*/
-            
         Session::flash('success', 'You have successfully subscribed to the nutridock');
     }
 
-
-    
     function subscription_payment1(Request $request)
     {
         $data['seo_title'] = "";
@@ -307,21 +257,14 @@ class SubscribeController extends Controller
 
     function subscription_payment(Request $request)
     {
-       
         $id = $request->input('id');
-
-
         $subscribe_now = \DB::table('subscribe_now_details','subscribe_now_user')->join('subscribe_now_user','subscribe_now_user.id','=','subscribe_now_details.subscribe_now_user_id')->where(['subscribe_now_user_id'=>$id])->first();     
-
         $amount_ = $subscribe_now->price;
-
         date_default_timezone_set("Asia/Kolkata");
         try 
         {
             $api      = new Api('rzp_test_KcySdv9YlIpqGP', 'J0vxLAtdGexEcM7O60MnQ5O0');
-            //
             //'rzp_test_KcySdv9YlIpqGP', 'J0vxLAtdGexEcM7O60MnQ5O0'
-            //
             $payment  = $api->payment->fetch($request->input('razorpay_payment_id'))->capture(array('amount'=>$amount_*100));
             $payment  = $api->payment->fetch($request->input('razorpay_payment_id'));
         }
@@ -334,8 +277,7 @@ class SubscribeController extends Controller
         if($payment->status=="captured")
         {
 
-            //echo"1"; die;
-            \DB::table('subscribe_now_details')->where(['subscribe_now_user_id'=>$id])->update(['payment_status'=>'Paid','transaction_id'=>$request->input('razorpay_payment_id')]);
+            \DB::table('subscribe_now_details')->where(['subscribe_now_user_id'=>$id])->update(['payment_status'=>'Paid','transaction_id'=>$request->input('razorpay_payment_id'),'subscription_id'=>'100'.rand(1,999)]);
 
             $to = $subscribe_now->email;
             $subscribe_now_plan_duration_id = $subscribe_now->subscribe_now_plan_duration_id;
@@ -347,15 +289,11 @@ class SubscribeController extends Controller
             $data['start_date'] = $subscribe_now->start_date;
             $data['subscribe_now_plan_duration_id'] = $subscribe_now->subscribe_now_plan_duration_id;
             $data['other_food'] = $subscribe_now->other_food;
-            
             $data['meal_type_id'] = $subscribe_now->meal_type_id;
             $data['avoid_or_dislike_food_id'] = $subscribe_now->avoid_or_dislike_food_id;
             $explode_data = explode(",",$data['avoid_or_dislike_food_id']);
-
             $subscribe_plan = \DB::table('subscribe_now_plan_duration')->where(['subscribe_now_plan_duration_id'=>$subscribe_now_plan_duration_id])->first(); 
             $data['subscribe_plan'] = $subscribe_plan->subscribe_now_duration;
-            
-            
            /*$cc = 'laxmipagare99@gmail.com'; 
             $bcc = 'laxmipagare99@gmail.com'; 
             $subject = 'Confirmation email';
@@ -467,7 +405,15 @@ class SubscribeController extends Controller
         }
     }
     
-    
+    public function getCouponCode(Request $request)
+    {
+        $coupon_code_value = $request->input('coupon_code_value',null);
+
+        $data_query = [];
+        $data_query = \DB::table('coupon_code')->select('coupon_code_id','extension_days')->where('coupon_code', $coupon_code_value)->where('status','Active')->where('is_deleted','No')->get();
+        //print_r($data_query); die;
+        echo json_encode($data_query);
+    }
     
 
 }

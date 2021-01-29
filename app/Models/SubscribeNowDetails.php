@@ -8,6 +8,7 @@ class SubscribeNowDetails extends Model
     protected $table = 'subscribe_now_details';
     protected $fillable = [
                             'subscribe_now_user_id',
+                            'coupon_code_id',
                             'age',
     						'gender',
     						'weight',
@@ -22,6 +23,7 @@ class SubscribeNowDetails extends Model
     						'food_precautions',
     						'lifestyle_disease',
     						'start_date',
+                            'extended_date',
                             'expiry_date',
     						'subscribe_now_plan_id',
     						'subscribe_now_plan_duration_id',
@@ -31,13 +33,17 @@ class SubscribeNowDetails extends Model
                             'address2_meal',
     						'address1',
     						'pincode1',
+                            /*'city1',*/
     						'address2',
     						'pincode2',
+                            /*'city2',*/
                             'comments',
                             'link',
                             'approve_status',
                             'payment_status',
-                            'transaction_id'
+                            'transaction_id',
+                            'subscribe_id',
+                            'session_id'
 						  ];
 
      public static function getData(){

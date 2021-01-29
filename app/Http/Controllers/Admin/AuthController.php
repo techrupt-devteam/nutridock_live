@@ -35,7 +35,6 @@ class AuthController extends Controller
         return view($this->module_view_folder.'.login',$this->arr_view_data);
     }
 
-    // admin authentication: AUTHOR (Harsh chauhan) 
     public function validate_login(Request $request)
     {
         
@@ -59,7 +58,6 @@ class AuthController extends Controller
 
         if($obj_group_admin) 
         {
-            
             if(\Auth::guard('admin')->attempt($request->only('email', 'password')))
             {
                 //$data['user'] = $request->only('email', 'password');

@@ -1,11 +1,11 @@
 @extends('layouts.master') 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.18.10/slimselect.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.18.10/slimselect.min.css" rel="stylesheet"></link>
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
- <!-- css -->
- <link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.18.10/slimselect.min.css" rel="stylesheet">
+</link>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> --> 
+<!-- css -->
+<link id="bsdp-css" href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
 @section('content')
-
 <link rel="stylesheet"href="{{url('')}}/public/css/wizgard.css">
 <style type="text/css">
   .datepicker.datepicker-dropdown.dropdown-menu {
@@ -59,352 +59,289 @@
     color: #262626;
 }
 </style>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<!-- <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script> --> 
 <script type="text/javascript" src="{{url('')}}/public/front/dist/date-time-picker.min.js"></script>
-
-
 <section class="mt-5 pb-0">
   <div class="">
-      
+    <div class="image-container set-full-height pb-5" style="background-image: url('{{url('')}}/uploads/images/1.jpeg');"> 
       <!--   Big container   -->
       <div class="container">
         <div class="row">
           <div class="col-lg-8 mx-auto"> 
             <!-- Wizard container -->
             <div class="wizard-container">
-              <div class="card wizard-card" data-color="red" id="wizard">
+              <div class="card wizard-card" data-color="red" id="wizard"> 
                 <!-- <form action="" method="" class="mb-0"> -->
-                  <div class="wizard-header">
-                    <?php
+                <div class="wizard-header">
+                  <?php
                     //print_r($session); die;
                      //print_r($data['getSubscribeNowData']); die; ?>
-                    <h3 class="wizard-title"> Subscribe Now </h3>
-                    <!-- <h5>This information will let us know more about you.</h5> -->
-                  </div>
-                  <div class="wizard-navigation wizzgard-active" id="tabs">
+                  <h3 class="wizard-title"> Subscribe Now </h3>
+                  <!-- <h5>This information will let us know more about you.</h5> --> 
+                </div>
+                <div class="wizard-navigation wizzgard-active" id="tabs">
                   <ul>
-                      <li class="">
-                        <a href="#details" data-toggle="tab">Personal</a>
-                      </li>
-                      <li>
-                        <a href="#captain" id="tab1" data-toggle="tab">Health</a>
-                      </li><!-- data-toggle="tab" -->
-                      <li><a href="#description" data-toggle="tab">Choose Plan </a></li><!-- data-toggle="tab" -->
-                      <li><a href="#payment" data-toggle="tab">Delivery </a></li>
-                      <li><a href="#checkout" data-toggle="tab">Checkout </a></li><!-- data-toggle="tab" -->
-                    </ul>
-                  </div>
-                  <div class="tab-content">
-                    <div class="tab-pane ui-tabs-panel" id="details" >
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <h4 class="info-text"> Let's start with the basic details.</h4>
-                            <div class="col-sm-12" style="text-align: center;">
-                              <span id="alreadyexits"></span>
+                    <li class=""> <a href="#details" data-toggle="tab">Personal</a> </li>
+                    <li> <a href="#captain" id="tab1" data-toggle="tab">Health</a> </li>
+                    <!-- data-toggle="tab" -->
+                    <li><a href="#description" data-toggle="tab">Choose Plan </a></li>
+                    <!-- data-toggle="tab" -->
+                    <li><a href="#payment" data-toggle="tab">Delivery </a></li>
+                    <li><a href="#checkout" data-toggle="tab">Checkout </a></li>
+                    <!-- data-toggle="tab" -->
+                  </ul>
+                </div>
+                <div class="tab-content">
+                  <div class="tab-pane ui-tabs-panel" id="details" >
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <h4 class="info-text"> Let's start with the basic details.</h4>
+                        <div class="col-sm-12" style="text-align: center;"> <span id="alreadyexits"></span> </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="input-group mb-0"> 
+                          <!-- <span class="input-group-addon"> <i class="fa fa-user-o"></i> </span> -->
+                          <div class="form-group label-floating w-100">
+                            <label class="control-label">Full Name <span style="color:red;">*</span></label>
+                            <div class="input-group mb-3">
+                              <div class="input-group-prepend"> <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span> </div>
+                              <input type="text" name="full_name" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Full Name" required="required">
                             </div>
+                            <span id="err_full_name" style="color: red;font-size: 15px;"></span> </div>
                         </div>
-
-                        <div class="col-sm-12">
-                          <div class="input-group mb-0"> 
-                           <!-- <span class="input-group-addon"> <i class="fa fa-user-o"></i> </span> -->
-                            <div class="form-group label-floating w-100">
-                              <label class="control-label">Full Name <span style="color:red;">*</span></label>
-                              <div class="input-group mb-3">
-                                  <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
-                                  </div>
-                                  <input type="text" name="full_name" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Full Name" required="required">
-
-                                </div>
-                                <span id="err_full_name" style="color: red;font-size: 15px;"></span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                          <div class="form-group label-floating">
-                            <label class="control-label">Email <span style="color:red;">*</span></label>
+                      </div>
+                      <div class="col-sm-6">
+                        <div class="form-group label-floating">
+                          <label class="control-label">Email <span style="color:red;">*</span></label>
                           <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon3" ><i class="fa fa-envelope" aria-hidden="true"></i></span>
-                            </div>
+                            <div class="input-group-prepend"> <span class="input-group-text" id="basic-addon3" ><i class="fa fa-envelope" aria-hidden="true"></i></span> </div>
                             <input type="email" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Email" name="email" required="required">
                           </div>
-                          <span id="err_email" style="color: red;font-size: 15px;"></span>
-                          </div>
-                        </div>
-                        <div class="col-sm-6">
-                           <div class="form-group label-floating w-100">
-                              <label class="control-label">Mobile <span style="color:red;">*</span></label>
-                              <div class="input-group mb-3">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text" id="basic-addon3"><i class="fa fa-phone" aria-hidden="true"></i></span>
-                                </div>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Mobile" name="phone_no" required="required"  maxlength="10">
-                          </div>
-                          <span id="err_mobile_no" style="color: red;font-size: 15px;"></span>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6" id="confirm_chk" style="display: none;">
-                          <label>You are already subscribed with us.</label>
-                           <div class="checkbox">
-                            <label>
-                              <input type="checkbox" value="1" name="optionsCheckboxes" class="showDive" id="optionsCheckboxes" onchange="showAddress();">
-                            </label>Want to purchase new subscription plan ?</div>
-                        </div>
+                          <span id="err_email" style="color: red;font-size: 15px;"></span> </div>
                       </div>
-                      
+                      <div class="col-sm-6">
+                        <div class="form-group label-floating w-100">
+                          <label class="control-label">Mobile <span style="color:red;">*</span></label>
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend"> <span class="input-group-text" id="basic-addon3"><i class="fa fa-phone" aria-hidden="true"></i></span> </div>
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Mobile" name="phone_no" required="required" maxlength="10" minlength="10">
+                          </div>
+                          <span id="err_mobile_no" style="color: red;font-size: 15px;"></span> </div>
+                      </div>
                     </div>
-                    <div class="tab-pane ui-tabs-panel" id="captain">
-                      <h4 class="info-text">Let us know more about your Health </h4>
-                      <div class="row">
+                  </div>
+                  <div class="tab-pane ui-tabs-panel" id="captain">
+                    <h4 class="info-text">Let us know more about your Health </h4>
+                    <div class="row">
                       <div class="col-sm-4 col-lg-3">
-                           <div class="form-group label-floating">
-                            <label class="control-label">Age <span style="color: red;">*</span></label>
-                            <input name="age" type="text" class="form-control" placeholder="Age" required="required">
-                            <span style="color: red;font-size: 15px;" id="err_age"></span>
-                          </div>
+                        <div class="form-group label-floating">
+                          <label class="control-label">Age <span style="color: red;">*</span></label>
+                          <input name="age" type="text" class="form-control" placeholder="Age" required="required">
+                          <span style="color: red;font-size: 15px;" id="err_age"></span>
                         </div>
-
-                        <div class="col-sm-4 col-lg-3">
-                            <div class="form-group label-floating w-100">
-                              <label class="control-label">Gender <span style="color: red;">*</span></label>
-                              <select class="form-control" name="gender" id="gender" required="required" style="min-height:45px">
-                              <option selected="selected" disabled="disabled" value="">Select</option>
-                              <option value="Female">Female</option>
-                              <option value="Male">Male</option> 
-                              <option value="Other">Other</option>
-                              </select>
-                              <input type="hidden" id="subscribe_id" name="subscribe_id">
-                             </div>
-                        </div>
-                        <div class="col-sm-4 col-lg-3">
-                           <div class="form-group label-floating">
-                            <label class="control-label">Weight <span style="color: red;">*</span></label>
-                            <input name="weight" type="text" class="form-control" placeholder="Kgs" required="required">
-                          </div>
-                        </div>
-                        <div class="col-sm-6 col-lg-3">
-                           <label class="control-label">Height <span style="color: red;">*</span></label>
-                           <div class="row">
-                              <div class="col-6 pr-1"><input type="text" name="height_in_feet" class="form-control" placeholder="Feet" required="required"></div>
-                              <div class="col-6 pl-1"><input type="text" name="height_in_inches" class="form-control" placeholder="Inch"></div>
-                           </div>   
-                        </div>
-                         <div class="col-sm-4">
-                           <label class="control-label">Physical Activity <span style="color: red;">*</span></label>
-                           <select class="form-control" name="physical_activity_id" id="physical_activity_id" required="required">
-                           <option selected="selected" disabled="disabled" value="" >Select an option</option> 
-                           @foreach($data['getPhysicalActivityData'] as $getPhysicalActivity)
-                           <option value="{{ $getPhysicalActivity['physical_activity_id'] }}">{{ $getPhysicalActivity['physical_activity'] }}</option> 
-                           @endforeach   
-                           </select>
-                        </div>                    
-                        
-                        <div class="col-sm-4">
-                           <label class="control-label">Avoid / Dislike Food <span style="color: red;">*</span></label>
-                           <select id="demo" multiple name="avoid_or_dislike_food_id[]" required="required">
-                              <option value="None">None</option>
-                              @foreach($data['getFoodAvoidData'] as $getFoodAvoidData)
-                              <option value="{{ $getFoodAvoidData['food_avoid_id'] }}">
-                                {{ $getFoodAvoidData['food_avoid_name'] }} 
-                              </option>
-                              @endforeach  
-                              <option value="Other">Other</option>
-                            </select>                          
-                        </div>
-
-                        <div class="col-sm-4" style="display: none;" id="other_food_div">
-                          <label class="control-label">Other Food</label>
-                          <input name="other_food" type="text" class="form-control" placeholder="Other">                        
-                        </div>
-
-                        <div class="col-sm-12">
-                           <div class="form-group label-floating">
-                            <label class="control-label">Any lifestyle disease? (Diabetes,Cholesterol,etc)</label>
-                            <textarea class="form-control" rows="2" name="lifestyle_disease" id="lifestyle_disease" placeholder="Any lifestyle disease"></textarea>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-12">
-                           <div class="form-group label-floating">
-                            <label class="control-label">Any food preparation instructions?</label>
-                            <textarea class="form-control" rows="2" name="food_precautions" id="food_precautions" placeholder="Any Food Precautions"></textarea>
-                          </div>
-                        </div> 
-
-
                       </div>
-                      
-                    </div>
-
-                    <!-- Choose Plane -->
-                    <div class="tab-pane ui-tabs-panel" id="description">
-                     <h4 class="info-text">{{ $data['getSubscribeNowPlan']['name'] }}  Details</h4>
-                     <!-- <form action="" method=""> -->
-                      <!-- {{csrf_field()}} -->
-                      <div class="row">                        
-                        <div class="col-sm-6 col-lg-5 mb-1">
-                          <label class="control-label">Start Date<span style="color: red;">*</span></label>
-                          <!--<div class="span5" id="startdate-container">
-                            <div class="input-group date">
-                              <div class="input-group-prepend" style="height: 45px;">
-                                <span class="input-group-text"><i class="fa fa-calendar"></i></span>
-                              </div>
-                            <input type="text" class="form-control" placeholder="Start Date" id="start_date" style="border-top-left-radius: 0;border-bottom-left-radius: 0;" autocomplete="off">
-                            <span class="input-group-addon"></span>
-                          </div>
-                        </div>-->
-                        
-                        <!--<input style="max-width: 100%;" class="form-control" name="Date" type="date" value="" data-parsley-type="Date" required data-parsley-required-message="Please Select Date" placeholder="DD/MM/Year" data-parsley-type-message="Enter Valid Date" id="datepicker_today" data-parsley-mindate="<?php echo date('d-m-Y');?>">-->
-                        
-                        <input type="text" class="mt10px input form-control" id="start_date" value="<?php echo date("Y-m-d", strtotime("+ 2 day")) ?>">
-                        
-                      </div>
-
-                        
-                        <div class="col-sm-6 mb-1">
-                           <label class="control-label">No. of days <span style="color: red;"> *</span></label>
-                           <div id="meals" class="radio-toolbar">
-                              @foreach($data['getSubscribeNowPlan']['duration'] as $key => $duration_dtl)
-                              <input type="radio" onclick="calculatePrice();" id="rad_{{ $duration_dtl['subscribe_now_duration'] }}" name="radNoOfDays" data-id="{{ $duration_dtl['subscribe_now_duration'] }}" value="{{ $duration_dtl['subscribe_now_plan_duration_id'] }}" 
-                              <?php echo ($key == 0) ? 'checked' : '' ?> class="subscribe_now_plan_duration_id" required="required">
-                              <label for="rad_{{ $duration_dtl['subscribe_now_duration'] }}">{{ $duration_dtl['subscribe_now_duration'] }}</label>
-                              @endforeach   
-                           </div>                         
+                      <div class="col-sm-4 col-lg-3">
+                        <div class="form-group label-floating w-100">
+                          <label class="control-label">Gender <span style="color: red;">*</span></label>
+                          <select class="form-control" name="gender" id="gender" required="required" style="min-height:45px">
+                            <option selected="selected" disabled="disabled" value="">Select</option>
+                            <option value="Female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Other">Other</option>
+                          </select>
+                          <input type="hidden" id="subscribe_id" name="subscribe_id">
                         </div>
-
-                        <div class="col-sm-12 mb-1">
-                          <label class="control-label"> Type of meals99 <span style="color:red;">*</span></label>
-                          <div id="meals">                            
-                            <div class="chk-toolbar">
-                              @foreach($data['getMealTypeData'] as $getMealTypeData)
-                            <input type="checkbox" id="radio{{ $getMealTypeData['meal_type_name'] }}" name="radioFruit[]" data-value="radioFruitValue" data-no="1" class="meal_type_id" value="{{ $getMealTypeData['meal_type_id'] }}" dataname="{{ $getMealTypeData['meal_type_name'] }}" onclick="calculatePrice();" required="required">
-                                <label for="radio{{ $getMealTypeData['meal_type_name'] }}">{{ $getMealTypeData['meal_type_name'] }}</label>
-                              @endforeach
-                              </div>   
-                           </div>
-                           <input type="hidden" name="" id="checkout_meal_type_name_value">  
-                        </div>
-                      <div class="col-sm-12 mb-1">
-                           <div class="">
-                              <label class="control-label">Price</label> 
-                              <div style="border:dotted" class="p-2">
-                                <div class="offer-price">
-                                 <del>  <span style="display: block;" id="close_value"></span> </del> 
-                                </div>
-                                <input type="hidden" id="total" name="total">
-                                <input type="hidden" id="discount_value" name="discount">
-                                
-                                <span class="og"  id="rs_html"> Rs.</span> 
-                                <span class="og" id="final_value" ></span>  |
-                                <span class="og" id="final_value_details"></span>
-                              </div>
-                                
-                                 <input type="hidden" name="price" id="price"> 
-                              </div>
-                        </div>
-                        
-                        
                       </div>
-                      <span style="font-size: 12px;"><span style="color: #e81212;">*</span> 5% GST applicable</span> 
-                      
-                    <!-- </form> -->
-                    </div>
-                    <!-- Choose Plane End-->
-                    <div class="tab-pane ui-tabs-panel" id="payment">
-                        <div class="col-sm-12">
-                            <div class="col-sm-12" style="text-align: center;">
-                              <span id="alreadyexits"></span>
-                              <span style="color: red;font-size: 15px;" id="err_avoid_or_dislike_food"></span>
-                            </div>
+                      <div class="col-sm-4 col-lg-3">
+                        <div class="form-group label-floating">
+                          <label class="control-label">Weight <span style="color: red;">*</span></label>
+                          <input name="weight" type="text" class="form-control" placeholder="Kgs" required="required">
                         </div>
-
-                      <div class="row">
-                         <div class="col-sm-12 mb-1">
-                            <label class="control-label">
-                            <label class="control-label">Address <span style="color: red;">*</span></label>
-                            <textarea class="form-control" placeholder="Address" name="address1" id="address1" rows="3" required="required"></textarea>
-                            <span id="err_address1" class="text-danger"></span>
-                         </div>
-
-                         <div class="col-sm-4 mb-1">
-                            <label class="control-label">Pincode <span style="color: red;">*</span></label>
-                            <input type="text" placeholder="Pincode" name="pincode1" id="pincode1" class="form-control" required="required">
-                            <span id="err_pincode1" class="text-danger"></span>
-                         </div>
-
-                          <div class="col-sm-4 mb-1">
-                            <label class="control-label">City <span style="color: red;">*</span></label>
-                            <input type="text" placeholder="City" name="city1" id="city1" class="form-control" required="required">
-                            <span id="err_city1" class="text-danger"></span>
-                         </div>
-
-
-                          <div class="col-sm-4 mb-1" id="mealtype_div">
-                            <label class="control-label">Select meal type</label>
-                            <select multiple id="mealtype1" name="address1_meal[]" onchange="selectSessionValue('mealtype1');">
-                              <!-- <option value="Breakfast">Breakfast</option>
-                              <option value="Lunch">Lunch</option>
-                              <option value="Snack">Snack</option>
-                              <option value="Dinner">Dinner</option> -->
-                            </select>   
-                         </div>
-                         <input type="hidden" name="" id="checkout_address1_meal1">
                       </div>
-                      <div class="row secondaddress">
-                         <div class="col-sm-12 mb-1" >
-                            <label class="control-label">Address 2</label>
-                            <textarea class="form-control" placeholder="Address 2" name="address2" id="address2" rows="3"></textarea>
-                         </div>
-                         <div class="col-sm-4 mb-1">
-                            <label class="control-label">Pincode 2</label>
-                            <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control">
-                         </div>
-
-                         <div class="col-sm-4 mb-1">
-                            <label class="control-label">City 2<span style="color: red;">*</span></label>
-                            <input type="text" placeholder="City 2" name="city2" id="city2" class="form-control" required="required">
-                            <span id="err_city2" class="text-danger"></span>
-                         </div>
-
-
-                          <div class="col-sm-4 mb-1">
-                            <label class="control-label">Select meal type</label>
-                            <select multiple id="mealtype2" name="address2_meal[]" onchange="selectSessionValue('mealtype2');">
-                             <!--  <option value="Breakfast">Breakfast</option>
-                              <option value="Lunch">Lunch</option>
-                              <option value="Snack">Snack</option>
-                              <option value="Dinner">Dinner</option> -->
-                            </select> 
-                         </div>
-                         <input type="hidden" name="" id="checkout_address1_meal2">
-                      </div>
+                      <div class="col-sm-6 col-lg-3">
+                        <label class="control-label">Height <span style="color: red;">*</span></label>
                         <div class="row">
-                      <div class="col-md-12">
-                          <div class="checkbox">
-                            <label>
-                              <input type="checkbox" value="1" name="optionsCheckboxes" class="showDive" id="optionsCheckboxes" onchange="showAddress();">
-                            </label>
-                            Is your evening address same?</div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="checkbox">
-                              <label>
-                                <input type="checkbox" name="termsConditions" class="showDive" id="termsConditions" required="required">
-                              </label>
-                              <a href="{{url('')}}/terms_conditions">I Agree With Terms & Conditions? <span style="color: red;">*</span></a><br>
-                              <span id="err_termsConditions" style="color: red;font-size: 13px;"></span>
+                          <div class="col-6 pr-1">
+                            <input type="text" name="height_in_feet" class="form-control" placeholder="Feet" required="required">
+                          </div>
+                          <div class="col-6 pl-1">
+                            <input type="text" name="height_in_inches" class="form-control" placeholder="Inch">
                           </div>
                         </div>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="control-label">Physical Activity <span style="color: red;">*</span></label>
+                        <select class="form-control" name="physical_activity_id" id="physical_activity_id" required="required">
+                          <option selected="selected" disabled="disabled" value="" >Select an option</option>
+                          
+                           
+                           @foreach($data['getPhysicalActivityData'] as $getPhysicalActivity)
+                           
+                          
+                          <option value="{{ $getPhysicalActivity['physical_activity_id'] }}">{{ $getPhysicalActivity['physical_activity'] }}</option>
+                          
+                           
+                           @endforeach   
+                           
                         
-                       </div>
-                       <!--<strong style="color: red;">* 5% GST applicable</strong> -->
+                        </select>
+                      </div>
+                      <div class="col-sm-4">
+                        <label class="control-label">Avoid / Dislike Food <span style="color: red;">*</span></label>
+                        <select id="demo" multiple name="avoid_or_dislike_food_id[]" required="required">
+                          <option value="None">None</option>
+                          
+                          
+                              @foreach($data['getFoodAvoidData'] as $getFoodAvoidData)
+                              
+                          
+                          <option value="{{ $getFoodAvoidData['food_avoid_id'] }}"> {{ $getFoodAvoidData['food_avoid_name'] }} </option>
+                          
+                          
+                              @endforeach  
+                              
+                          
+                          <option value="Other">Other</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-4" style="display: none;" id="other_food_div">
+                        <label class="control-label">Other Food</label>
+                        <input name="other_food" type="text" class="form-control" placeholder="Other">
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                          <label class="control-label">Any lifestyle disease? (Diabetes,Cholesterol,etc)</label>
+                          <textarea class="form-control" rows="2" name="lifestyle_disease" id="lifestyle_disease" placeholder="Any lifestyle disease"></textarea>
+                        </div>
+                      </div>
+                      <div class="col-sm-12">
+                        <div class="form-group label-floating">
+                          <label class="control-label">Any food preparation instructions?</label>
+                          <textarea class="form-control" rows="2" name="food_precautions" id="food_precautions" placeholder="Any Food Precautions"></textarea>
+                        </div>
+                      </div>
                     </div>
+                  </div>
+                  
+                  <!-- Choose Plane -->
+                  <div class="tab-pane ui-tabs-panel" id="description">
+                    <h4 class="info-text">{{ $data['getSubscribeNowPlan']['name'] }}  Details</h4>
+                    <!-- <form action="" method=""> --> 
+                    <!-- {{csrf_field()}} -->
+                    <div class="row">
+                      <div class="col-sm-6 col-lg-5 mb-1">
+                        <label class="control-label">Start Date<span style="color: red;">*</span></label> 
+                        <input type="text" class="mt10px input form-control" id="start_date" value="<?php echo date("Y-m-d", strtotime("+ 2 day")) ?>">
+                      </div>
+                      <div class="col-sm-6 mb-1">
+                        <label class="control-label">No. of days <span style="color: red;"> *</span></label>
+                        <div id="meals" class="radio-toolbar"> @foreach($data['getSubscribeNowPlan']['duration'] as $key => $duration_dtl)
+                          <input type="radio" onclick="calculatePrice();" id="rad_{{ $duration_dtl['subscribe_now_duration'] }}" name="radNoOfDays" data-id="{{ $duration_dtl['subscribe_now_duration'] }}" value="{{ $duration_dtl['subscribe_now_plan_duration_id'] }}" 
+                              <?php echo ($key == 0) ? 'checked' : '' ?> class="subscribe_now_plan_duration_id" required="required">
+                          <label for="rad_{{ $duration_dtl['subscribe_now_duration'] }}">{{ $duration_dtl['subscribe_now_duration'] }}</label>
+                          @endforeach </div>
+                      </div>
+                      <div class="col-sm-12 mb-1">
+                        <label class="control-label"> Type of meals <span style="color:red;">*</span></label>
+                        <div id="meals">
+                          <div class="chk-toolbar"> @foreach($data['getMealTypeData'] as $getMealTypeData)
+                            <input type="checkbox" id="radio{{ $getMealTypeData['meal_type_name'] }}" name="radioFruit[]" data-value="radioFruitValue" data-no="1" class="meal_type_id" value="{{ $getMealTypeData['meal_type_id'] }}" dataname="{{ $getMealTypeData['meal_type_name'] }}" onclick="calculatePrice();" required="required" data-name="{{ $getMealTypeData['meal_type_name'] }}">
+                            <label for="radio{{ $getMealTypeData['meal_type_name'] }}">{{ $getMealTypeData['meal_type_name'] }}</label>
+                            @endforeach </div>
+                        </div>
+                        <input type="hidden" name="" id="checkout_meal_type_name_value">
+                      </div>
 
-                     <!-- Checkout Section Open-->
+                      <div class="col-sm-12 mb-1" style="display: none;" id="only_snack_avoid_div">
+                        <span id="only_snack_avoid" style="color: red;font-size: 12px;">To subscribe our Classic Meal Plan, please select one more meal type along with snacks.</span>
+                      </div>
+
+
+                      <div class="col-sm-12 mb-1">
+                        <div class="">
+                          <label class="control-label">Price</label>
+                          <div style="border:dotted" class="p-2">
+                            <div class="offer-price"> <del> <span style="display: block;" id="close_value"></span> </del> </div>
+                            <span class="og"  id="rs_html"> Rs.</span> <span class="og" id="final_value" ></span> | <span class="og" id="final_value_details"></span> </div>
+                          <input type="hidden" name="price" id="price">
+                          <input type="hidden" id="total" name="total">
+                          <input type="hidden" id="discount_value" name="discount">
+                        </div>
+                      </div>
+                    </div>
+                    <span style="font-size: 12px;"><span style="color: #e81212;">*</span> 5% GST applicable</span> 
+                    <!-- </form> --> 
+                  </div>
+                  <!-- Choose Plane End-->
+                  <div class="tab-pane ui-tabs-panel" id="payment">
+                    <div class="col-sm-12">
+                      <div class="col-sm-12" style="text-align: center;"> <span id="alreadyexits"></span> <span style="color: red;font-size: 15px;" id="err_avoid_or_dislike_food"></span> </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 mb-1">
+                        <label class="control-label">
+                        <label class="control-label">Address <span style="color: red;">*</span></label>
+                        <textarea class="form-control" placeholder="Address" name="address1" id="address1" rows="2" required="required"></textarea>
+                        <span id="err_address1" class="text-danger"></span>
+                      </div>
+                      <div class="col-sm-4 mb-1">
+                        <label class="control-label">Pincode <span style="color: red;">*</span></label>
+                        <input type="text" placeholder="Pincode" name="pincode1" id="pincode1" class="form-control" required="required">
+                        <span id="err_pincode1" class="text-danger"></span>
+                      </div>
+                      <div class="col-sm-4 mb-1" id="mealtype_div">
+                        <label class="control-label">Select meal type</label>
+                        <select multiple id="mealtype1" name="address1_meal[]" onchange="selectSessionValue('mealtype1');">
+                          <!-- <option value="Breakfast">Breakfast</option>
+                              <option value="Lunch">Lunch</option>
+                              <option value="Snack">Snack</option>
+                              <option value="Dinner">Dinner</option> -->
+                        </select>
+                      </div>
+                      <input type="hidden" name="" id="checkout_address1_meal1">
+                    </div>
+                    <div class="row secondaddress">
+                      <div class="col-sm-12 mb-1">
+                        <label class="control-label">Address 2</label>
+                        <textarea class="form-control" placeholder="Address 2" name="address2" id="address2" rows="2"></textarea>
+                      </div>
+                      <div class="col-sm-4 mb-1">
+                        <label class="control-label">Pincode 2</label>
+                        <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control">
+                      </div>
+                      <div class="col-sm-4 mb-1">
+                        <label class="control-label">Select meal type</label>
+                        <select multiple id="mealtype2" name="address2_meal[]" onchange="selectSessionValue('mealtype2');">
+                          <!--  <option value="Breakfast">Breakfast</option>
+                              <option value="Lunch">Lunch</option>
+                              <option value="Snack">Snack</option>
+                              <option value="Dinner">Dinner</option> -->
+                        </select>
+                      </div>
+                      <input type="hidden" name="" id="checkout_address1_meal2">
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="1" name="optionsCheckboxes" class="showDive" id="optionsCheckboxes" onchange="showAddress();">
+                          </label>
+                          Is your evening address same?</div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="checkbox">
+                          <label>
+                            <input type="checkbox" value="1" name="termsConditions" class="showDive" id="termsConditions" required="required">
+                          </label>
+                          <a href="{{url('')}}/terms_conditions">I Agree With Terms & Conditions? <span style="color: red;">*</span></a><br>
+                          <span id="err_termsConditions" style="color: red;font-size: 13px;"></span> </div>
+                      </div>
+                    </div>
+                    <!--<strong style="color: red;">* 5% GST applicable</strong> --> 
+                  </div>
+                  
+                  <!-- Checkout Section Open-->
                   <div class="tab-pane ui-tabs-panel" id="checkout">
-
                     <div class="row"> 
                       <!-- Invoice -->
                       
@@ -429,11 +366,11 @@
                                   </div>
                                 </div>
                                 <div class="col-lg-12 text-right text-danger" ><small>Note : Please check & confirm your plan details</small></div>
-
                                 <div class="col-lg-12 border-top pt-3 mt-2">
-                                  <div style="text-align: center; display: none;" id="all_details" >
-                                    <span id="err_all_details" style="color: red;"> </span>
-                                  </div>
+                                    <div style="text-align: center; display: none;" id="all_details" >
+                                        <span id="err_all_details" style="color: red;"> </span>
+                                      </div>
+                                  
                                   <div class="invoice-to mt-3 mb-3">
                                     <table>
                                       <tr>
@@ -498,13 +435,31 @@
                                         </tr> -->
                                           <tr>
                                             <th colspan="3" class="text-right br-0" style="border-bottom: 0px;">GST</th>
-                                            <th class="text-right bl-0" style="border-bottom: 0px;" id="gst_lable">5% </th>
+                                            <th class="text-right bl-0" style="border-bottom: 0px;">5% </th>
                                           </tr>
                                           <tr>
                                             <th colspan="3" class="text-right br-0" style="border-top: 0px;">Total</th>
                                             <th class="text-right bl-0" style="border-top: 0px;"><span id="checkout_final_gst_value"></span> </th>
                                             <!-- 284.4.40 --> 
                                           </tr>
+
+                                           <tr>
+                                            <td colspan="3" style="border-right: 0;">
+                                              <button class="btn float-right btn-sm" onclick="applyCoupon();">Apply coupon</button>
+                                            </td>
+                                            <td id="empty_td"></td>
+                                            <td class="bl-0" style="width: 150px; display: none;" id="coupon_code">
+                                             <input type="text" name="coupon_code" id="coupon_code_value" class="mx-auto d-block" onkeyup="couponCodeValue();" style="max-width: 90px;">
+                                             <input type="hidden" id="days">
+                                             <input type="hidden" id="end_date">
+                                             
+                                             <input type="hidden" id="coupon_code_id">
+                                             <span id="err_coupon_code" style="font-size: 10px;color: red;"></span>
+
+                                            </td>
+
+                                          </tr>
+                                          <tr style="display: none;" id="extension_message_row"><td colspan="4" style="font-size: 13px; color: green;"><div id="extension_message" style="text-align: center;background-color: azure;border: #999 dashed 1px; color: #000; padding: 2px;}"></div></td></tr>
                                         </tfoot>
                                       </table>
                                     </div>
@@ -527,29 +482,28 @@
                     </div>
                   </div>
                   <!-- Checkout Section Close --> 
+                </div>
+                <div class="wizard-footer">
+                  <div class="pull-right" id="next_butn1">
+                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitFirstForm();" id="" rel=""/>
                   </div>
-                  <div class="wizard-footer">
-                    <div class="pull-right" id="next_butn1">
-                      <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitFirstForm();" id="" rel=""/>
-                    </div>
-                    <div class="pull-right" id="next_butn2">
-                      <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitCheckBox();"  id="" rel="" />
-                      <form id="web_order_summery_form" action="{{url('')}}/subscription_payment" method="post">
-                        {{csrf_field()}}
-                        <input type="hidden" id="razorpay_payment_id" name="razorpay_payment_id">
-                        <input type="hidden" id="id" name="id">
-                        <input type='button' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Pay Now' onclick="submitFormPersonal();" id="rzp-button"/>
-                       <!--  <p class="text-center pb-0"> <a href="#" class="btn btn-success ml15"><i class="fa fa-send mr5"></i> Pay Now  </a></p> -->
-                      </form>
-                    </div>
-                    <div class="pull-left">
-                      <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
-                    </div>
-                    <div class="clearfix"></div>
+                  <div class="pull-right" id="next_butn2">
+                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitCheckBox();"  id="" rel="" />
+                    <form id="web_order_summery_form" action="{{url('')}}/subscription_payment" method="post">
+                      {{csrf_field()}}
+                      <input type="hidden" id="razorpay_payment_id" name="razorpay_payment_id">
+                      <input type="hidden" id="id" name="id">
+                      <input type='button' class='btn btn-finish btn-fill btn-success btn-wd' name='finish' value='Pay Now' onclick="submitFormPersonal();" id="rzp-button"/>
+                      <!--  <p class="text-center pb-0"> <a href="#" class="btn btn-success ml15"><i class="fa fa-send mr5"></i> Pay Now  </a></p> -->
+                    </form>
                   </div>
-                <!-- </form> -->
-
-               
+                  <div class="pull-left">
+                    <input type='button' class='btn btn-previous btn-fill btn-default btn-wd' name='previous' value='Previous' />
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <!-- </form> --> 
+                
               </div>
             </div>
             <!-- wizard container --> 
@@ -557,15 +511,12 @@
         </div>
         <!-- row --> 
       </div>
-     
     </div>
   </div>
 </section>
-
-<script type="text/javascript" src="{{url('')}}/public/js/form-wizard.js"></script>
-<script type="text/javascript" src="{{url('')}}/public/front/js/bootstrap-datepicker.min.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
+<script type="text/javascript" src="{{url('')}}/public/js/form-wizard.js"></script> 
+<script type="text/javascript" src="{{url('')}}/public/front/js/bootstrap-datepicker.min.js"></script> 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script> 
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
@@ -579,60 +530,16 @@
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   })();
 
-</script>
-
+</script> 
 <script type="text/javascript">
-    $('#start_date').dateTimePicker({
-      //J-demo-03
-        //mode: 'date',
-        limitMin: new Date($("#start_date").val()),
-        //limitMax: '2017-03-20 08:00:00'
-    });
-
-</script>
-
+$('#start_date').dateTimePicker({
+    limitMin: new Date($("#start_date").val()),
+});
+</script> 
 <script type="text/javascript">
-
-
 $(document).ready(function() {
  $('#next_butn2').hide();
-
 });
-
-
-
- 
-
-/*$('#startdate-container .input-group.date').datepicker({
-}).on('change', function(){
-        $('.datepicker').hide();
-});*/
-
-/*$(function() {
-    var e = new Date,
-        t = e.getMonth() + 1,
-        n = e.getDate() + 1,
-        a = e.getFullYear();
-    t < 10 && (t = "0" + t.toString()), 
-    n < 10 && (n = "0" + n.toString());
-    var i = a + "-" + t + "-" + n;
-    if(i){
-     $(".datepicker").attr("min", i)
-      $(".datepicker").css("background-color", "#7d7373");
-    }
-});
-*/
-
-/*$(function() {
-        var e = new Date,
-            t = e.getMonth() + 1,
-            n = e.getDate() + 2,
-            a = e.getFullYear();
-        t < 10 && (t = "0" + t.toString()), n < 10 && (n = "0" + n.toString());
-        var i = a + "-" + t + "-" + n;
-        $("#datepicker_today").attr("min", i)
-    });*/
-    
 
 var mySessionId='';
 $(document).ready(function() {
@@ -641,7 +548,6 @@ var x = new SlimSelect({
 });
 
 var mySessionId = '<?php echo Session::getId(); ?>';
-//console.log(mySessionId);
 
 var x = new SlimSelect({
   select: '#mealtype1'
@@ -654,7 +560,7 @@ var x = new SlimSelect({
 
 var final_value = '';
 var no_of_days = '';
-
+var val = [];
 function calculatePrice()
 {
   $('#final_value').html('Rs.0');
@@ -682,26 +588,31 @@ function calculatePrice()
           });
         }
     });
-    
   var mealtype=0;
   
-  $.each($("input[data-value='radioFruitValue']:checked"), function(){
+  $.each($("input[data-value='radioFruitValue']:checked"), function(i){
     mealtype++;
-   /* var final_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
-    $('#final_value').html('Rs.'+final_value);
-    $('#price').val(final_value);*/  
+    val[i] = $(this).attr('dataname');
+    if(val[i]=="Snack"){
+        //alert("To subscribe our Classic Meal Plan, please select one more meal type along with snacks.");
+        $("#only_snack_avoid_div").show();
+        $("#only_snack_avoid").show();
+        return false;
+    }else if(val[i]!="Snack"){
+      $("#only_snack_avoid_div").hide();
+      $("#only_snack_avoid").hide();
+      
     var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
     var final_gst_value = '';
-
-
     if(no_of_days==7){
       if(subscribe_now_pkg_price_value==0){
       if(discount_on_amount_value == 0){
         var discount_amt = cal_value * 5 / 100;
         var final_value = (cal_value - discount_amt);
-        
+       
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
+       
         $('#final_value').html('Rs.'+final_value);
         $('#price').val(final_gst_value);
         $('#total').val(final_value);
@@ -872,45 +783,20 @@ function calculatePrice()
          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
     }
   }
-  });
-
-
-  /*}else{
-    if(no_of_days==7){
-      console.log(subscribe_now_pkg_price_value);
-        
-        $('#final_value').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
-    }else if(no_of_days==15){
-        $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
-    }else if(no_of_days==30){
-        $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
-    }else if(no_of_days==60){
-      $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
     }
-  }*/
+  });
 }
 
 function showAddress()
 {
-if ($('#optionsCheckboxes').is(":checked")){
-   $("#mealtype_div").hide();
-      $(".secondaddress").hide();
-}else{
-  $("#mealtype_div").show();
-      $(".secondaddress").show();
-}
-
-
-    /*$("#mealtype_div").hide();
-    if($('.showDive').is(":checked"))   
+  if ($('#optionsCheckboxes').is(":checked")){
+     $("#mealtype_div").hide();
         $(".secondaddress").hide();
-    else
-        $(".secondaddress").show();*/
+  }else{
+    $("#mealtype_div").show();
+        $(".secondaddress").show();
+  }
 }
-
-
 
 function submitFirstForm(){
   var $myDiv = $("#next_butn1");
@@ -920,7 +806,6 @@ function submitFirstForm(){
   var full_name = $("input[name='full_name']").val();
   var email = $("input[name='email']").val();
   var phone_no = $("input[name='phone_no']").val();
-  //$('input[id="termsConditions"]:checked').length == 0
   
   //$("#checkout_meal_type_id").html(meal_type_id1);
   var _token= '{{csrf_token()}}';
@@ -935,6 +820,7 @@ function submitFirstForm(){
     $('#err_mobile_no').html("Please enter mobile no.");
     return false;
   }else{
+
     $("#checkout_name").html(full_name);
     $("#checkout_phone_no").html(phone_no); 
     $("#checkout_email").html(email);
@@ -952,16 +838,16 @@ function submitFirstForm(){
         success: function(response){
           //console.log(response);
           var data = $.parseJSON(response);
-           console.log(data);
-          /*var subscribe_id = data.personal_data.id;
-          $('#subscribe_id').val(subscribe_id);*/
-          if(data.message == 'error'){
-            $("#confirm_chk").show();
-            //$('input[id="termsConditions"]:checked').length == 0;
-            //alert('99You are already subscribed with us');
-            return false;
+          if(data){
+            if(data.duplicate_message){
+              alert("You are already subscribed with us.Want to purchase new subscription plan ?");
+              //var subscribe_id = data.personal_data.id;
+              $('#subscribe_id').val(data.personal_data);
+            }else{
+              var subscribe_id = data.personal_data.id;
+              $('#subscribe_id').val(subscribe_id);  
+            }
           }
-        
         },
     });
   }
@@ -972,20 +858,20 @@ var meal_type_name1 = [];
 var meal_type_name2 = [];
 function submitCheckBox()
 {
-  $("#checkout_meal_type_name_value").empty();  
-  $.each($("input[name='radioFruit[]']:checked"), function(){
-    meal_type_name.push($(this).attr('dataname'));     
-  });
+    $("#checkout_meal_type_name_value").empty();  
+    $.each($("input[name='radioFruit[]']:checked"), function(){
+        meal_type_name.push($(this).attr('dataname'));     
+    });
+    
 
 var unique = [];
 unique = meal_type_name.filter(function(itm, i, a) {
     return i == meal_type_name.indexOf(itm);
 });
+
 $("#checkout_meal_type_name_value").val(unique);
-
-var checkout_meal_type_value = $("#checkout_meal_type_name_value").val();
-$("#checkout_meal_type_name").html(checkout_meal_type_value);
-
+    var checkout_meal_type_value = $("#checkout_meal_type_name_value").val();
+    $("#checkout_meal_type_name").html(checkout_meal_type_value);
 
 var $option = [];
 var $mySelect = '';
@@ -1013,23 +899,21 @@ $.each(selectValues, function(key, value) {
   });
   $("#mealtype2").append($option);
   //$.session.set("myVar", "99");
-}); 
 
+}); 
   var subscribe_now = $('input[name="radNoOfDays"]:checked').attr('data-id');
   $("#checkout_no_of_days").html(subscribe_now);
   $("#checkout_address1").html($('#address1').val());
-
-  if($('#address2').val().length!=0){
-    $('#checkout_address2_div').show();
-    $('#openbrk1').show();
-    $('#openbrk2').show();
-    
-    $("#checkout_address2").html($('#address2').val());
-  }
   
-
-$("#checkout_address1_meal").html();
-$("#checkout_address2_meal").html();
+      if($('#address2').val().length!=0){
+        $('#checkout_address2_div').show();
+        $('#openbrk1').show();
+        $('#openbrk2').show();
+        $("#checkout_address2").html($('#address2').val());
+      }
+  
+    $("#checkout_address1_meal").html();
+    $("#checkout_address2_meal").html();
 }
 
 
@@ -1077,34 +961,26 @@ function submitFormPersonal()
   var total= $("input[name='total']").val();
   var price= $("input[name='price']").val();
   var discount= $("input[name='discount']").val();
-  var sub_id = $('#subscribe_id').val();
   var food_precautions= $("#food_precautions").val();
   var lifestyle_disease= $("#lifestyle_disease").val();
   var start_date= $("#start_date").val();
   var subscribe_now_plan_duration_id = $('input[name="radNoOfDays"]:checked').val();
-
+  var subscribe_id  = $("#subscribe_id").val();
+  var coupon_code_id  = $("#coupon_code_id").val();
+  
   var meal_type_id = [];
     $.each($("input[name='radioFruit[]']:checked"), function(){
       meal_type_id.push($(this).val());
   });
   meal_type_id = meal_type_id.toString();
-  
-/*var termsConditionsValue='';
-$('input[name="termsConditions"]:checked').each(function() {
-   console.log(this.value);
-   termsConditionsValue = this.value;
-});*/
-  /*var termsConditions = $('#termsConditions').val();
+  //console.log(coupon_code_id);
 
-  console.log(termsConditions);*/
-  //console.log($('input[id="termsConditions"]:checked').length);
 
   var address1= $("#address1").val();
   var pincode1= $("#pincode1").val();
-  var city1= $("#city1").val();
   var address2= $("#address2").val();
   var pincode2= $("#pincode2").val();
-  var city2 = $("#city2").val();
+  
 
   if(full_name==""){
     $('#err_full_name').html("Please enter full name.");
@@ -1151,7 +1027,7 @@ $('input[name="termsConditions"]:checked').each(function() {
   $.ajax({
         type: "POST",
         url: "{{ URL::to('/') }}/postPersonalDetails",             
-        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food,total:total, price:price,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2,subscribe_id:sub_id,city1:city1,city2:city2
+        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food, price:price,total:total,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2,subscribe_id:subscribe_id,coupon_code_id:coupon_code_id
         },
           'async': false,
           success: function(result){
@@ -1162,9 +1038,7 @@ $('input[name="termsConditions"]:checked').each(function() {
             razor_email = data.email;
             razor_phone_no = data.phone_no;
             razor_address = data.address;
-            razor_subs_id = data.id;
-            razor_subscribe_now_user_id = data.subscribe_now_user_id;
-            
+            razor_id = data.id;
           
             options = {
               "key": "rzp_test_KcySdv9YlIpqGP",
@@ -1177,7 +1051,7 @@ $('input[name="termsConditions"]:checked').each(function() {
               "image": "{{url('')}}/public/front/img/logo.png",
               "handler": function (response){
                 $('#razorpay_payment_id').val(response.razorpay_payment_id);
-                $('#id').val(razor_subscribe_now_user_id);
+                $('#id').val(razor_id);
                 document.getElementById("web_order_summery_form").submit();
               },
               "prefill": {
@@ -1203,20 +1077,50 @@ $('input[name="termsConditions"]:checked').each(function() {
 $('#demo').on('change', function (e) {
 $('#other_food_div').hide();
     var avoid_dislike_food = $('#demo').val();
-    //console.log(avoid_dislike_food);
     $("#demo :selected").each(function() {
       if(this.value == "Other")
       {
         $('#other_food_div').show();
       }else if(this.value != "Other"){
-        //console.log(this.value);
         $('#other_food_div').hide();
       }else{
         $('#other_food_div').hide();
       }
     });
-     
 });
 
-</script>
-@endsection
+function applyCoupon()
+{
+  $("#coupon_code").show();
+  $("#empty_td").hide();
+}
+
+function couponCodeValue(){
+  var coupon_code_value = $("#coupon_code_value").val();
+  var _token= '{{csrf_token()}}';
+  $.ajax({
+      type: "GET",
+      url: "{{ URL::to('/') }}/getCouponCode",             
+      data: {_token: _token,coupon_code_value: coupon_code_value
+      },
+      'async': false,
+      success: function(result){
+       if(result.length === 2){
+        $('#err_coupon_code').html("Coupon code not available");
+       }else{
+        $('#err_coupon_code').hide();
+        var data = $.parseJSON(result);
+        var coupon = data[0].coupon_code_id;
+        var extension_days = data[0].extension_days;
+        $("#coupon_code_id").val(coupon);
+        var extension_msg  = "Coupon code applied successfully.You have got "+extension_days+" days of extension.";
+        $("#extension_message_row").show();
+        var date = new Date($("#start_date").val());
+        $("#extension_message").html(extension_msg);
+       }
+    }
+  });
+}
+
+</script> 
+@endsection 

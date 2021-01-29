@@ -10,8 +10,7 @@ class SubscribeNowUser extends Model
     						'name',
     						'email',
                             'password',
-    						'phone_no',
-    						'session_id'
+    						'phone_no'
 						  ];
 
      public static function getData(){

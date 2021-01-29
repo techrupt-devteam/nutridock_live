@@ -80,18 +80,14 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
 
-
-
 $(function(){
     $("#addRows").click(function () {
         $("#maintable").append(" <tr>"+
-                                "<td><input type='text' name='name[]' class='form-control'></td>"+
-                                "<td><input type=/text' name='image[]' class='form-control'></td>"+
-                            "</tr>")
+            "<td><input type='text' name='name[]' class='form-control'></td>"+
+            "<td><input type=/text' name='image[]' class='form-control'></td>"+
+        "</tr>")
     });
 });
-
-
 
 </script>
 

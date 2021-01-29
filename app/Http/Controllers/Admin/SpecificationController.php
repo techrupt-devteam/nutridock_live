@@ -181,7 +181,7 @@ class SpecificationController extends Controller
         	print_r($name); die;*/
         	$arr_spec = explode(",",$specification);
         	if(in_array($name, $arr_spec)){
-        	   Session::flash('success', 'Specification can not be delete as it is used in menu.');
+        	    Session::flash('success', 'Specification can not be delete as it is used in menu.');
 				return redirect($this->module_view_folder.'/view-specification-list');
         	}else{
         		$status = $this->SpecificationModel->where('id',base64_decode($enc_id))->delete();

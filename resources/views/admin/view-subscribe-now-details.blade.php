@@ -1,17 +1,17 @@
 
 @extends('admin.layouts.master')
 @section('content')
-
-<!-- Begin Page Content -->
+    <!-- Begin Page Content -->
     <div class="container-fluid">
-      
       <div class="card shadow mb-4">
             <div class="card-header py-3">
              View Subscribe Now Details
-              <a href="{{url('')}}/admin/view-subscribe-now" class="btn btn-dark btn-sm float-right" data-toggle="tooltip" data-placement="left" title="Back"><i class="fas fa-long-arrow-alt-right"></i></a>
+              <a href="{{url('')}}/admin/view-subscribe-now-user" class="btn btn-dark btn-sm float-right" data-toggle="tooltip" data-placement="left" title="Back"><i class="fas fa-long-arrow-alt-right"></i></a>
             </div>
             <div class="card-body">
-                <?php foreach($arr_data as $row); ?>
+                <?php 
+                foreach($user_arr_data as $user_row);
+                 foreach($arr_data as $row); ?>
                 <form action="{{url('')}}/admin/subscribe-now/update/{{$row->id }}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
                 <h6 style="color:black;"><strong>Personal Details</strong></h6>
@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Full Name</label>
-                                <input type="text" class="form-control" name="" placeholder="Full Name" value="<?php echo $row->name ?? '' ?>" readonly="readonly">
+                                <input type="text" class="form-control" name="" placeholder="Full Name" value="<?php echo $user_row->name ?? '' ?>" readonly="readonly">
                             </div>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Email</label>
-                                <input type="text" class="form-control" name="" placeholder="Email" value="<?php echo $row->email ?? '' ?>" readonly="readonly">
+                                <input type="text" class="form-control" name="" placeholder="Email" value="<?php echo $user_row->email ?? '' ?>" readonly="readonly">
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Mobile</label>
-                                <input type="text" class="form-control" name="" placeholder="Mobile" value="<?php echo $row->phone_no ?? '' ?>" readonly="readonly">
+                                <input type="text" class="form-control" name="" placeholder="Mobile" value="<?php echo $user_row->phone_no ?? '' ?>" readonly="readonly">
                             </div>
                         </div>
                     </div>
@@ -192,12 +192,9 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Start Date </label>
-                                 <input type="date" class="form-control" name="start_date" placeholder="Start Date" value="<?php echo strftime('%Y-%m-%d',strtotime($row->start_date)); ?>">
+                                 <input type="date" id="start_date" class="form-control" name="start_date" placeholder="Start Date" value="<?php echo strftime('%Y-%m-%d',strtotime($row->start_date)); ?>" onchange="calculatePrice()">
                             </div>
                         </div>
-
-                        
-
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">No. of days</label>
@@ -208,10 +205,30 @@
                                 </select>
                             </div>
                         </div>
-                    </div>
-                   
-                    <div class="col-lg-4">
 
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Expiry Date</label>
+                                <input type="text" id="expiry_date" class="form-control" name="expiry_date" placeholder="Expiry Date" value="<?php echo strftime('%d-%m-%Y',strtotime($row->expiry_date)); ?>" readonly="readonly">
+                                <input type="hidden" id="expiry_date_val" name="">
+                            </div>
+                        </div>
+                        <?php if($row->coupon_code_id){ 
+                            $coupon_code_value = \DB::table('coupon_code')->where('coupon_code_id',$row->coupon_code_id)->where('is_deleted','No')->where('status','Active')->get();
+                            foreach($coupon_code_value as $coupon_row); ?>
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Coupon Code</label>
+                                <input type="text" id="coupon_code_value" class="form-control" name="coupon_code" onkeyup="couponCodeValue();" placeholder="Coupon Code" value="<?php echo $coupon_row->coupon_code; ?>">
+                                <input type="hidden" name="" value="<?php echo $row->coupon_code_id; ?>">
+                                <input type="hidden" name="" id="extension_days" value="<?php echo $coupon_row->extension_days; ?>">
+                                <input type="hidden" id="coupon_code_id">
+                                <span id="err_coupon_code" style="font-size: 14px;color: red;"></span>
+                            </div>
+                        </div><?php } ?>
+                    </div>
+
+                    <div class="col-lg-4">
                     <?php 
                         $meal_type_id = $row->meal_type_id;
                         $explode_data = explode(",",$meal_type_id);
@@ -220,20 +237,27 @@
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Type of meals </label><br>
                                <select class="form-control" multiple name="meal_type_id[]" id="meal_type_id" onchange="calculatePrice();" data-value="radioFruitValue">
-                                    <?php foreach($meal_type_data_arr as $arr_row){  ?>
+                                    <?php foreach($meal_type_data_arr as $arr_row){ 
+                                    //print_r($arr_row->meal_type_id); die; ?>
                                         <option <?php if(in_array($arr_row->meal_type_id, $explode_data)) { echo "selected"; } ?> value="<?php echo $arr_row->meal_type_id; ?>"><?php echo $arr_row->meal_type_name; ?></option> 
                                     <?php } ?>
                                 </select>
                             </div>
-                        </div>
-                        <div class="row">
+                        </div><br>
+                        <div class="row" style="margin-top: -7px;">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Payment Status</label>
                                 <input type="text" class="form-control" name="payment_status" placeholder="Payment Status" value="<?php echo $row->payment_status ?? '' ?>">
                             </div>
                         </div>
 
-                        
+                        <?php if($row->coupon_code_id){ ?>
+                        <div class="row">
+                            <div class="col-lg-12 mb-3">
+                                <label class="label-control">Extended Date</label>
+                                <input type="text" id="extended_date" class="form-control" name="extended_date" placeholder="Extended Date" value="<?php echo strftime('%d-%m-%Y',strtotime($row->extended_date)); ?>" readonly="readonly">
+                            </div>
+                        </div><?php } ?>
                     </div>
 
                     <div class="col-lg-4">
@@ -251,7 +275,6 @@
                                 <input type="text" id="gst_value" class="form-control" value="<?php echo $gst = $row->total * 5 /100; ?>">
                             </div>
                         </div>
-
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Net Total</label>
@@ -259,7 +282,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <hr>
                 <h6 style="color:black;"><strong>Delivery Details</strong></h6>
@@ -329,30 +351,29 @@
                         </div>
                     </div>
                 </div>
-                
-                 <div class="col-lg-12" style="text-align: center;">
+                <div class="col-lg-12" style="text-align: center;">
                     <button class="btn btn-primary btn-md mr-2" name="sumbit" type="sumbit" value="submit" > Submit </button>
-                    <a href="{{url('')}}/admin/view-subscribe-now" class="btn btn-danger btn-md"> Cancel </a>
+                    <a href="{{url('')}}/admin/view-subscribe-now-user" class="btn btn-danger btn-md"> Cancel </a>
                 </div>
-                
                 </div>
             </form>
-
             </div>
       </div>
-
-     </div>
+</div>
 
 <script type="text/javascript">
+
+
 function calculatePrice()
-{
+{ 
+
   var no_of_days =   $("#subscribe_now_plan_duration_id").val();
-  
   var subscribe_now_pkg_price_value = '';
   var subscribe_now_price_per_meal_value = '';
   var no_of_days_value = '';
   var discount_on_amount_value = '';
   var discount_in_percent_value = '';
+  var subscribe_now_duration_value = '';
   $.ajax({
         type: "GET",
         url: "{{ URL::to('/') }}/admin/getSubscribeNowPlanDurationData/"+no_of_days,             
@@ -368,11 +389,23 @@ function calculatePrice()
             no_of_days_value =  this[0].subscribe_now_duration;
             subscribe_now_pkg_price_value =  this[0].subscribe_now_pkg_price;
             subscribe_now_price_per_meal_value =  this[0].subscribe_now_price_per_meal;
+            subscribe_now_duration_value =  this[0].subscribe_now_duration;
           });
         }
     });
-    
-    //console.log(subscribe_now_pkg_price_value);
+
+    /*Code for Expiry date open*/
+    var tt = document.getElementById('start_date').value;
+    var date = new Date(tt);
+    var newdate = new Date(date);
+    newdate.setDate(newdate.getDate() + subscribe_now_duration_value);
+    var dd = newdate.getDate();
+    var mm = newdate.getMonth() + 1;
+    var y = newdate.getFullYear();
+    var someFormattedDate = dd + '-' + mm + '-' + y;
+    document.getElementById('expiry_date').value = someFormattedDate;
+    /*Code for Expiry date end*/
+
     var mealtype=0;
     var mealtype = $('#meal_type_id option:selected').length;
     var cal_value = no_of_days_value * mealtype * subscribe_now_price_per_meal_value;
@@ -391,7 +424,6 @@ function calculatePrice()
           $('#gst_value').val(gst_value);
           $('#discount_value').val(discount_amt);
         }else{
-            
             var final_value = cal_value - discount_on_amount_value;
             var gst_value = final_value * 5 / 100;
             var final_gst_value = final_value + gst_value;
@@ -412,147 +444,145 @@ function calculatePrice()
 
     if(no_of_days_value==15){
         if(subscribe_now_pkg_price_value==0){
-            
-              if(discount_on_amount_value == 0){
-              var discount_amt = cal_value * 12 / 100;
-              var final_value = (cal_value - discount_amt);
-              var gst_value = final_value * 5 / 100;
-              var final_gst_value = final_value + gst_value;
-              
-              $('#total').val(final_value);
-              $('#price').val(final_gst_value);
-              $('#gst_value').val(gst_value);
-              $('#discount_value').val(discount_amt);
-            }else{
-                
-                var final_value = cal_value - discount_on_amount_value;
-                var gst_value = final_value * 5 / 100;
-                var final_gst_value = final_value + gst_value;
-                
-                $('#final_value').html('Rs.'+final_value);
-                $('#price').val(final_gst_value);
-                $('#total').val(final_value);
-                $('#discount_value').val(discount_on_amount_value);
-                $('#gst_value').val(gst_value);
-            }
+          if(discount_on_amount_value == 0){
+          var discount_amt = cal_value * 12 / 100;
+          var final_value = (cal_value - discount_amt);
+          var gst_value = final_value * 5 / 100;
+          var final_gst_value = final_value + gst_value;
+          
+          $('#total').val(final_value);
+          $('#price').val(final_gst_value);
+          $('#gst_value').val(gst_value);
+          $('#discount_value').val(discount_amt);
         }else{
-                $('#total').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+            
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
+        }
+        }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
         }
     }
 
     if(no_of_days_value==30){
         if(subscribe_now_pkg_price_value==0){
-               if(discount_on_amount_value == 0){
-               var discount_amt = cal_value * 20 / 100;
-               var final_value = (cal_value - discount_amt);
-               var gst_value = final_value * 5 / 100;
-               var final_gst_value = final_value + gst_value;
-              
-               $('#total').val(final_value);
-               $('#price').val(final_gst_value);
-               $('#discount_value').val(discount_amt);
-               $('#gst_value').val(gst_value);
-              }else{
-                
-                var final_value = cal_value - discount_on_amount_value;
-                var gst_value = final_value * 5 / 100;
-                var final_gst_value = final_value + gst_value;
-               
-                $('#final_value').html('Rs.'+final_value);
-                $('#price').val(final_gst_value);
-                $('#total').val(final_value);
-                $('#discount_value').val(discount_on_amount_value);
-                $('#gst_value').val(gst_value);
-              }
+           if(discount_on_amount_value == 0){
+           var discount_amt = cal_value * 20 / 100;
+           var final_value = (cal_value - discount_amt);
+           var gst_value = final_value * 5 / 100;
+           var final_gst_value = final_value + gst_value;
+          
+           $('#total').val(final_value);
+           $('#price').val(final_gst_value);
+           $('#discount_value').val(discount_amt);
+           $('#gst_value').val(gst_value);
           }else{
-                $('#total').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+           
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
           }
+      }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
+      }
     }
 
     if(no_of_days_value==60){
         if(subscribe_now_pkg_price_value==0){
-               if(discount_on_amount_value == 0){
-               var discount_amt = cal_value * 25 / 100;
-               var final_value = (cal_value - discount_amt);
-               var gst_value = final_value * 5 / 100;
-               var final_gst_value = final_value + gst_value;
-              
-               $('#total').val(final_value);
-               $('#price').val(final_gst_value);
-               $('#discount_value').val(discount_amt);
-               $('#gst_value').val(gst_value);
-              }else{
-                var final_value = cal_value - discount_on_amount_value;
-                var gst_value = final_value * 5 / 100;
-                var final_gst_value = final_value + gst_value;
-                //console.log(final_gst_value);
-               
-                $('#final_value').html('Rs.'+final_value);
-                $('#price').val(final_gst_value);
-                $('#total').val(final_value);
-                $('#discount_value').val(discount_on_amount_value);
-                $('#gst_value').val(gst_value);
-              }
+           if(discount_on_amount_value == 0){
+           var discount_amt = cal_value * 25 / 100;
+           var final_value = (cal_value - discount_amt);
+           var gst_value = final_value * 5 / 100;
+           var final_gst_value = final_value + gst_value;
+          
+           $('#total').val(final_value);
+           $('#price').val(final_gst_value);
+           $('#discount_value').val(discount_amt);
+           $('#gst_value').val(gst_value);
           }else{
-                $('#total').val(subscribe_now_pkg_price_value);
-                $('#gst_value').val(0);
-                $('#price').val(subscribe_now_pkg_price_value);
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+           
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
           }
+      }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
+      }
     }
-
-    
- /* }else if(subscribe_now_pkg_price_value > 0){
-    
-    if(no_of_days_value==7){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
-    }else if(no_of_days_value==15){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
-    }else if(no_of_days_value==30){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
-    }else if(no_of_days_value==60){
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
-    }
-  }*/
+    couponCodeValue();
 }
-
-
-
 
 function onChangeAvoid(){
     $('#other_food_div').hide();
-    //var avoid_dislike_food = $('#demo').val();
-    
     var selectedValues = $('#demo').val();  
-    console.log(selectedValues);
-    
     $("#avoid_or_dislike_food_data").val(selectedValues);
-
     $("#demo :selected").each(function() {
        if(this.value == "Other")
        {
          $('#other_food_div').show();
        }else if(this.value != "Other"){
-         //console.log(this.value);
          $('#other_food_div').hide();
        }else{
          $('#other_food_div').hide();
        }
-     });
-    
-    
+    });
 }
 
+
+function couponCodeValue(){
+  var coupon_code_value = $("#coupon_code_value").val();
+  var _token= '{{csrf_token()}}';
+  $.ajax({
+      type: "GET",
+      url: "{{ URL::to('/') }}/getCouponCode",             
+      data: {_token: _token,coupon_code_value: coupon_code_value
+      },
+      'async': false,
+      success: function(result){
+       if(result.length === 2){
+        $('#err_coupon_code').html("Coupon code not available");
+       }else{
+        $('#err_coupon_code').hide();
+        var newDate = '';
+        var data = $.parseJSON(result);
+        var coupon = data[0].coupon_code_id;
+        var extension_days = data[0].extension_days;
+        
+        var e_date = document.getElementById('expiry_date').value;
+        var dateAr = e_date.split('-');
+        var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];
+        var e_newdate = new Date(newDate);
+        e_newdate.setDate(e_newdate.getDate() + extension_days);
+        var e_dd = e_newdate.getDate();
+        var e_mm = e_newdate.getMonth() + 1;
+        var e_y = e_newdate.getFullYear();
+        var e_someFormattedDate = e_dd + '-' + e_mm + '-' + e_y;
+        document.getElementById('extended_date').value = e_someFormattedDate;
+       }
+    }
+  });
+}
 </script>
 @endsection

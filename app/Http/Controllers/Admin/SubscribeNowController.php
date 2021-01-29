@@ -11,7 +11,8 @@ use Illuminate\Support\Arr;
 
 use App\Models\MealType;
 use App\Models\SubscribeNow;
-
+use App\Models\CouponcodeModel;
+use App\Models\SubscribeNowDetails;
 
 use Sentinel;
 use Session;
@@ -29,30 +30,71 @@ class SubscribeNowController extends Controller
 		$this->product_image_base_path      = base_path().'/uploads/images/';
 		$this->product_image_public_path 	= url('/').config('app.project.img_path.images');
 		$this->SubscribeNow = new SubscribeNow();
+    $this->CouponcodeModel = new CouponcodeModel();
 	}
 
-    public function index(Request $request)
-    {	
-    	$user = \Sentinel::check();
+
+   public function index(Request $request)
+    { 
+
+        $user = \Sentinel::check();
         $data['session_user']  = Session::get('user');
 
         if($data['session_user']){
         $arr_data = [];
-        $value     = \DB::table('subscribe_now')
+        $value     = \DB::table('subscribe_now_user')
                         ->where('is_deleted','No')
                         ->orderBy('id','DESC')
+                        ->groupBy('name')
+                        ->groupBy('phone_no')
+                        ->groupBy('email')
                         ->get();
+        if(!empty($value))
+        {
+            $arr_data = $value->toArray();
+        }
+        $data['arr_data']      = $arr_data;
+
+        $data['page_name'] = "Subscribe Now List";
+        return view($this->module_view_folder.'.view-subscribe-now-user',$data)->with('no', 1);
+
+        }else{
+           return view('admin/auth/login');
+        }
+    }
+
+    public function view_subscribe_now(Request $request,$value1,$value2,$value3)
+    {	
+    	  $user = \Sentinel::check();
+        $data['session_user']  = Session::get('user');
+
+        if($data['session_user']){
+        $arr_data = [];
+        $value     = \DB::table('subscribe_now_user','subscribe_now_details')->where('subscribe_now_user.is_deleted','No')->where('name',base64_decode($value1))->where('phone_no',base64_decode($value2))->where('email',base64_decode($value3))->get();
+
         if(!empty($value))
         {
             $arr_data = $value->toArray();
         }
 
         $data['arr_data']      = $arr_data;
+        //print_r(count($data['arr_data'])); die;
 
+        foreach ($arr_data as $value) {
+          $id = $value->id;
+        }
+
+        $subscribe_now_details = [];
+        $subscribe_now_details_data     = \DB::table('subscribe_now_details')->where('is_deleted','No')->where('subscribe_now_user_id',$id)->get();
+
+        if(!empty($subscribe_now_details_data))
+        {
+            $subscribe_now_details = $subscribe_now_details_data->toArray();
+        }
+        $data['subscribe_now_details'] = $subscribe_now_details;
         /*For Modal*/
         $editarr_data = [];
-        $value     = \DB::table('subscribe_now')
-                        ->get();
+        $value     = \DB::table('subscribe_now_details')->where('subscribe_now_user_id',$id)->get();
         if(!empty($value))
         {
             $editarr_data = $value->toArray();
@@ -69,7 +111,7 @@ class SubscribeNowController extends Controller
         }
     }
 
-    public function view(Request $request,$enc_id)
+    public function view(Request $request,$id1,$id2)
     { 
 
       $user = \Sentinel::check();
@@ -77,20 +119,47 @@ class SubscribeNowController extends Controller
 
         if($data['session_user']){
         $arr_data = [];
-        $value     = \DB::table('subscribe_now')
-                        ->where('id',$enc_id)
+        $value     = \DB::table('subscribe_now_details')
+                        ->where('id',base64_decode($id1))
                         ->get();
         if(!empty($value))
         {
             $arr_data = $value->toArray();
         }
-        $data['arr_data']      = $arr_data;
-        $physical_activity_id = '';
+        $data['arr_data'] = $arr_data;
+
+         
+        $user_arr_data = [];
+        $user_value     = \DB::table('subscribe_now_user')
+                        ->where('id',base64_decode($id2))
+                        ->get();
+        if(!empty($user_value))
+        {
+            $user_arr_data = $user_value->toArray();
+        }
+        $data['user_arr_data'] = $user_arr_data;
+        //print_r($data['user_arr_data']); die;
+
         
+
+        $physical_activity_id = '';
         foreach($arr_data as $row){
           $physical_activity_id = $row->physical_activity_id;
-        
+          $coupon_code_id = $row->coupon_code_id;
         }
+
+        /*Coupon Code Data Start*/
+        $coupon_code_data = [];
+        $coupon_code_value     = \DB::table('coupon_code')
+                        ->where('coupon_code_id',$coupon_code_id)
+                        ->get();
+        if(!empty($coupon_code_value))
+        {
+            $physical_activity_data = $coupon_code_value->toArray();
+        }
+        $data['coupon_code_data'] = $coupon_code_data;
+        //print_r($data['coupon_code_data']); die;
+        /*Coupon Code Data End*/
 
         /*Physical Activity Data Start*/
         $physical_activity_data = [];
@@ -133,10 +202,7 @@ class SubscribeNowController extends Controller
         }
         $data['subscribe_now_data_arr'] = $subscribe_now_data;
         /*Subscribe Now Data End*/
-
-       
         $data['page_name'] = "Subscribe Now Details";
-        
         return view($this->module_view_folder.'.view-subscribe-now-details',$data)->with('no', 1);
         }else{
            return view('admin/auth/login');
@@ -148,10 +214,9 @@ class SubscribeNowController extends Controller
         $arr_rules['_token']         = "required";
         $arr_data['link']   =   $request->input('link', null);
         $arr_data['comments']   =   $request->input('comments', null);
-        $status = SubscribeNow::where('id',base64_decode($enc_id))->update($arr_data);
-        //return view($this->module_view_folder.'.view-subscribe-now',$data)->with('no', 1);
+        $status = SubscribeNowDetails::where('id',base64_decode($enc_id))->update($arr_data);
         if($status){
-          return redirect($this->module_view_folder.'/view-subscribe-now');
+          return redirect(url()->previous());
         }
         Session::flash('error', 'Something went wrong.');
         return view('admin/auth/login');
@@ -163,12 +228,13 @@ class SubscribeNowController extends Controller
 
         $arr_data['approve_status'] = 'Approve';
 
-        $status = SubscribeNow::where('id',$enc_id)->update($arr_data);
+        $status = SubscribeNowDetails::where('id',$enc_id)->update($arr_data);
 
         if($status)
         {
           Session::flash('success', 'Subscriber approve successfully.');
-          return redirect($this->module_view_folder.'/view-subscribe-now');
+          //return redirect($this->module_view_folder.'/view-subscribe-now');
+          return redirect(url()->previous());
         }
 
         Session::flash('error', 'Something went wrong.');
@@ -179,12 +245,13 @@ class SubscribeNowController extends Controller
     {
       $arr_data['approve_status'] = 'Disapprove';
 
-      $status = SubscribeNow::where('id',$enc_id)->update($arr_data);
+      $status = SubscribeNowDetails::where('id',$enc_id)->update($arr_data);
 
       if($status)
       {
         Session::flash('success', 'Subscriber disapprove successfully.');
-        return redirect($this->module_view_folder.'/view-subscribe-now');
+        //return redirect($this->module_view_folder.'/view-subscribe-now');
+        return redirect(url()->previous());
       }
 
       Session::flash('error', 'Something went wrong.');
@@ -193,20 +260,50 @@ class SubscribeNowController extends Controller
     }
 
     function export(){
+      
+
       $arr_data = [];
-      $value     = \DB::table('subscribe_now')->orderBy('id','DESC')->get();
+      $value     = \DB::table('subscribe_now_user')->orderBy('id','DESC')->get();
       if(!empty($value))
       {
           $arr_data = $value->toArray();
       }
       $data['arr_data']      = $arr_data;
 
-      $physical_activity_id = '';
-        
-      foreach($arr_data as $row){
-        $physical_activity_id = $row->physical_activity_id;
-      
+      return view($this->module_view_folder.'.subscribe-now-export',$data)->with('no', 1);
+    }
+
+    function export_user(Request $request,$id1,$id2,$id3){
+      $arr_data = [];
+      $value     = \DB::table('subscribe_now_user')->where('name',base64_decode($id1))->where('phone_no',base64_decode($id2))->where('email',base64_decode($id3))->orderBy('id','DESC')->get();
+      if(!empty($value))
+      {
+          $arr_data = $value->toArray();
       }
+      $data['arr_data']      = $arr_data;
+      
+
+      $physical_activity_id = '';
+      foreach($arr_data as $row){
+        $subscribe_now_user_id = $row->id;
+      }
+
+      //print_r($subscribe_now_user_id); die;
+
+      $arr_details = [];
+      $details_value     = \DB::table('subscribe_now_details')->where('subscribe_now_user_id',$subscribe_now_user_id)->orderBy('id','DESC')->get();
+      if(!empty($details_value))
+      {
+          $arr_details = $details_value->toArray();
+      }
+      $data['arr_details'] = $arr_details;
+      //print_r($data['arr_details']); die;
+
+      $physical_activity_id = '';
+      foreach($arr_details as $row){
+        $physical_activity_id = $row->physical_activity_id;
+      }
+
       /*Physical Activity Data Start*/
       $physical_activity_data = [];
       $physical_activity_value     = \DB::table('physical_activity')
@@ -219,18 +316,33 @@ class SubscribeNowController extends Controller
       $data['physical_activity_data']      = $physical_activity_data;
       /*Physical Activity Data End*/
 
-      return view($this->module_view_folder.'.subscribe-now-export',$data)->with('no', 1);
+      return view($this->module_view_folder.'.subscribe-now-export-user',$data)->with('no', 1);
     }
 
-    function export_subscriber($enc_id){
+    function export_subscriber(Request $request, $enc_id){
+      //->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')
+
       $arr_data = [];
-      $value     = \DB::table('subscribe_now')->where('id',$enc_id)->get();
+      $value     = \DB::table('subscribe_now_details')->where('id',$enc_id)->get();
       if(!empty($value))
       {
           $arr_data = $value->toArray();
       }
       $data['arr_data']      = $arr_data;
-      //print_r($data['arr_data']); die;
+      foreach($arr_data as $row){
+        $subscribe_now_user_id = $row->subscribe_now_user_id;
+      }
+      //print_r($subscribe_now_user_id); die;
+
+      $user_arr_data = [];
+      $user_value     = \DB::table('subscribe_now_user')->where('id',$subscribe_now_user_id)->get();
+      if(!empty($user_value))
+      {
+          $user_arr_data = $user_value->toArray();
+      }
+      $data['user_arr_data']      = $user_arr_data;
+      //print_r($user_arr_data); die;
+
       return view($this->module_view_folder.'.subscribe-now-export-subscriber',$data)->with('no', 1);
     }
 
@@ -238,12 +350,11 @@ class SubscribeNowController extends Controller
     {
       //print_r($enc_id); die;
       $arr_data['is_deleted']       = 'Yes';
-      // $status = $this->SubscriptionModel->where('id',base64_decode($enc_id))->delete();
-      //SubscribeNow::where('id',$enc_id)->update($arr_data);
-      $status = SubscribeNow::where('id',$enc_id)->update($arr_data);
+      $status = SubscribeNowDetails::where('id',$enc_id)->update($arr_data);
       if($status)
       {
-        Session::flash('success', 'Record deleted successfully.');
+          //Session::flash('success', 'Record deleted successfully.');
+          return redirect(url()->previous());
           return redirect($this->module_view_folder.'/view-subscribe-now');
       }
       Session::flash('error', 'Something went wrong.');
@@ -254,17 +365,12 @@ class SubscribeNowController extends Controller
     {
       $arr_rules      = $arr_data = array();
       $status         = false;
-
       $arr_rules['_token']        = "required";
-      /*$arr_rules['address1']      = "required";*/
-
       $validator = validator::make($request->all(),$arr_rules);
-
       if($validator->fails()) 
       {
         return redirect()->back()->withErrors($validator)->withInput();
       }
-
       $arr_data['address1']       = $request->input('address1', null);  
       $arr_data['address2']        = $request->input('address2', null); 
       $arr_data['pincode1']   = $request->input('pincode1', null);  
@@ -275,19 +381,16 @@ class SubscribeNowController extends Controller
       $arr_data['weight']   = $request->input('weight', null);  
       $arr_data['height_in_feet']   = $request->input('height_in_feet', null);  
       $arr_data['height_in_inches']   = $request->input('height_in_inches', null);  
-      
       $arr_data['physical_activity_id']   =   $request->input('physical_activity_id',null);
       $arr_data['food_precautions']  = $request->input('food_precautions',null);
       $arr_data['lifestyle_disease'] = $request->input('lifestyle_disease',null);
-                
       $arr_data['start_date']   = $request->input('start_date', null);  
+      $arr_data['expiry_date']   = $request->input('expiry_date', null);
       $arr_data['price']   = $request->input('price', null);
       $arr_data['total']   = $request->input('total', null);  
       $arr_data['discount']   = $request->input('discount', null);  
       $arr_data['payment_status']   = $request->input('payment_status', null);
-
       $avoid_or_dislike_food_value = $request->input('avoid_or_dislike_food_id'); 
-      
       $avoid_or_dislike_explode = explode(",",$avoid_or_dislike_food_value);
       for($i=0; $i<count($avoid_or_dislike_explode); $i++){
         if($avoid_or_dislike_explode[$i]=="Other"){
@@ -303,7 +406,6 @@ class SubscribeNowController extends Controller
       $arr_data['subscribe_now_plan_duration_id'] = $request->input('subscribe_now_plan_duration_id',null);
       $meal_type_id_data   = $request->input('meal_type_id', null);  
       
-
       if($meal_type_id_data)
       {
           $meal_type_id = "";
@@ -316,7 +418,6 @@ class SubscribeNowController extends Controller
           $arr_data['meal_type_id'] = ''; 
       }
 
-
       $address1_meal_data = $request->input('address1_meal', null); 
       if($address1_meal_data)
       {
@@ -326,7 +427,6 @@ class SubscribeNowController extends Controller
                  $address1_meal .= $value . ",";
           }
           $arr_data['address1_meal'] = substr($address1_meal,0,-1); 
-          //print_r($arr_data['address1_meal']); die;
       }else{
           $arr_data['address1_meal'] = ''; 
       }
@@ -343,43 +443,56 @@ class SubscribeNowController extends Controller
       }else{
           $arr_data['address2_meal'] = ''; 
       }
-
       
-      $status = SubscribeNow::where('id',$enc_id)->update($arr_data);      
+      $status = SubscribeNowDetails::where('id',$enc_id)->update($arr_data);      
       if($status)
       {
         Session::flash('success', 'Record updated successfully.');
-        return redirect($this->module_view_folder.'/view-subscribe-now');
+        return redirect(url()->previous());
       }
-
       Session::flash('error', 'Something went wrong.');
       return redirect('/admin/index');
     }   
 
     public function invoice(Request $request,$enc_id)
     {
+
       $user = \Sentinel::check();
       $data['session_user']  = Session::get('user');
+      //->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')
 
       if($data['session_user']){
-      
-      $arr_data = [];
-        $value     = \DB::table('subscribe_now')
-                        ->where('id',$enc_id)
-                        ->get();
+        $arr_data = [];
+        $value     = \DB::table('subscribe_now_details')->where('id',$enc_id)->get();
+
         if(!empty($value))
         {
             $arr_data = $value->toArray();
         }
         $data['arr_data']      = $arr_data;
+
+
         $physical_activity_id = '';
         
         foreach($arr_data as $row){
           $physical_activity_id = $row->physical_activity_id;
           $subscribe_now_plan_duration_id = $row->subscribe_now_plan_duration_id;
           $subscribe_now_plan_id = $row->subscribe_now_plan_id;
+          $subscribe_now_user_id = $row->subscribe_now_user_id;
         }
-        //print_r($subscribe_now_plan_duration_id); die;
+        
+        /*User Data Start*/
+        $subscribe_now_user = [];
+        $subscribe_now_user_value     = \DB::table('subscribe_now_user')->where('id',$subscribe_now_user_id)
+                        ->get();
+        if(!empty($subscribe_now_user_value))
+        {
+            $subscribe_now_user = $subscribe_now_user_value->toArray();
+        }
+        $data['subscribe_now_user'] = $subscribe_now_user;
+        /*User Data End*/
+        //print_r($data['subscribe_now_user']); die;
+
         /*Physical Activity Data Start*/
         $physical_activity_data = [];
         $physical_activity_value     = \DB::table('physical_activity')
@@ -451,6 +564,193 @@ class SubscribeNowController extends Controller
         //print_r($duration_data); die;
         echo json_encode($data);
     }
+
+    public function view_coupon_code(Request $request)
+    {
+        $user = \Sentinel::check();
+        $data['session_user']  = Session::get('user');
+
+        if($data['session_user']){
+
+        $arr_data = [];
+        $value     = \DB::table('coupon_code')
+                        ->where('is_deleted','No')
+                        ->orderBy('coupon_code_id','DESC')
+                        ->get();
+        if(!empty($value))
+        {
+            $arr_data = $value->toArray();
+        }
+        $data['arr_data']      = $arr_data;
+        
+        /*For Modal*/
+        $editarr_data = [];
+        $value     = \DB::table('coupon_code')->get();
+        if(!empty($value))
+        {
+            $editarr_data = $value->toArray();
+        }
+        $data['editarr_data']      = $editarr_data;
+
+        return view($this->module_view_folder.'.view-coupon-code',$data);
+      }else{
+          Session::flash('error', 'Something went wrong.');
+          return view('admin/auth/login');
+      }
+    }
+
+  public function store_coupon_code(Request $request)
+  {
+    
+    $arr_rules['_token']        = "required";
+
+    $validator = validator::make($request->all(),$arr_rules);
+
+    if($validator->fails()) 
+    {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $arr_data['coupon_code']       = $request->input('coupon_code', null);
+    $arr_data['extension_days'] = $request->input('extension_days', null);
+
+    $coupon_data = CouponcodeModel::where('coupon_code',$request->input('coupon_code', null))->update($arr_data);
+    
+    if($coupon_data){
+      Session::flash('duplicate_entry', 'Coupon code already exits!'); 
+      return redirect($this->module_view_folder.'/view-coupon-code');
+    }else{
+      $status = $this->CouponcodeModel->create($arr_data);
+      if($status)
+      {
+        Session::flash('success', 'Record added successfully.');
+        return redirect($this->module_view_folder.'/view-coupon-code');
+      }
+    }
+    Session::flash('error', 'Something went wrong.');
+    return redirect('/admin/index');
+  }
+
+  public function update_coupon_code(Request $request,$enc_id)
+  {
+    $arr_rules['_token']        = "required";
+
+    $validator = validator::make($request->all(),$arr_rules);
+
+    if($validator->fails()) 
+    {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $arr_data['coupon_code']       = $request->input('coupon_code', null);  
+    $arr_data['extension_days'] = $request->input('extension_days', null);
+
+    $coupon_data = CouponcodeModel::where('coupon_code',$request->input('coupon_code', null))->update($arr_data);
+
+    if($coupon_data){
+      Session::flash('duplicate_entry', 'Coupon code already exits!'); 
+      return redirect($this->module_view_folder.'/view-coupon-code');
+    }else{
+      $status = CouponcodeModel::where('coupon_code_id',base64_decode($enc_id))->update($arr_data);
+      if($status)
+      {
+        Session::flash('success', 'Record updated successfully.');
+        return redirect($this->module_view_folder.'/view-coupon-code');
+      }
+    }
+
+    Session::flash('error', 'Something went wrong.');
+    return redirect('/admin/index');
+  }
+  public function coupon_code_delete(Request $request,$enc_id)
+  {
+    $arr_data['is_deleted']  = 'Yes';
+
+    $exists_coupon_code = \DB::table('subscribe_now_details')->where('coupon_code_id',base64_decode($enc_id))->get();
+
+    if(!empty($exists_coupon_code))
+    {
+        $exists_coupon = $exists_coupon_code->toArray();
+    }
+    
+    if($exists_coupon)
+    {
+      Session::flash('error', 'Coupon code can not be delete as it is used in susbcription plan.');
+      return redirect($this->module_view_folder.'/view-coupon-code');
+    }else{
+      $status = CouponcodeModel::where('coupon_code_id',base64_decode($enc_id))->update($arr_data);
+      if($status)
+      {
+        Session::flash('success', 'Record deleted successfully.');
+        return redirect($this->module_view_folder.'/view-coupon-code');
+      } 
+    }
+    Session::flash('error', 'Something went wrong.');
+    return redirect('/admin/index');
+  }
+
+  public function coupon_code_active(Request $request,$enc_id)
+  {
+
+    $arr_rules['_token']        = "required";
+
+    $validator = validator::make($request->all(),$arr_rules);
+
+    if($validator->fails()) 
+    {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $arr_data['status'] = 'Active';
+    
+    $status = CouponcodeModel::where('coupon_code_id',base64_decode($enc_id))->update($arr_data);
+
+    if($status)
+    {
+      Session::flash('success', 'Record added successfully.');
+      return redirect($this->module_view_folder.'/view-coupon-code');
+    }
+
+    Session::flash('error', 'Something went wrong.');
+    return redirect('/admin/index');
+  }
+
+   public function coupon_code_inactive(Request $request,$enc_id)
+  {
+  
+    $arr_rules['_token']        = "required";
+
+    $validator = validator::make($request->all(),$arr_rules);
+
+    if($validator->fails()) 
+    {
+      return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    $arr_data['status'] = 'Inactive';
+    $exists_coupon_code = \DB::table('subscribe_now_details')->where('coupon_code_id',base64_decode($enc_id))->get();
+
+    if(!empty($exists_coupon_code))
+    {
+        $exists_coupon = $exists_coupon_code->toArray();
+    }
+
+    if($exists_coupon){
+      Session::flash('error', 'Coupon code can not be delete as it is used in susbcription plan.');
+      return redirect($this->module_view_folder.'/view-coupon-code');
+    }else{
+      $status = CouponcodeModel::where('coupon_code_id',base64_decode($enc_id))->update($arr_data);
+
+      if($status)
+      {
+        Session::flash('success', 'Record added successfully.');
+        return redirect($this->module_view_folder.'/view-coupon-code');
+      }
+    }
+    
+    Session::flash('error', 'Something went wrong.');
+    return redirect('/admin/index');
+  }
 
    
 }

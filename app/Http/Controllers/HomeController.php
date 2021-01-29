@@ -210,6 +210,7 @@ class HomeController extends Controller
 
     public function loadModal($id)
     {
+
         $getData = \DB::table('menu')
                     ->where('id',$id)
                     ->first();
@@ -217,6 +218,8 @@ class HomeController extends Controller
         $title = $getData->menu_title;
         $description = $getData->menu_description;
         $menu_main_img = url('/').'/uploads/images/'.$getData->image;
+        $mult_image = $getData->multiple_image;
+        //print_r($mult_image); die;
 
         $getSpecificationData = \DB::table('menu_specification')
                                 ->leftJoin('specification', 'menu_specification.specification_id', '=', 'specification.id')
@@ -257,12 +260,15 @@ class HomeController extends Controller
             $htmlData .= '<div class="MealModal-module">
             <article class="meals-overlay">
                 <div class="row">
-                    <div class="col-md-5">
-                        <div class="position-relative">
-                            <img class="mb-3 w-100" src="'.$menu_main_img.'">
-                        </div>
-                    </div>
-                    <div class="col-md-7">
+                    <div class="col-md-5">';
+                        $exp = explode(",", $mult_image);
+                        for($i=0; $i<count($exp); $i++){
+                        $image = url('/').'/uploads/images/'.$exp[$i];
+                        $htmlData .= '<div class="position-relative">
+                            <img class="mb-3 w-100" src="'.$image.'"></div>';
+                        }
+                    $htmlData .= '</div>';
+                    $htmlData .= '<div class="col-md-7">
                         <section class="title-wrap" style="padding:11px">
                             <div class="heading-title-">
                             <h2 class="pl-1">What makes this dish special</h2>

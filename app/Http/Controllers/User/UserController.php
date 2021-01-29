@@ -71,7 +71,7 @@ class UserController extends Controller
                 //$data['user'] = $request->only('email', 'password');
                 
                 //Session::put('user', $obj_group_user);   
-                print_r($request->session()->put("user",$obj_group_user)); die;
+                //print_r($request->session()->put("user",$obj_group_user)); die;
                 
                 $request->session()->put("user",$obj_group_user);
                 $request->session()->save();  
@@ -89,7 +89,6 @@ class UserController extends Controller
             }
             else
             {
-                echo"1"; die;
                 setcookie("remember_me_email","");
                 setcookie("remember_me_password","");
                 

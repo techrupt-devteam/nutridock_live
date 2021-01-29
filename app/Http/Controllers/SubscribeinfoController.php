@@ -8,15 +8,11 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use \Illuminate\Support\Str;
 use Illuminate\Support\Arr;
-
-
-
 use App\Models\SubscribeNowPlan;
 use App\Models\MealType;
 
 use Session;
 use Sentinel;
-
 use DB;
 use Validator;
 use URL;
@@ -24,9 +20,7 @@ use Mail;
 
 class SubscribeinfoController extends Controller
 {
-    public function __construct()
-    {
-       //$this->AboutusModel = new AboutusModel();
+    public function __construct(){
     }
     
     public function index()
