@@ -33,7 +33,8 @@
               </tr>
                   </thead>
                   <tbody>
-                     <?php $cnt=0; foreach($arr_data as $row): $cnt++; 
+            <?php $cnt=0; foreach($arr_data as $row): $cnt++;
+            //print_r($arr_data); die; 
               $id = $row->id;
               $data = \DB::table('subscribe_now_details')->where('is_deleted','No')->where('subscribe_now_user_id',$id)->get(); ?>
                     <tr>

@@ -7,7 +7,6 @@ class SubscribeNowUser extends Model
 {
     protected $table = 'subscribe_now_user';
     protected $fillable = [
-    						'name',
     						'email',
                             'password',
     						'phone_no'

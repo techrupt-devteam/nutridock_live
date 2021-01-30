@@ -21,14 +21,13 @@
 <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <style type="text/css">
     .mt10px{
-        margin-top: 10px;
+      margin-top: 10px;
     }
     .mt20px{
-        margin-top: 20px;
+      margin-top: 20px;
     }
-  
     p{
-        line-height: 25px;
+      line-height: 25px;
     }
     .wizard-navigation .active {
     text-align: center;
@@ -124,7 +123,7 @@
                           <label class="control-label">Mobile <span style="color:red;">*</span></label>
                           <div class="input-group mb-3">
                             <div class="input-group-prepend"> <span class="input-group-text" id="basic-addon3"><i class="fa fa-phone" aria-hidden="true"></i></span> </div>
-                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Mobile" name="phone_no" required="required" maxlength="10" minlength="10">
+                            <input type="text" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Mobile" name="phone_no" required="required" maxlength="10" minlength="10" onkeypress="return isNumberKey(event)">
                           </div>
                           <span id="err_mobile_no" style="color: red;font-size: 15px;"></span> </div>
                       </div>
@@ -136,7 +135,7 @@
                       <div class="col-sm-4 col-lg-3">
                         <div class="form-group label-floating">
                           <label class="control-label">Age <span style="color: red;">*</span></label>
-                          <input name="age" type="text" class="form-control" placeholder="Age" required="required">
+                          <input name="age" type="text" class="form-control" placeholder="Age" required="required" onkeypress="return isNumberKey(event)" maxlength="3" minlength="3">
                           <span style="color: red;font-size: 15px;" id="err_age"></span>
                         </div>
                       </div>
@@ -155,17 +154,17 @@
                       <div class="col-sm-4 col-lg-3">
                         <div class="form-group label-floating">
                           <label class="control-label">Weight <span style="color: red;">*</span></label>
-                          <input name="weight" type="text" class="form-control" placeholder="Kgs" required="required">
+                          <input name="weight" type="text" class="form-control" placeholder="Kgs" required="required" onkeypress="return isNumberKey(event)" maxlength="3" minlength="3">
                         </div>
                       </div>
                       <div class="col-sm-6 col-lg-3">
                         <label class="control-label">Height <span style="color: red;">*</span></label>
                         <div class="row">
                           <div class="col-6 pr-1">
-                            <input type="text" name="height_in_feet" class="form-control" placeholder="Feet" required="required">
+                            <input type="text" name="height_in_feet" class="form-control" placeholder="Feet" required="required" onkeypress="return isNumberKey(event)" maxlength="1" minlength="1">
                           </div>
                           <div class="col-6 pl-1">
-                            <input type="text" name="height_in_inches" class="form-control" placeholder="Inch">
+                            <input type="text" name="height_in_inches" class="form-control" placeholder="Inch" onkeypress="return isNumberKey(event)" maxlength="2" minlength="2">
                           </div>
                         </div>
                       </div>
@@ -173,34 +172,18 @@
                         <label class="control-label">Physical Activity <span style="color: red;">*</span></label>
                         <select class="form-control" name="physical_activity_id" id="physical_activity_id" required="required">
                           <option selected="selected" disabled="disabled" value="" >Select an option</option>
-                          
-                           
                            @foreach($data['getPhysicalActivityData'] as $getPhysicalActivity)
-                           
-                          
-                          <option value="{{ $getPhysicalActivity['physical_activity_id'] }}">{{ $getPhysicalActivity['physical_activity'] }}</option>
-                          
-                           
-                           @endforeach   
-                           
-                        
+                            <option value="{{ $getPhysicalActivity['physical_activity_id'] }}">{{ $getPhysicalActivity['physical_activity'] }}</option>
+                          @endforeach   
                         </select>
                       </div>
                       <div class="col-sm-4">
                         <label class="control-label">Avoid / Dislike Food <span style="color: red;">*</span></label>
                         <select id="demo" multiple name="avoid_or_dislike_food_id[]" required="required">
                           <option value="None">None</option>
-                          
-                          
                               @foreach($data['getFoodAvoidData'] as $getFoodAvoidData)
-                              
-                          
-                          <option value="{{ $getFoodAvoidData['food_avoid_id'] }}"> {{ $getFoodAvoidData['food_avoid_name'] }} </option>
-                          
-                          
+                                <option value="{{ $getFoodAvoidData['food_avoid_id'] }}"> {{ $getFoodAvoidData['food_avoid_name'] }} </option>
                               @endforeach  
-                              
-                          
                           <option value="Other">Other</option>
                         </select>
                       </div>
@@ -286,7 +269,7 @@
                       </div>
                       <div class="col-sm-4 mb-1">
                         <label class="control-label">Pincode <span style="color: red;">*</span></label>
-                        <input type="text" placeholder="Pincode" name="pincode1" id="pincode1" class="form-control" required="required">
+                        <input type="text" placeholder="Pincode" name="pincode1" id="pincode1" class="form-control" required="required" onkeypress="return isNumberKey(event)" maxlength="6" minlength="6">
                         <span id="err_pincode1" class="text-danger"></span>
                       </div>
                       <div class="col-sm-4 mb-1" id="mealtype_div">
@@ -307,7 +290,7 @@
                       </div>
                       <div class="col-sm-4 mb-1">
                         <label class="control-label">Pincode 2</label>
-                        <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control">
+                        <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control"  onkeypress="return isNumberKey(event)" maxlength="6" minlength="6">
                       </div>
                       <div class="col-sm-4 mb-1">
                         <label class="control-label">Select meal type</label>
@@ -452,14 +435,12 @@
                                              <input type="text" name="coupon_code" id="coupon_code_value" class="mx-auto d-block" onkeyup="couponCodeValue();" style="max-width: 90px;">
                                              <input type="hidden" id="days">
                                              <input type="hidden" id="end_date">
-                                             
                                              <input type="hidden" id="coupon_code_id">
                                              <span id="err_coupon_code" style="font-size: 10px;color: red;"></span>
-
                                             </td>
-
                                           </tr>
-                                          <tr style="display: none;" id="extension_message_row"><td colspan="4" style="font-size: 13px; color: green;"><div id="extension_message" style="text-align: center;background-color: azure;border: #999 dashed 1px; color: #000; padding: 2px;}"></div></td></tr>
+                                          <tr style="display: none;" id="extension_message_row"><td colspan="4" style="font-size: 13px; color: green;"><div id="extension_message" style="border: #999 dashed 1px;" class="alert-info p-2 text-center"></div>
+                                          <!-- text-align: center;background-color: azure;border: #999 dashed 1px; color: #000; padding: 2px; --></td></tr>
                                         </tfoot>
                                       </table>
                                     </div>
@@ -488,7 +469,7 @@
                     <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitFirstForm();" id="" rel=""/>
                   </div>
                   <div class="pull-right" id="next_butn2">
-                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitCheckBox();"  id="" rel="" />
+                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitCheckBox();"  id="next_butn2_input" rel="" />
                     <form id="web_order_summery_form" action="{{url('')}}/subscription_payment" method="post">
                       {{csrf_field()}}
                       <input type="hidden" id="razorpay_payment_id" name="razorpay_payment_id">
@@ -592,16 +573,30 @@ function calculatePrice()
   
   $.each($("input[data-value='radioFruitValue']:checked"), function(i){
     mealtype++;
-    val[i] = $(this).attr('dataname');
-    if(val[i]=="Snack"){
-        //alert("To subscribe our Classic Meal Plan, please select one more meal type along with snacks.");
-        $("#only_snack_avoid_div").show();
-        $("#only_snack_avoid").show();
-        return false;
-    }else if(val[i]!="Snack"){
+    val[i] = $(this).attr('data-name');
+   
+   if(mealtype==1){
+    if(val[i] == "Snack"){
+      $("#next_butn2_input").attr('disabled','disabled');
+      $("#only_snack_avoid_div").show();
+      $("#only_snack_avoid").show();
+      return false;
+    }else if(val[i] == "Dinner"){
+      $("#next_butn2_input").attr('disabled',false);
       $("#only_snack_avoid_div").hide();
       $("#only_snack_avoid").hide();
-      
+    }else{
+      $("#next_butn2_input").attr('disabled',false);
+      $("#only_snack_avoid_div").hide();
+      $("#only_snack_avoid").hide();
+    }
+   }else{
+      $("#next_butn2_input").attr('disabled',false);
+      $("#only_snack_avoid_div").hide();
+      $("#only_snack_avoid").hide();
+   }
+   /* if(val[i]=="Snack"){
+    }else if(val[i]!="Snack"){*/
     var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
     var final_gst_value = '';
     if(no_of_days==7){
@@ -609,7 +604,6 @@ function calculatePrice()
       if(discount_on_amount_value == 0){
         var discount_amt = cal_value * 5 / 100;
         var final_value = (cal_value - discount_amt);
-       
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
        
@@ -783,7 +777,7 @@ function calculatePrice()
          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
     }
   }
-    }
+    //}
   });
 }
 
@@ -839,14 +833,15 @@ function submitFirstForm(){
           //console.log(response);
           var data = $.parseJSON(response);
           if(data){
-            if(data.duplicate_message){
+            var subscribe_id = data.personal_data.id;
+            $('#subscribe_id').val(subscribe_id);  
+            /*if(data.duplicate_message){
               alert("You are already subscribed with us.Want to purchase new subscription plan ?");
-              //var subscribe_id = data.personal_data.id;
               $('#subscribe_id').val(data.personal_data);
             }else{
               var subscribe_id = data.personal_data.id;
               $('#subscribe_id').val(subscribe_id);  
-            }
+            }*/
           }
         },
     });
@@ -856,8 +851,10 @@ function submitFirstForm(){
 var meal_type_name = [];
 var meal_type_name1 = [];
 var meal_type_name2 = [];
+
 function submitCheckBox()
-{
+{ 
+    
     $("#checkout_meal_type_name_value").empty();  
     $.each($("input[name='radioFruit[]']:checked"), function(){
         meal_type_name.push($(this).attr('dataname'));     
@@ -1122,5 +1119,11 @@ function couponCodeValue(){
   });
 }
 
+function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
 </script> 
 @endsection 

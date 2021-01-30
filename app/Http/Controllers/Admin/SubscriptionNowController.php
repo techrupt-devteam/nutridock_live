@@ -39,15 +39,18 @@ class SubscriptionNowController extends Controller
 
         $user = \Sentinel::check();
         $data['session_user']  = Session::get('user');
+        
+        //->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')
 
         if($data['session_user']){
         $arr_data = [];
         $value     = \DB::table('subscribe_now_user')
-                        ->where('is_deleted','No')
-                        ->orderBy('id','DESC')
-                        ->groupBy('name')
-                        ->groupBy('phone_no')
-                        ->groupBy('email')
+                        ->where('subscribe_now_user.is_deleted','No')
+                        ->orderBy('subscribe_now_user.id','DESC')
+                        ->groupBy('subscribe_now_user.name')
+                        ->groupBy('subscribe_now_user.phone_no')
+                        ->groupBy('subscribe_now_user.email')
+                        ->join('subscribe_now_details','subscribe_now_details.id','=','subscribe_now_user.id')
                         ->get();
         if(!empty($value))
         {
@@ -64,8 +67,7 @@ class SubscriptionNowController extends Controller
     }
 
     public function view_subscribe_now(Request $request,$value1,$value2,$value3)
-    {	
-      
+    {	  
     	  $user = \Sentinel::check();
         $data['session_user']  = Session::get('user');
 
@@ -364,14 +366,10 @@ class SubscriptionNowController extends Controller
 
     public function update(Request $request,$enc_id)
     {
-      
-      //return redirect(url()->previous());
       $arr_rules      = $arr_data = array();
       $status         = false;
 
       $arr_rules['_token']        = "required";
-      /*$arr_rules['address1']      = "required";*/
-
       $validator = validator::make($request->all(),$arr_rules);
 
       if($validator->fails()) 
@@ -393,15 +391,22 @@ class SubscriptionNowController extends Controller
       $arr_data['physical_activity_id']   =   $request->input('physical_activity_id',null);
       $arr_data['food_precautions']  = $request->input('food_precautions',null);
       $arr_data['lifestyle_disease'] = $request->input('lifestyle_disease',null);
-                
-      $arr_data['start_date']   = $request->input('start_date', null);  
+      $arr_data['start_date']   = $request->input('start_date', null);            
+      
+      $expiry_date_value   = $request->input('expiry_date', null);  
+      $date = date_create($expiry_date_value);
+      $arr_data['expiry_date'] = date_format($date,"Y-m-d");
+
+      $extended_date_value   = $request->input('extended_date', null);  
+      $extended_date = date_create($extended_date_value);
+      $arr_data['extended_date'] = date_format($extended_date,"Y-m-d");
+      
+      $arr_data['coupon_code_id']   = $request->input('coupon_code_id', null);
       $arr_data['price']   = $request->input('price', null);
       $arr_data['total']   = $request->input('total', null);  
       $arr_data['discount']   = $request->input('discount', null);  
       $arr_data['payment_status']   = $request->input('payment_status', null);
-
       $avoid_or_dislike_food_value = $request->input('avoid_or_dislike_food_id'); 
-      
       $avoid_or_dislike_explode = explode(",",$avoid_or_dislike_food_value);
       for($i=0; $i<count($avoid_or_dislike_explode); $i++){
         if($avoid_or_dislike_explode[$i]=="Other"){
@@ -413,11 +418,9 @@ class SubscriptionNowController extends Controller
 
       $arr_data['avoid_or_dislike_food_id'] = $avoid_or_dislike_food_value;
       $arr_data['other_food'] = $other_value; 
-
       $arr_data['subscribe_now_plan_duration_id'] = $request->input('subscribe_now_plan_duration_id',null);
       $meal_type_id_data   = $request->input('meal_type_id', null);  
-      
-
+    
       if($meal_type_id_data)
       {
           $meal_type_id = "";
@@ -430,7 +433,6 @@ class SubscriptionNowController extends Controller
           $arr_data['meal_type_id'] = ''; 
       }
 
-
       $address1_meal_data = $request->input('address1_meal', null); 
       if($address1_meal_data)
       {
@@ -440,7 +442,6 @@ class SubscriptionNowController extends Controller
                  $address1_meal .= $value . ",";
           }
           $arr_data['address1_meal'] = substr($address1_meal,0,-1); 
-          //print_r($arr_data['address1_meal']); die;
       }else{
           $arr_data['address1_meal'] = ''; 
       }
@@ -462,7 +463,6 @@ class SubscriptionNowController extends Controller
       if($status)
       {
         Session::flash('success', 'Record updated successfully.');
-        //return redirect($this->module_view_folder.'/view-subscribe-now');
         return redirect(url()->previous());
       }
 

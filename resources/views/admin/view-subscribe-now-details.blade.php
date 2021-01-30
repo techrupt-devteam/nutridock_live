@@ -114,7 +114,6 @@
                                 $var_value = array_diff( $abc, ['Other'] );
                                 //if($avoid_or_dislike_food_id!="Other") {
                                     for($i=0;$i<count($abc); $i++){ 
-
                                         if($abc[$i]!='Other'){
                                             $foodavoiddata = \DB::table('food_avoid')->select('food_avoid_name')->where('food_avoid_id',$abc[$i])->get();
                                             //print_r(count($foodavoiddata)); die;
@@ -209,7 +208,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Expiry Date</label>
-                                <input type="text" id="expiry_date" class="form-control" name="expiry_date" placeholder="Expiry Date" value="<?php echo strftime('%d-%m-%Y',strtotime($row->expiry_date)); ?>" readonly="readonly">
+                                <input type="text" id="expiry_date" class="form-control" name="expiry_date" placeholder="Expiry Date" value="<?php if($row->expiry_date){ echo strftime('%d-%m-%Y',strtotime($row->expiry_date)); }else{ echo "00-00-0000"; } ?>" readonly="readonly">
                                 <input type="hidden" id="expiry_date_val" name="">
                             </div>
                         </div>
@@ -220,9 +219,10 @@
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Coupon Code</label>
                                 <input type="text" id="coupon_code_value" class="form-control" name="coupon_code" onkeyup="couponCodeValue();" placeholder="Coupon Code" value="<?php echo $coupon_row->coupon_code; ?>">
-                                <input type="hidden" name="" value="<?php echo $row->coupon_code_id; ?>">
+
+                                <input type="hidden" id="coupon_code_id" name="coupon_code_id" value="<?php echo $row->coupon_code_id; ?>">
                                 <input type="hidden" name="" id="extension_days" value="<?php echo $coupon_row->extension_days; ?>">
-                                <input type="hidden" id="coupon_code_id">
+                                <!-- <input type="hidden" id="coupon_code_id" name="coupon_code_id"> -->
                                 <span id="err_coupon_code" style="font-size: 14px;color: red;"></span>
                             </div>
                         </div><?php } ?>
@@ -565,11 +565,13 @@ function couponCodeValue(){
         $('#err_coupon_code').html("Coupon code not available");
        }else{
         $('#err_coupon_code').hide();
+
         var newDate = '';
         var data = $.parseJSON(result);
         var coupon = data[0].coupon_code_id;
         var extension_days = data[0].extension_days;
-        
+        $("#coupon_code_id").val(coupon);
+
         var e_date = document.getElementById('expiry_date').value;
         var dateAr = e_date.split('-');
         var newDate = dateAr[2] + '-' + dateAr[1] + '-' + dateAr[0];

@@ -7,6 +7,7 @@ class SubscribeNowDetails extends Model
 {
     protected $table = 'subscribe_now_details';
     protected $fillable = [
+                            'name',
                             'subscribe_now_user_id',
                             'coupon_code_id',
                             'age',

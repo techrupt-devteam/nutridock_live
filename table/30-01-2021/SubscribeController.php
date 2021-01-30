@@ -112,20 +112,19 @@ class SubscribeController extends Controller
         $arr_data['phone_no']   =   $request->input('phone_no', null);
         $arr_data['password'] = encrypt('sub_'.rand());
 
-        $subacribe_now_value     = \DB::table('subscribe_now_user')->where('phone_no',$arr_data['phone_no'])->where('email',$arr_data['email'])->get();
+        $subacribe_now_value     = \DB::table('subscribe_now_user')->where('phone_no',$arr_data['phone_no'])->where('name',$arr_data['name'])->where('email',$arr_data['email'])->get();
         $subacribe_now_data_exit = $subacribe_now_value->toArray();
 
-        $data['personal_data'] = SubscribeNowUser::create($arr_data);
-
-        /*if($subacribe_now_data_exit){
+        if($subacribe_now_data_exit){
             $data['duplicate_message'] = 'Already subscribed';
+            //$data['personal_data'] = SubscribeNowUser::create($arr_data);
             foreach($subacribe_now_data_exit as $row){
                 $id = $row->id;
                 $data['personal_data'] = $id;
             }
         }else{
             $data['personal_data'] = SubscribeNowUser::create($arr_data);
-        }*/
+        }
         echo json_encode($data);
     }
 
@@ -169,7 +168,7 @@ class SubscribeController extends Controller
         }else{
             $arr_data['extended_date'] = '';
         }
-        $arr_data['name']   =   $request->input('full_name', null);
+        //print_r($arr_data['extended_date']); die;
         $arr_data['subscribe_now_user_id']   =   $request->input('subscribe_id', null);
         $arr_data['age']      =   $request->input('age',null);
         $arr_data['gender']   =   $request->input('gender',null);
