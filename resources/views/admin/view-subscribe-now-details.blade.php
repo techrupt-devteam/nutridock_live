@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Full Name</label>
-                                <input type="text" class="form-control" name="" placeholder="Full Name" value="<?php echo $user_row->name ?? '' ?>" readonly="readonly">
+                                <input type="text" class="form-control" name="" placeholder="Full Name" value="<?php echo $row->name ?? '' ?>" readonly="readonly">
                             </div>
                         </div>
                     </div>
@@ -107,19 +107,14 @@
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food </label><br>
                                 <?php 
-                                /*$var = array_diff( [312, 401, 15, 401, 3], [401] );
-                                print_r($var); die;*/
                                 $avoid_or_dislike_food_id = $row->avoid_or_dislike_food_id;
                                 $abc = explode(",",$avoid_or_dislike_food_id);
                                 $var_value = array_diff( $abc, ['Other'] );
-                                //if($avoid_or_dislike_food_id!="Other") {
                                     for($i=0;$i<count($abc); $i++){ 
                                         if($abc[$i]!='Other'){
                                             $foodavoiddata = \DB::table('food_avoid')->select('food_avoid_name')->where('food_avoid_id',$abc[$i])->get();
-                                            //print_r(count($foodavoiddata)); die;
                                             for($j=0;$j<count($foodavoiddata); $j++){
-                                            foreach($foodavoiddata as $food_avoid_row):
-                                            //print_r($food_avoid_row->food_avoid_name); die; ?>
+                                            foreach($foodavoiddata as $food_avoid_row): ?>
                                             <strong><?php echo $food_avoid_row->food_avoid_name; ?></strong><?php endforeach;
                                          }
                                         }else{ ?>
@@ -132,8 +127,7 @@
                             </div>
                         </div>
                         <?php  } ?>
-                        
-
+                    
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food

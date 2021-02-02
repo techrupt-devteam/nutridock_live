@@ -76,6 +76,7 @@ Route::get('/thank-you', 'ThankYouController@index')->name('thank_you');
 
 Route::get('/subscribe-now', 'SubscribeController@index')->name('index');
 Route::get('getSubscribeNowPlanDuration/{id}', 'SubscribeController@SubscribeNowPlanDuration')->name('SubscribeNowPlanDuration');
+
 Route::post('subscription_payment', 'SubscribeController@subscription_payment')->name('subscription_payment');
 Route::get('subscription-success','SubscribeController@subscription_success');
 Route::get('subscription-failed','SubscribeController@subscription_failed');
@@ -100,7 +101,7 @@ Route::group(array('prefix' => 'admin','middleware'=>'auth_admin'), function (){
 	
 	Route::get('/view-subscribe-now-user',['as' => $route_slug.'view-subscribe-now-user','uses' => $module_controller.'index']);
 	
-	Route::any('/view-subscribe-now1/{value1}/{value2}/{value3}',['as' => $route_slug.'view_subscribe_now1','uses' => $module_controller.'view_subscribe_now1']);
+	Route::any('/view-subscribe-now1/{value1}/{value2}',['as' => $route_slug.'view_subscribe_now1','uses' => $module_controller.'view_subscribe_now1']);
 
 	Route::get('/view-subscribe-now-details/{id1}/{id2}',['as' => $route_slug.'view','uses' => $module_controller.'view']);
 
@@ -382,7 +383,7 @@ Route::group(array('prefix' => ''), function ()
 	
 	Route::get('/view-subscribe-now-user',['as' => $route_slug.'view-subscribe-now-user','uses' => $module_controller.'index']);
 	
-	Route::any('/view-subscribe-now/{value1}/{value2}/{value3}',['as' => $route_slug.'view_subscribe_now','uses' => $module_controller.'view_subscribe_now']);
+	Route::any('/view-subscribe-now/{id}',['as' => $route_slug.'view_subscribe_now','uses' => $module_controller.'view_subscribe_now']);
 
 	Route::get('/view-subscribe-now-details/{id1}/{id2}',['as' => $route_slug.'view','uses' => $module_controller.'view']);
 
@@ -394,8 +395,9 @@ Route::group(array('prefix' => ''), function ()
 
 	Route::get('/subscribe-now/export/',['as' => $route_slug.'export','uses' => $module_controller.'export']);
 
-	Route::get('/subscribe-now/export_user/{id1}/{id2}/{id3}',['as' => $route_slug.'export_user','uses' => $module_controller.'export_user']);
+	//Route::get('/subscribe-now/export_user/{id1}/{id2}/{id3}',['as' => $route_slug.'export_user','uses' => $module_controller.'export_user']);
 
+	Route::get('/subscribe-now/export_user/{id}',['as' => $route_slug.'export_user','uses' => $module_controller.'export_user']);
 	
 	Route::get('/subscribe-now/export_subscriber/{id}',['as' => $route_slug.'export_subscriber','uses' => $module_controller.'export_subscriber']);
 

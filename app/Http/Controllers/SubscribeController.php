@@ -84,9 +84,9 @@ class SubscribeController extends Controller
             $duration_data = $duration_value->toArray();
         }
         $data['duration_data'] = $duration_data;
-        //print_r($duration_data); die;
         echo json_encode($data);
     }
+
 
     public function getMealTypeDataAjax(Request $request)
     {
@@ -100,14 +100,12 @@ class SubscribeController extends Controller
             $meal_data = $meal_value->toArray();
         }
         $data['meal_data']  = $meal_data;
-        //print_r($data['meal_data']); die;
     }
    
 
     public function postFormDetails(Request $request)
     { 
         $arr_rules['_token']         = "required";
-        /*$arr_data['name']   =   $request->input('full_name', null);*/
         $arr_data['email']   =   $request->input('email', null);
         $arr_data['phone_no']   =   $request->input('phone_no', null);
         $arr_data['password'] = encrypt('sub_'.rand());
@@ -116,16 +114,6 @@ class SubscribeController extends Controller
         $subacribe_now_data_exit = $subacribe_now_value->toArray();
 
         $data['personal_data'] = SubscribeNowUser::create($arr_data);
-
-        /*if($subacribe_now_data_exit){
-            $data['duplicate_message'] = 'Already subscribed';
-            foreach($subacribe_now_data_exit as $row){
-                $id = $row->id;
-                $data['personal_data'] = $id;
-            }
-        }else{
-            $data['personal_data'] = SubscribeNowUser::create($arr_data);
-        }*/
         echo json_encode($data);
     }
 

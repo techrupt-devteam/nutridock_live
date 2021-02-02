@@ -28,13 +28,18 @@
   }
  </style>
     <div class="container-fluid">
-      <?php foreach($arr_data as $arr_data_row); //print_r($arr_data_row); die; ?>
+      <?php  
+      $arr_data_row = [];
+        foreach($subscribe_now_details as $arr_data_row); 
+      ?>
     <!-- DataTales Example -->
           <div class="card shadow mb-4 mt-4">
             <div class="card-header py-3">
               All Subscription Plan List
               <div class="float-right">
-                <a href="{{url('')}}/admin/subscribe-now/export_user/<?php echo base64_encode($arr_data_row->name).'/'.base64_encode($arr_data_row->phone_no).'/'.base64_encode($arr_data_row->email); ?>" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Download</a>&nbsp;
+              <?php if($arr_data_row){ ?>
+                <a href="{{url('')}}/admin/subscribe-now/export_user/<?php echo base64_encode($arr_data_row->subscribe_now_user_id);  ?>" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Download</a>&nbsp;
+              <?php } ?>
                 <a href="{{url('')}}/admin/view-subscribe-now-user" class="btn btn-dark btn-sm float-right" data-toggle="tooltip" data-placement="left" title="Back"><i class="fas fa-long-arrow-alt-right"></i></a>
               </div><br><br>
                @if(Session::has('success'))
@@ -50,6 +55,7 @@
                     <tr>
                       <!-- <th >User&nbsp;Details</th> -->
                       <th>Sr.&nbsp;No</th>
+                      <th >Name</th>
                       <th >Order&nbsp;Date</th>
                       <th >Start&nbsp;Date</th>
                       <th >Plan</th>
@@ -68,6 +74,7 @@
                    <tbody>
                     <tr>
                       <td><?php echo $cnt; ?></td>
+                      <td><?php echo $row->name; ?></td>
                       <td><?php echo date('d M', strtotime($row->created_at)); ?></td>
                       <td><?php echo date('d M', strtotime($row->start_date)); ?></td>
                       <td> <?php 

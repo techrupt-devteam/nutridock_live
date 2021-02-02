@@ -39,18 +39,14 @@ class SubscriptionNowController extends Controller
 
         $user = \Sentinel::check();
         $data['session_user']  = Session::get('user');
-        
-        //->join('subscribe_discount','subscribe_discount.subscribe_discount_id','=','subscribe_now_plan_duration.subscribe_discount_id')
 
         if($data['session_user']){
         $arr_data = [];
         $value     = \DB::table('subscribe_now_user')
-                        ->where('subscribe_now_user.is_deleted','No')
-                        ->orderBy('subscribe_now_user.id','DESC')
-                        ->groupBy('subscribe_now_user.name')
-                        ->groupBy('subscribe_now_user.phone_no')
-                        ->groupBy('subscribe_now_user.email')
-                        ->join('subscribe_now_details','subscribe_now_details.id','=','subscribe_now_user.id')
+                        ->where('is_deleted','No')
+                        ->orderBy('id','DESC')
+                        ->groupBy('phone_no')
+                        ->groupBy('email')
                         ->get();
         if(!empty($value))
         {
@@ -66,35 +62,21 @@ class SubscriptionNowController extends Controller
         }
     }
 
-    public function view_subscribe_now(Request $request,$value1,$value2,$value3)
+    public function view_subscribe_now(Request $request,$id)//$value1,$value2,$value3
     {	  
+
     	  $user = \Sentinel::check();
         $data['session_user']  = Session::get('user');
-
         if($data['session_user']){
-        $arr_data = [];
-        $value     = \DB::table('subscribe_now_user','subscribe_now_details')->where('subscribe_now_user.is_deleted','No')->where('name',base64_decode($value1))->where('phone_no',base64_decode($value2))->where('email',base64_decode($value3))->get();
-
-        if(!empty($value))
-        {
-            $arr_data = $value->toArray();
-        }
-
-        $data['arr_data']      = $arr_data;
-        //print_r(count($data['arr_data'])); die;
-
-        foreach ($arr_data as $value) {
-          $id = $value->id;
-        }
-
         $subscribe_now_details = [];
-        $subscribe_now_details_data     = \DB::table('subscribe_now_details')->where('is_deleted','No')->where('subscribe_now_user_id',$id)->orderBy('id','DESC')->get();
-
+        $subscribe_now_details_data = \DB::table('subscribe_now_details')->where('subscribe_now_details.subscribe_now_user_id',$id)->where('subscribe_now_details.is_deleted','No')->get();
         if(!empty($subscribe_now_details_data))
         {
             $subscribe_now_details = $subscribe_now_details_data->toArray();
         }
         $data['subscribe_now_details'] = $subscribe_now_details;
+        //print_r($data['subscribe_now_details']); die;
+
         /*For Modal*/
         $editarr_data = [];
         $value     = \DB::table('subscribe_now_details')->where('subscribe_now_user_id',$id)->get();
@@ -104,11 +86,9 @@ class SubscriptionNowController extends Controller
         }
         $data['editarr_data']      = $editarr_data;
         //print_r($data['editarr_data']); die;
-
         $data['page_name'] = "Subscribe Now List";
-        //$data['title']     = $this->title;
+        
         return view($this->module_view_folder.'.view-subscribe-now',$data)->with('no', 1);
-
         }else{
            return view('admin/auth/login');
         }
@@ -117,7 +97,8 @@ class SubscriptionNowController extends Controller
     public function view(Request $request,$id1,$id2)
     { 
 
-      $user = \Sentinel::check();
+      
+        $user = \Sentinel::check();
         $data['session_user']  = Session::get('user');
 
         if($data['session_user']){
@@ -130,7 +111,6 @@ class SubscriptionNowController extends Controller
             $arr_data = $value->toArray();
         }
         $data['arr_data'] = $arr_data;
-
          
         $user_arr_data = [];
         $user_value     = \DB::table('subscribe_now_user')
@@ -141,8 +121,6 @@ class SubscriptionNowController extends Controller
             $user_arr_data = $user_value->toArray();
         }
         $data['user_arr_data'] = $user_arr_data;
-        //print_r($data['user_arr_data']); die;
-
         
 
         $physical_activity_id = '';
@@ -161,14 +139,11 @@ class SubscriptionNowController extends Controller
             $physical_activity_data = $coupon_code_value->toArray();
         }
         $data['coupon_code_data'] = $coupon_code_data;
-        //print_r($data['coupon_code_data']); die;
         /*Coupon Code Data End*/
 
         /*Physical Activity Data Start*/
         $physical_activity_data = [];
-        $physical_activity_value     = \DB::table('physical_activity')
-                        //->where('physical_activity_id',$physical_activity_id)
-                        ->get();
+        $physical_activity_value     = \DB::table('physical_activity')->get();
         if(!empty($physical_activity_value))
         {
             $physical_activity_data = $physical_activity_value->toArray();
@@ -228,18 +203,14 @@ class SubscriptionNowController extends Controller
     public function approve_status(Request $request,$enc_id)
     {   
         $blog_id = $request->input('blog_id', null);
-
         $arr_data['approve_status'] = 'Approve';
-
         $status = SubscribeNowDetails::where('id',$enc_id)->update($arr_data);
-
         if($status)
         {
           Session::flash('success', 'Subscriber approve successfully.');
           //return redirect($this->module_view_folder.'/view-subscribe-now');
           return redirect(url()->previous());
         }
-
         Session::flash('error', 'Something went wrong.');
         return view('admin/auth/login');
     }
@@ -247,24 +218,18 @@ class SubscriptionNowController extends Controller
     public function disapprove_status(Request $request,$enc_id)
     {
       $arr_data['approve_status'] = 'Disapprove';
-
       $status = SubscribeNowDetails::where('id',$enc_id)->update($arr_data);
-
       if($status)
       {
         Session::flash('success', 'Subscriber disapprove successfully.');
         //return redirect($this->module_view_folder.'/view-subscribe-now');
         return redirect(url()->previous());
       }
-
       Session::flash('error', 'Something went wrong.');
       return redirect('/admin/index');
-      
     }
 
     function export(){
-      
-
       $arr_data = [];
       $value     = \DB::table('subscribe_now_user')->orderBy('id','DESC')->get();
       if(!empty($value))
@@ -276,31 +241,29 @@ class SubscriptionNowController extends Controller
       return view($this->module_view_folder.'.subscribe-now-export',$data)->with('no', 1);
     }
 
-    function export_user(Request $request,$id1,$id2,$id3){
+    function export_user(Request $request,$id){
+      //$id1,$id2,$id3
+
       $arr_data = [];
-      $value     = \DB::table('subscribe_now_user')->where('name',base64_decode($id1))->where('phone_no',base64_decode($id2))->where('email',base64_decode($id3))->orderBy('id','DESC')->get();
+      $value     = \DB::table('subscribe_now_details')->join('subscribe_now_user','subscribe_now_user.id','=','subscribe_now_details.subscribe_now_user_id')->where('subscribe_now_details.subscribe_now_user_id',base64_decode($id))->orderBy('subscribe_now_details.id','ASC')->get();
       if(!empty($value))
       {
           $arr_data = $value->toArray();
       }
       $data['arr_data']      = $arr_data;
-      
 
       $physical_activity_id = '';
       foreach($arr_data as $row){
         $subscribe_now_user_id = $row->id;
       }
 
-      //print_r($subscribe_now_user_id); die;
-
       $arr_details = [];
-      $details_value     = \DB::table('subscribe_now_details')->where('subscribe_now_user_id',$subscribe_now_user_id)->orderBy('id','DESC')->get();
+      $details_value     = \DB::table('subscribe_now_details')->where('subscribe_now_user_id',$subscribe_now_user_id)->orderBy('id','ASC')->get();
       if(!empty($details_value))
       {
           $arr_details = $details_value->toArray();
       }
       $data['arr_details'] = $arr_details;
-      //print_r($data['arr_details']); die;
 
       $physical_activity_id = '';
       foreach($arr_details as $row){
@@ -332,10 +295,11 @@ class SubscriptionNowController extends Controller
           $arr_data = $value->toArray();
       }
       $data['arr_data']      = $arr_data;
+      //print_r($data['arr_data']); die;
       foreach($arr_data as $row){
         $subscribe_now_user_id = $row->subscribe_now_user_id;
       }
-      //print_r($subscribe_now_user_id); die;
+     
 
       $user_arr_data = [];
       $user_value     = \DB::table('subscribe_now_user')->where('id',$subscribe_now_user_id)->get();

@@ -763,11 +763,7 @@ $('.pincode4').keydown(function(e) {
 }
 } 
 });
-
 });
-
-
-
 
 function searchPincode(){
   var pincode_value = $(".pincode").val();
@@ -988,53 +984,36 @@ function calculatePrice()
   if(subscribe_now_pkg_price_value==0){
   $.each($("input[data-value='radioFruitValue']:checked"), function(){
     mealtype++;
-   /* var final_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
-    $('#final_value').html('Rs.'+final_value);
-    $('#price').val(final_value);*/ 
-    
-    var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
-    console.log(subscribe_now_price_per_meal_value);
-    
+    //var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
+
     if(no_of_days==7){
-      var percente_amt = cal_value * 5 / 100;
-      var final_value = (cal_value - percente_amt);
-      var gst_value = final_value * 5 / 100;
-      var final_gst_value = final_value + gst_value;
+      var discount_amt = subscribe_now_price_per_meal_value * 5 / 100; 
+      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
+      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
 
-      $('#final_value').html('Rs.'+final_gst_value);
-      $('#price').val(final_gst_value);   
-      /*$('#final_value_details').html('Rs. 237.5 per meal');
-      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');*/
+      $('#final_value').html('Rs.'+cal_value);
+      $('#price').val(cal_value);   
     }else if(no_of_days==15){
-      var percente_amt = cal_value * 12 / 100;
-      var final_value = (cal_value - percente_amt);
-      var gst_value = final_value * 5 / 100;
-      var final_gst_value = final_value + gst_value;
+      var discount_amt = subscribe_now_price_per_meal_value * 12 / 100; 
+      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
+      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
 
-      $('#final_value').html('Rs.'+final_gst_value);
-      $('#price').val(final_gst_value);    
-      /*$('#final_value_details').html('Rs. 220 per meal'); 
-      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');*/
+      $('#final_value').html('Rs.'+cal_value);
+      $('#price').val(cal_value);    
     }else if(no_of_days==30){
-      var percente_amt = cal_value * 20 / 100;
-      var final_value = (cal_value - percente_amt);
-      var gst_value = final_value * 5 / 100;
-      var final_gst_value = final_value + gst_value;
+      var discount_amt = subscribe_now_price_per_meal_value * 20 / 100; 
+      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
+      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
 
-      $('#final_value').html('Rs.'+final_gst_value);
-      $('#price').val(final_gst_value);
-      /*$('#final_value_details').html('Rs. 200 per meal');   
-      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');*/
+      $('#final_value').html('Rs.'+cal_value);
+      $('#price').val(cal_value);
     }else if(no_of_days==60){
-      var percente_amt = cal_value * 25 / 100;
-      var final_value = (cal_value - percente_amt);
-      var gst_value = final_value * 5 / 100;
-      var final_gst_value = final_value + gst_value;
-      
-      $('#final_value').html('Rs.'+final_gst_value);
-      $('#price').val(final_gst_value);  
-      /*$('#final_value_details').html('Rs. 187.5 per meal');      
-      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');*/
+      var cal_value1 = subscribe_now_price_per_meal_value * 25 / 100; //82.5
+      var cal_value2 = subscribe_now_price_per_meal_value - cal_value1;//247.5
+      var cal_value = no_of_days * mealtype * Math.round(cal_value2);//44640
+    
+      $('#final_value').html('Rs.'+cal_value);
+      $('#price').val(cal_value);  
     }
   });
   }else{

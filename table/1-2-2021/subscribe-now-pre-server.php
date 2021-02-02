@@ -21,13 +21,14 @@
 <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <style type="text/css">
     .mt10px{
-      margin-top: 10px;
+        margin-top: 10px;
     }
     .mt20px{
-      margin-top: 20px;
+        margin-top: 20px;
     }
+  
     p{
-      line-height: 25px;
+        line-height: 25px;
     }
     .wizard-navigation .active {
     text-align: center;
@@ -43,12 +44,12 @@
     box-shadow: 0 16px 26px -10px rgba(78, 244, 54, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(176, 244, 54, 0.2);
 }
 .bl-0{
-  border-left:0px !important
+	border-left:0px !important
 }
 .br-0{
-  border-right:0px !important 
-  }
-  .checkbox a , .checkbox {
+	border-right:0px !important	
+	}
+	.checkbox a , .checkbox {
     color: #222;
     font-size: 14px;
 }
@@ -148,7 +149,6 @@
                             <option value="Male">Male</option>
                             <option value="Other">Other</option>
                           </select>
-                          <input type="hidden" id="subscribe_id" name="subscribe_id">
                         </div>
                       </div>
                       <div class="col-sm-4 col-lg-3">
@@ -173,8 +173,8 @@
                         <select class="form-control" name="physical_activity_id" id="physical_activity_id" required="required">
                           <option selected="selected" disabled="disabled" value="" >Select an option</option>
                            @foreach($data['getPhysicalActivityData'] as $getPhysicalActivity)
-                            <option value="{{ $getPhysicalActivity['physical_activity_id'] }}">{{ $getPhysicalActivity['physical_activity'] }}</option>
-                          @endforeach   
+                          <option value="{{ $getPhysicalActivity['physical_activity_id'] }}">{{ $getPhysicalActivity['physical_activity'] }}</option>
+                           @endforeach   
                         </select>
                       </div>
                       <div class="col-sm-4">
@@ -182,7 +182,7 @@
                         <select id="demo" multiple name="avoid_or_dislike_food_id[]" required="required">
                           <option value="None">None</option>
                               @foreach($data['getFoodAvoidData'] as $getFoodAvoidData)
-                                <option value="{{ $getFoodAvoidData['food_avoid_id'] }}"> {{ $getFoodAvoidData['food_avoid_name'] }} </option>
+                          <option value="{{ $getFoodAvoidData['food_avoid_id'] }}"> {{ $getFoodAvoidData['food_avoid_name'] }} </option>
                               @endforeach  
                           <option value="Other">Other</option>
                         </select>
@@ -213,7 +213,7 @@
                     <!-- {{csrf_field()}} -->
                     <div class="row">
                       <div class="col-sm-6 col-lg-5 mb-1">
-                        <label class="control-label">Start Date<span style="color: red;">*</span></label> 
+                        <label class="control-label">Start Date<span style="color: red;">*</span></label>
                         <input type="text" class="mt10px input form-control" id="start_date" value="<?php echo date("Y-m-d", strtotime("+ 2 day")) ?>">
                       </div>
                       <div class="col-sm-6 mb-1">
@@ -228,18 +228,16 @@
                         <label class="control-label"> Type of meals <span style="color:red;">*</span></label>
                         <div id="meals">
                           <div class="chk-toolbar"> @foreach($data['getMealTypeData'] as $getMealTypeData)
-                            <input type="checkbox" id="radio{{ $getMealTypeData['meal_type_name'] }}" name="radioFruit[]" data-value="radioFruitValue" data-no="1" class="meal_type_id" value="{{ $getMealTypeData['meal_type_id'] }}" dataname="{{ $getMealTypeData['meal_type_name'] }}" onclick="calculatePrice();" required="required" data-name="{{ $getMealTypeData['meal_type_name'] }}">
+                            <input type="checkbox" dataname="{{ $getMealTypeData['meal_type_name'] }}" id="radio{{ $getMealTypeData['meal_type_name'] }}" name="radioFruit[]" data-value="radioFruitValue" data-no="1" class="meal_type_id" value="{{ $getMealTypeData['meal_type_id'] }}" dataname="{{ $getMealTypeData['meal_type_name'] }}" onclick="calculatePrice();" required="required">
                             <label for="radio{{ $getMealTypeData['meal_type_name'] }}">{{ $getMealTypeData['meal_type_name'] }}</label>
                             @endforeach </div>
                         </div>
                         <input type="hidden" name="" id="checkout_meal_type_name_value">
                       </div>
-
                       <div class="col-sm-12 mb-1" style="display: none;" id="only_snack_avoid_div">
                         <span id="only_snack_avoid" style="color: red;font-size: 12px;">To subscribe our Classic Meal Plan, please select one more meal type along with snacks.</span>
                       </div>
-
-
+                      
                       <div class="col-sm-12 mb-1">
                         <div class="">
                           <label class="control-label">Price</label>
@@ -253,6 +251,7 @@
                       </div>
                     </div>
                     <span style="font-size: 12px;"><span style="color: #e81212;">*</span> 5% GST applicable</span> 
+                    
                     <!-- </form> --> 
                   </div>
                   <!-- Choose Plane End-->
@@ -290,7 +289,7 @@
                       </div>
                       <div class="col-sm-4 mb-1">
                         <label class="control-label">Pincode 2</label>
-                        <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control"  onkeypress="return isNumberKey(event)" maxlength="6" minlength="6">
+                        <input type="text" placeholder="Pincode 2" name="pincode2" id="pincode2" class="form-control" onkeypress="return isNumberKey(event)" maxlength="6" minlength="6">
                       </div>
                       <div class="col-sm-4 mb-1">
                         <label class="control-label">Select meal type</label>
@@ -425,8 +424,8 @@
                                             <th class="text-right bl-0" style="border-top: 0px;"><span id="checkout_final_gst_value"></span> </th>
                                             <!-- 284.4.40 --> 
                                           </tr>
-
-                                           <tr>
+                                          
+                                          <tr>
                                             <td colspan="3" style="border-right: 0;">
                                               <button class="btn float-right btn-sm" onclick="applyCoupon();">Apply coupon</button>
                                             </td>
@@ -438,16 +437,15 @@
                                              <input type="hidden" id="coupon_code_id">
                                              <span id="err_coupon_code" style="font-size: 10px;color: red;"></span>
                                             </td>
-                                          </tr>
-                                          <tr style="display: none;" id="extension_message_row"><td colspan="4" style="font-size: 13px; color: green;"><div id="extension_message" style="border: #999 dashed 1px;" class="alert-info p-2 text-center"></div>
-                                          <!-- text-align: center;background-color: azure;border: #999 dashed 1px; color: #000; padding: 2px; --></td></tr>
+                                        </tr>
+                                        <tr style="display: none;" id="extension_message_row"><td colspan="4" style="font-size: 13px; color: green;"><div id="extension_message" style="border: #999 dashed 1px;" class="alert-info p-2 text-center"></div></td></tr>
                                         </tfoot>
                                       </table>
                                     </div>
                                   </div>
                                   <!--  <div class="invoice-footer mt25">
-                            <p class="text-center pb-0"> <a href="#" class="btn btn-success ml15"><i class="fa fa-send mr5"></i> Pay Now  </a></p>
-                        </div> --> 
+                                        <p class="text-center pb-0"> <a href="#" class="btn btn-success ml15"><i class="fa fa-send mr5"></i> Pay Now  </a></p>
+                                    </div> --> 
                                 </div>
                                 <!-- col-lg-12 end here --> 
                               </div>
@@ -469,7 +467,7 @@
                     <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitFirstForm();" id="" rel=""/>
                   </div>
                   <div class="pull-right" id="next_butn2">
-                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitCheckBox();"  id="next_butn2_input" rel="" />
+                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next' value='Next' onclick="submitCheckBox();" id="next_butn2_input" rel="" />
                     <form id="web_order_summery_form" action="{{url('')}}/subscription_payment" method="post">
                       {{csrf_field()}}
                       <input type="hidden" id="razorpay_payment_id" name="razorpay_payment_id">
@@ -521,15 +519,13 @@ $('#start_date').dateTimePicker({
 $(document).ready(function() {
  $('#next_butn2').hide();
 });
-
+    
 var mySessionId='';
 $(document).ready(function() {
 var x = new SlimSelect({
   select: '#demo'
 });
-
 var mySessionId = '<?php echo Session::getId(); ?>';
-
 var x = new SlimSelect({
   select: '#mealtype1'
 });
@@ -552,7 +548,6 @@ function calculatePrice()
   var subscribe_now_price_per_meal_value = '';
   var discount_on_amount_value = '';
   var discount_in_percent_value = '';
-  var discount_in_percent_value = '';
   $.ajax({
         type: "GET",
         url: "{{ URL::to('/') }}/getSubscribeNowPlanDuration/"+no_of_days,             
@@ -567,18 +562,15 @@ function calculatePrice()
             discount_in_percent_value = this[0].discount_in_percent;              
             subscribe_now_pkg_price_value =  this[0].subscribe_now_pkg_price;
             subscribe_now_price_per_meal_value =  this[0].subscribe_now_price_per_meal;
-            discount_in_percent_value =  this[0].discount_in_percent;
           });
         }
     });
   var mealtype=0;
-  console.log(discount_in_percent_value);
-
   $.each($("input[data-value='radioFruitValue']:checked"), function(i){
     mealtype++;
-    val[i] = $(this).attr('data-name');
-   
-   if(mealtype==1){
+    val[i] = $(this).attr('dataname');
+    
+    if(mealtype==1){
     if(val[i] == "Snack"){
       $("#next_butn2_input").attr('disabled','disabled');
       $("#only_snack_avoid_div").show();
@@ -598,53 +590,25 @@ function calculatePrice()
       $("#only_snack_avoid_div").hide();
       $("#only_snack_avoid").hide();
    }
-   
-  /*var discount_amt = subscribe_now_price_per_meal_value * discount_in_percent_value / 100;
-  var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
-  var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-  
-  var gst_value = cal_value * 5 / 100;
-  var final_gst_value = cal_value + gst_value;
-
-  $('#final_value').html('Rs.'+cal_value);
-  $('#price').val(final_gst_value);
-  $('#total').val(cal_value);
-  $('#discount_value').val(discount_amt);
-
-  $('#final_value_details').html('Rs. 314.00 per meal');
-  $('#close_value').html('Rs.'+ cal_value+' for'+ no_of_days+ 'days | Rs. '+subscribe_now_price_per_meal_value+' per meal');
-  $("#checkout_price").html(cal_value);
-  $("#checkout_final_gst_value").html(final_gst_value); */
-
-
-
-
-
-
-
-
-
-
-
-
+        
+    //var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
     var final_gst_value = '';
     if(no_of_days==7){
       if(subscribe_now_pkg_price_value==0){
       if(discount_on_amount_value == 0){
-        var discount_amt = subscribe_now_price_per_meal_value * 5 / 100; //16.5
-        var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-        var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-        
-        var gst_value = cal_value * 5 / 100;
-        var final_gst_value = cal_value + gst_value;
-        $('#final_value').html('Rs.'+cal_value);
+        var discount_amt = cal_value * 5 / 100;
+        var final_value = (cal_value - discount_amt);
+        var gst_value = final_value * 5 / 100;
+        var final_gst_value = final_value + gst_value;
+       
+        $('#final_value').html('Rs.'+final_value);
         $('#price').val(final_gst_value);
-        $('#total').val(cal_value);
+        $('#total').val(final_value);
         $('#discount_value').val(discount_amt);
 
         $('#final_value_details').html('Rs. 314.00 per meal');
-        $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
-        $("#checkout_price").html(cal_value);
+        $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 330 per meal');
+        $("#checkout_price").html(final_value);
         $("#checkout_final_gst_value").html(final_gst_value);  
       }else{
         var final_value = cal_value - discount_on_amount_value;
@@ -662,13 +626,12 @@ function calculatePrice()
         $("#checkout_final_gst_value").html(final_gst_value);  
       }
     }else{
-      
       $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
       $('#gst_value').val(0);
       $('#price').val(subscribe_now_pkg_price_value);
 
       $('#final_value_details').html('Rs. 314.00 per meal');
-      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
+      $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 330 per meal');
       $("#checkout_price").html(subscribe_now_pkg_price_value);
       $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
     }
@@ -676,22 +639,20 @@ function calculatePrice()
     if(no_of_days==15){
       if(subscribe_now_pkg_price_value==0){
       if(discount_on_amount_value == 0){
-      var discount_amt = subscribe_now_price_per_meal_value * 12 / 100; //16.5
-      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-
-      var gst_value = cal_value * 5 / 100;
-      var final_gst_value = cal_value + gst_value;
+      var discount_amt = cal_value * 12 / 100;
+      var final_value = (cal_value - discount_amt);
+      var gst_value = final_value * 5 / 100;
+      var final_gst_value = final_value + gst_value;
       
-      $('#final_value').html('Rs.'+cal_value);
+      $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);    
-      $('#total').val(cal_value);
+      $('#total').val(final_value);
       $('#discount_value').val(discount_amt);
 
       $('#final_value_details').html('Rs. 290.00 per meal'); 
-      $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
-      $("#checkout_price").html(cal_value);
-      $("#checkout_final_gst_value").html(final_gst_value);
+      $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 330 per meal');
+      $("#checkout_price").html(subscribe_now_pkg_price_value);
+      $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
     }else{
         var final_value = cal_value - discount_on_amount_value;
         var gst_value = final_value * 5 / 100;
@@ -703,7 +664,7 @@ function calculatePrice()
         $('#discount_value').val(discount_on_amount_value);
 
         $('#final_value_details').html('Rs. 290.00 per meal'); 
-        $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
+        $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 330 per meal');
         $("#checkout_price").html(final_value);
         $('#gst_lable').hide();
         $("#checkout_final_gst_value").html(final_gst_value);
@@ -714,7 +675,7 @@ function calculatePrice()
           $('#price').val(subscribe_now_pkg_price_value);
 
           $('#final_value_details').html('Rs. 290.00 per meal'); 
-          $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
+          $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 330 per meal');
           $("#checkout_price").html(subscribe_now_pkg_price_value);
           $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
       }
@@ -723,20 +684,19 @@ function calculatePrice()
     if(no_of_days==30){
       if(subscribe_now_pkg_price_value==0){
       if(discount_on_amount_value == 0){
-      var discount_amt = subscribe_now_price_per_meal_value * 20 / 100; //16.5
-      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-
-      var gst_value = cal_value * 5 / 100;
-      var final_gst_value = cal_value + gst_value;      
-      $('#final_value').html('Rs.'+cal_value);
+      var discount_amt = cal_value * 20 / 100;
+      var final_value = (cal_value - discount_amt);
+      var gst_value = final_value * 5 / 100;
+      var final_gst_value = final_value + gst_value;
+      
+      $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);
-      $('#total').val(cal_value);
+      $('#total').val(final_value);
       $('#discount_value').val(discount_amt);
 
       $('#final_value_details').html('Rs. 264.00 per meal');   
-      $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
-      $("#checkout_price").html(cal_value);
+      $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 330 per meal');
+      $("#checkout_price").html(final_value);
       $("#checkout_final_gst_value").html(final_gst_value);
     }else{
         var final_value = cal_value - discount_on_amount_value;
@@ -749,7 +709,7 @@ function calculatePrice()
         $('#discount_value').val(discount_on_amount_value);
 
         $('#final_value_details').html('Rs. 264.00 per meal');   
-        $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
+        $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 330 per meal');
         $("#checkout_price").html(final_value);
         $("#checkout_final_gst_value").html(final_gst_value);
     }
@@ -759,7 +719,7 @@ function calculatePrice()
           $('#price').val(subscribe_now_pkg_price_value);
 
           $('#final_value_details').html('Rs. 264.00 per meal');   
-          $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
+          $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 330 per meal');
           $("#checkout_price").html(subscribe_now_pkg_price_value);
           $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
       }
@@ -768,24 +728,25 @@ function calculatePrice()
    if(no_of_days==60){
     if(subscribe_now_pkg_price_value==0){
       if(discount_on_amount_value == 0){
-      var discount_amt = subscribe_now_price_per_meal_value * 25 / 100; //16.5
-      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-      var gst_value = cal_value * 5 / 100;
-      var final_gst_value = cal_value + gst_value;
-      $('#final_value').html('Rs.'+cal_value);
+      var discount_amt = cal_value * 25 / 100;
+      var final_value = (cal_value - discount_amt);
+      var gst_value = final_value * 5 / 100;
+      var final_gst_value = final_value + gst_value;
+      
+      $('#final_value').html('Rs.'+final_value);
       $('#price').val(final_gst_value);  
-      $('#total').val(cal_value);
+      $('#total').val(final_value);
       $('#discount_value').val(discount_amt);
 
       $('#final_value_details').html('Rs. 248.00 per meal');      
-      $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
-      $("#checkout_price").html(cal_value);
+      $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 330 per meal');
+      $("#checkout_price").html(final_value);
       $("#checkout_final_gst_value").html(final_gst_value);
     }else{
         var final_value = cal_value - discount_on_amount_value;
         var gst_value = final_value * 5 / 100;
         var final_gst_value = final_value + gst_value;
+        //console.log(final_gst_value);
        
         $('#final_value').html('Rs.'+final_value);
         $('#price').val(final_gst_value);
@@ -793,7 +754,7 @@ function calculatePrice()
         $('#discount_value').val(discount_on_amount_value);
 
         $('#final_value_details').html('Rs. 248.00 per meal');      
-        $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
+        $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 330 per meal');
         $("#checkout_price").html(final_value);
         $("#checkout_final_gst_value").html(final_gst_value);
     }
@@ -803,24 +764,24 @@ function calculatePrice()
           $('#price').val(subscribe_now_pkg_price_value);
 
          $('#final_value_details').html('Rs. 248.00 per meal');      
-         $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
+         $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 330 per meal');
          $("#checkout_price").html(subscribe_now_pkg_price_value);
          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
     }
   }
-  //}
+   // }
   });
 }
 
 function showAddress()
 {
-  if ($('#optionsCheckboxes').is(":checked")){
-     $("#mealtype_div").hide();
-        $(".secondaddress").hide();
-  }else{
-    $("#mealtype_div").show();
-        $(".secondaddress").show();
-  }
+    if ($('#optionsCheckboxes').is(":checked")){
+       $("#mealtype_div").hide();
+          $(".secondaddress").hide();
+    }else{
+      $("#mealtype_div").show();
+          $(".secondaddress").show();
+    }
 }
 
 function submitFirstForm(){
@@ -861,18 +822,12 @@ function submitFirstForm(){
               },
         'async': false,
         success: function(response){
-          //console.log(response);
           var data = $.parseJSON(response);
-          if(data){
-            var subscribe_id = data.personal_data.id;
-            $('#subscribe_id').val(subscribe_id);  
-            /*if(data.duplicate_message){
-              alert("You are already subscribed with us.Want to purchase new subscription plan ?");
-              $('#subscribe_id').val(data.personal_data);
-            }else{
-              var subscribe_id = data.personal_data.id;
-              $('#subscribe_id').val(subscribe_id);  
-            }*/
+
+          if(data.message == 'error'){
+            
+            alert('You are already subscribed with us');
+            return false;
           }
         },
     });
@@ -882,16 +837,13 @@ function submitFirstForm(){
 var meal_type_name = [];
 var meal_type_name1 = [];
 var meal_type_name2 = [];
-
 function submitCheckBox()
-{ 
+{
+$("#checkout_meal_type_name_value").empty();  
+$.each($("input[name='radioFruit[]']:checked"), function(){
+    meal_type_name.push($(this).attr('dataname'));     
+});
     
-    $("#checkout_meal_type_name_value").empty();  
-    $.each($("input[name='radioFruit[]']:checked"), function(){
-        meal_type_name.push($(this).attr('dataname'));     
-    });
-    
-
 var unique = [];
 unique = meal_type_name.filter(function(itm, i, a) {
     return i == meal_type_name.indexOf(itm);
@@ -929,6 +881,7 @@ $.each(selectValues, function(key, value) {
   //$.session.set("myVar", "99");
 
 }); 
+
   var subscribe_now = $('input[name="radNoOfDays"]:checked').attr('data-id');
   $("#checkout_no_of_days").html(subscribe_now);
   $("#checkout_address1").html($('#address1').val());
@@ -993,7 +946,6 @@ function submitFormPersonal()
   var lifestyle_disease= $("#lifestyle_disease").val();
   var start_date= $("#start_date").val();
   var subscribe_now_plan_duration_id = $('input[name="radNoOfDays"]:checked').val();
-  var subscribe_id  = $("#subscribe_id").val();
   var coupon_code_id  = $("#coupon_code_id").val();
   
   var meal_type_id = [];
@@ -1001,7 +953,7 @@ function submitFormPersonal()
       meal_type_id.push($(this).val());
   });
   meal_type_id = meal_type_id.toString();
-  //console.log(coupon_code_id);
+  //console.log(meal_type_id);
 
 
   var address1= $("#address1").val();
@@ -1055,7 +1007,7 @@ function submitFormPersonal()
   $.ajax({
         type: "POST",
         url: "{{ URL::to('/') }}/postPersonalDetails",             
-        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food, price:price,total:total,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2,subscribe_id:subscribe_id,coupon_code_id:coupon_code_id
+        data: {_token: _token,full_name: full_name, email: email, phone_no: phone_no,age: age,gender: gender,weight: weight,height_in_feet: height_in_feet,height_in_inches: height_in_inches,physical_activity_id: physical_activity_id,avoid_or_dislike_food_id:avoid_or_dislike_food_id,address1_meal:address1_meal,address2_meal:address2_meal, other_food:other_food, price:price,total:total,discount:discount, food_precautions: food_precautions,lifestyle_disease:lifestyle_disease, start_date: start_date,subscribe_now_plan_duration_id: subscribe_now_plan_duration_id,meal_type_id: meal_type_id,address1: address1,pincode1: pincode1,address2: address2,pincode2: pincode2,coupon_code_id:coupon_code_id
         },
           'async': false,
           success: function(result){
@@ -1069,9 +1021,10 @@ function submitFormPersonal()
             razor_id = data.id;
           
             options = {
-              "key": "rzp_test_KcySdv9YlIpqGP",
+              "key": "rzp_live_nIAT6tuTld7O9t",
               /*rzp_live_nIAT6tuTld7O9t*/
               /*rzp_test_KcySdv9YlIpqGP*/
+              
               "amount": razor_amount*100,//100 
               "currency": "INR",
               "name": "Nutridock",
@@ -1105,16 +1058,19 @@ function submitFormPersonal()
 $('#demo').on('change', function (e) {
 $('#other_food_div').hide();
     var avoid_dislike_food = $('#demo').val();
+    //console.log(avoid_dislike_food);
     $("#demo :selected").each(function() {
       if(this.value == "Other")
       {
         $('#other_food_div').show();
       }else if(this.value != "Other"){
+        //console.log(this.value);
         $('#other_food_div').hide();
       }else{
         $('#other_food_div').hide();
       }
     });
+     
 });
 
 function applyCoupon()

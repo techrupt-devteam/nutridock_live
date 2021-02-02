@@ -56,7 +56,7 @@
     ?>
       <tr>
         <td><?php echo $o;?></td>
-        <td><?php echo $row->name; ?></td>
+        <td><?php echo $val->name; ?></td>
         <td style="text-align: left;"><?php echo $row->phone_no; ?></td>
         <td style="text-align: left;"><?php echo date('d M', strtotime($val->created_at)); ?></td>
         <td style="text-align: left;"><?php echo date('d M', strtotime($val->start_date)); ?> </td>

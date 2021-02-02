@@ -8,6 +8,8 @@ use App\Models\SubscriptionModel;
 use App\Models\ContactModel;
 use App\Models\CommentModel;
 use App\Models\SubscribeNow;
+use App\Models\SubscribeNowDetails;
+
 
 use Session;
 use Validator;
@@ -25,6 +27,7 @@ class DashboardController extends Controller
 		$this->ContactModel					= new ContactModel();
 		$this->CommentModel					= new CommentModel();
 		$this->SubscribeNow					= new SubscribeNow();
+		$this->SubscribeNowDetails			= new SubscribeNowDetails();
 	}
 
 	
@@ -65,7 +68,7 @@ class DashboardController extends Controller
 
         /*Show count in dashboard*/
         $subscribenow_arr = [];
-        $subscribenow_data = $this->SubscribeNow->orderBy('id','ASC')->get();
+        $subscribenow_data = $this->SubscribeNowDetails->orderBy('id','ASC')->get();
        
         if($subscribenow_data)
         {
