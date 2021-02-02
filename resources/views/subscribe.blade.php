@@ -571,8 +571,8 @@ function calculatePrice()
           });
         }
     });
+
   var mealtype=0;
-  console.log(discount_in_percent_value);
 
   $.each($("input[data-value='radioFruitValue']:checked"), function(i){
     mealtype++;
@@ -599,70 +599,51 @@ function calculatePrice()
       $("#only_snack_avoid").hide();
    }
    
-  /*var discount_amt = subscribe_now_price_per_meal_value * discount_in_percent_value / 100;
-  var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
-  var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-  
-  var gst_value = cal_value * 5 / 100;
-  var final_gst_value = cal_value + gst_value;
-
-  $('#final_value').html('Rs.'+cal_value);
-  $('#price').val(final_gst_value);
-  $('#total').val(cal_value);
-  $('#discount_value').val(discount_amt);
-
-  $('#final_value_details').html('Rs. 314.00 per meal');
-  $('#close_value').html('Rs.'+ cal_value+' for'+ no_of_days+ 'days | Rs. '+subscribe_now_price_per_meal_value+' per meal');
-  $("#checkout_price").html(cal_value);
-  $("#checkout_final_gst_value").html(final_gst_value); */
-
-
-
-
-
-
-
-
-
-
-
-
     var final_gst_value = '';
-    if(no_of_days==7){
-      if(subscribe_now_pkg_price_value==0){
-      if(discount_on_amount_value == 0){
-        var discount_amt = subscribe_now_price_per_meal_value * 5 / 100; //16.5
-        var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-        var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-        
-        var gst_value = cal_value * 5 / 100;
-        var final_gst_value = cal_value + gst_value;
-        $('#final_value').html('Rs.'+cal_value);
-        $('#price').val(final_gst_value);
-        $('#total').val(cal_value);
-        $('#discount_value').val(discount_amt);
+    var discount_amt = subscribe_now_price_per_meal_value * discount_in_percent_value / 100;
+    var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
+    console.log(cal_value2);
+    var cal_value = no_of_days * mealtype * Math.round(cal_value2);
+   
+    var gst_value = cal_value * 5 / 100;
+    var final_gst_value = cal_value + gst_value;
 
-        $('#final_value_details').html('Rs. 314.00 per meal');
-        $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 250 per meal');
-        $("#checkout_price").html(cal_value);
-        $("#checkout_final_gst_value").html(final_gst_value);  
-      }else{
-        var final_value = cal_value - discount_on_amount_value;
-        var gst_value = final_value * 5 / 100;
-        var final_gst_value = final_value + gst_value;
-       
-        $('#final_value').html('Rs.'+final_value);
-        $('#price').val(final_gst_value);
-        $('#total').val(final_value);
-        $('#discount_value').val(discount_on_amount_value);
+  if(subscribe_now_pkg_price_value==0){
+    if(discount_on_amount_value == 0){
+    var discount_amt = subscribe_now_price_per_meal_value * discount_in_percent_value / 100;
+    var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
+    var cal_value = no_of_days * mealtype * Math.round(cal_value2);
+    var gst_value = cal_value * 5 / 100;
+    var final_gst_value = cal_value + gst_value;
 
-        $('#final_value_details').html('Rs. 314.00 per meal');
-        $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 330 per meal');
-        $("#checkout_price").html(final_value);
-        $("#checkout_final_gst_value").html(final_gst_value);  
-      }
+    $('#final_value').html('Rs.'+cal_value);
+    $('#price').val(final_gst_value);
+    $('#total').val(cal_value);
+    $('#discount_value').val(discount_amt);
+
+    $('#final_value_details').html('Rs.'+  Math.round(cal_value2) +' .00 per meal');
+    $('#close_value').html('Rs.'+ cal_value+' for'+ no_of_days+ 'days | Rs. '+subscribe_now_price_per_meal_value+' per meal');
+    $("#checkout_price").html(cal_value);
+    $("#checkout_final_gst_value").html(final_gst_value);
+
     }else{
-      
+    var total_amt = no_of_days * mealtype * subscribe_now_price_per_meal_value;
+    var cal_value = total_amt - discount_on_amount_value;
+    
+    var gst_value = cal_value * 5 / 100;
+    var final_gst_value = cal_value + gst_value;
+  
+    $('#final_value').html('Rs.'+cal_value);
+    $('#price').val(final_gst_value);
+    $('#total').val(cal_value);
+    $('#discount_value').val(discount_on_amount_value);
+
+    $('#final_value_details').html('Rs. 314.00 per meal');
+    $('#close_value').html('Rs.'+ cal_value+' for 7 days | Rs. 330 per meal');
+    $("#checkout_price").html(cal_value);
+    $("#checkout_final_gst_value").html(final_gst_value);  
+    }
+  }else{
       $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
       $('#gst_value').val(0);
       $('#price').val(subscribe_now_pkg_price_value);
@@ -672,143 +653,6 @@ function calculatePrice()
       $("#checkout_price").html(subscribe_now_pkg_price_value);
       $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
     }
-    }
-    if(no_of_days==15){
-      if(subscribe_now_pkg_price_value==0){
-      if(discount_on_amount_value == 0){
-      var discount_amt = subscribe_now_price_per_meal_value * 12 / 100; //16.5
-      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-
-      var gst_value = cal_value * 5 / 100;
-      var final_gst_value = cal_value + gst_value;
-      
-      $('#final_value').html('Rs.'+cal_value);
-      $('#price').val(final_gst_value);    
-      $('#total').val(cal_value);
-      $('#discount_value').val(discount_amt);
-
-      $('#final_value_details').html('Rs. 290.00 per meal'); 
-      $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
-      $("#checkout_price").html(cal_value);
-      $("#checkout_final_gst_value").html(final_gst_value);
-    }else{
-        var final_value = cal_value - discount_on_amount_value;
-        var gst_value = final_value * 5 / 100;
-        var final_gst_value = final_value + gst_value;
-       
-        $('#final_value').html('Rs.'+final_value);
-        $('#price').val(final_gst_value);
-        $('#total').val(final_value);
-        $('#discount_value').val(discount_on_amount_value);
-
-        $('#final_value_details').html('Rs. 290.00 per meal'); 
-        $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
-        $("#checkout_price").html(final_value);
-        $('#gst_lable').hide();
-        $("#checkout_final_gst_value").html(final_gst_value);
-    }
-      }else{
-          $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
-          $('#gst_value').val(0);
-          $('#price').val(subscribe_now_pkg_price_value);
-
-          $('#final_value_details').html('Rs. 290.00 per meal'); 
-          $('#close_value').html('Rs.'+ cal_value+' for 15 days | Rs. 250 per meal');
-          $("#checkout_price").html(subscribe_now_pkg_price_value);
-          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
-      }
-    }
-
-    if(no_of_days==30){
-      if(subscribe_now_pkg_price_value==0){
-      if(discount_on_amount_value == 0){
-      var discount_amt = subscribe_now_price_per_meal_value * 20 / 100; //16.5
-      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-
-      var gst_value = cal_value * 5 / 100;
-      var final_gst_value = cal_value + gst_value;      
-      $('#final_value').html('Rs.'+cal_value);
-      $('#price').val(final_gst_value);
-      $('#total').val(cal_value);
-      $('#discount_value').val(discount_amt);
-
-      $('#final_value_details').html('Rs. 264.00 per meal');   
-      $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
-      $("#checkout_price").html(cal_value);
-      $("#checkout_final_gst_value").html(final_gst_value);
-    }else{
-        var final_value = cal_value - discount_on_amount_value;
-        var gst_value = final_value * 5 / 100;
-        var final_gst_value = final_value + gst_value;
-       
-        $('#final_value').html('Rs.'+final_value);
-        $('#price').val(final_gst_value);
-        $('#total').val(final_value);
-        $('#discount_value').val(discount_on_amount_value);
-
-        $('#final_value_details').html('Rs. 264.00 per meal');   
-        $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
-        $("#checkout_price").html(final_value);
-        $("#checkout_final_gst_value").html(final_gst_value);
-    }
-      }else{
-          $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
-          $('#gst_value').val(0);
-          $('#price').val(subscribe_now_pkg_price_value);
-
-          $('#final_value_details').html('Rs. 264.00 per meal');   
-          $('#close_value').html('Rs.'+ cal_value+' for 30 days | Rs. 250 per meal');
-          $("#checkout_price").html(subscribe_now_pkg_price_value);
-          $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
-      }
-    }
-  
-   if(no_of_days==60){
-    if(subscribe_now_pkg_price_value==0){
-      if(discount_on_amount_value == 0){
-      var discount_amt = subscribe_now_price_per_meal_value * 25 / 100; //16.5
-      var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;//313.5
-      var cal_value = no_of_days * mealtype * Math.round(cal_value2);
-      var gst_value = cal_value * 5 / 100;
-      var final_gst_value = cal_value + gst_value;
-      $('#final_value').html('Rs.'+cal_value);
-      $('#price').val(final_gst_value);  
-      $('#total').val(cal_value);
-      $('#discount_value').val(discount_amt);
-
-      $('#final_value_details').html('Rs. 248.00 per meal');      
-      $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
-      $("#checkout_price").html(cal_value);
-      $("#checkout_final_gst_value").html(final_gst_value);
-    }else{
-        var final_value = cal_value - discount_on_amount_value;
-        var gst_value = final_value * 5 / 100;
-        var final_gst_value = final_value + gst_value;
-       
-        $('#final_value').html('Rs.'+final_value);
-        $('#price').val(final_gst_value);
-        $('#total').val(final_value);
-        $('#discount_value').val(discount_on_amount_value);
-
-        $('#final_value_details').html('Rs. 248.00 per meal');      
-        $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
-        $("#checkout_price").html(final_value);
-        $("#checkout_final_gst_value").html(final_gst_value);
-    }
-    }else{
-          $('#final_value').html('Rs.'+subscribe_now_pkg_price_value);
-          $('#gst_value').val(0);
-          $('#price').val(subscribe_now_pkg_price_value);
-
-         $('#final_value_details').html('Rs. 248.00 per meal');      
-         $('#close_value').html('Rs.'+ cal_value+' for 60 days | Rs. 250 per meal');
-         $("#checkout_price").html(subscribe_now_pkg_price_value);
-         $("#checkout_final_gst_value").html(subscribe_now_pkg_price_value);
-    }
-  }
-  //}
   });
 }
 
@@ -885,13 +729,10 @@ var meal_type_name2 = [];
 
 function submitCheckBox()
 { 
-    
-    $("#checkout_meal_type_name_value").empty();  
-    $.each($("input[name='radioFruit[]']:checked"), function(){
-        meal_type_name.push($(this).attr('dataname'));     
-    });
-    
-
+  $("#checkout_meal_type_name_value").empty();  
+  $.each($("input[name='radioFruit[]']:checked"), function(){
+      meal_type_name.push($(this).attr('dataname'));     
+  });
 var unique = [];
 unique = meal_type_name.filter(function(itm, i, a) {
     return i == meal_type_name.indexOf(itm);
@@ -903,12 +744,11 @@ $("#checkout_meal_type_name_value").val(unique);
 
 var $option = [];
 var $mySelect = '';
-
 var selectValues;
 selectValues = unique;
 $mySelect = $('#mealtype1');
-
 var $option = '';
+
 $('#mealtype1').empty();
 $.each(unique, function(key, value) {
   $option = $("<option/>", {
@@ -926,13 +766,11 @@ $.each(selectValues, function(key, value) {
     text: value
   });
   $("#mealtype2").append($option);
-  //$.session.set("myVar", "99");
-
 }); 
+
   var subscribe_now = $('input[name="radNoOfDays"]:checked').attr('data-id');
   $("#checkout_no_of_days").html(subscribe_now);
   $("#checkout_address1").html($('#address1').val());
-  
       if($('#address2').val().length!=0){
         $('#checkout_address2_div').show();
         $('#openbrk1').show();
@@ -1003,12 +841,10 @@ function submitFormPersonal()
   meal_type_id = meal_type_id.toString();
   //console.log(coupon_code_id);
 
-
   var address1= $("#address1").val();
   var pincode1= $("#pincode1").val();
   var address2= $("#address2").val();
   var pincode2= $("#pincode2").val();
-  
 
   if(full_name==""){
     $('#err_full_name').html("Please enter full name.");
