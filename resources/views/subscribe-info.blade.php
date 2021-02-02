@@ -8,13 +8,10 @@
       <div class="carousel-caption">
         <h1 class="ff-h1 _38">Proper nutrition is the key to unlock your full potential. Subscribe to our meals daily and enjoy abundant health and deliciousness.
         </h1>
-        <!-- <form action="{{url('')}}/search" target="blank" method="GET"> -->
         <div class="input-group mx-auto" style="max-width: 460px;">
           <input type="number" class="form-control pincode" placeholder="Pincode" maxlength="6"  aria-describedby="basic-addon3" required="required">
-         <!--  <input type="number" class="form-control" id="basic-url" aria-describedby="basic-addon3" placeholder="Mobile" name="phone_no" required="required" maxlength="10" minlength="10" > -->
           <div class="input-group-append">
             <span class="input-group-text btn btn-darkblue">
-              <!-- <a href="https://nutridock.com/subscribe_now" class="text-white btn get-start-btn">Get Started</a> -->
               <button type="submit" value="submit" class="text-white btn get-start-btn" onclick="searchPincode()">Get Started</button>
             </span>
           </div>
@@ -23,21 +20,17 @@
         <span id="err_pincode_not_available" style="color: red;font-size: 15px;"></span>
         <span id="err_pincode_value" style="color: red;font-size: 15px;"></span>
         </div>
-        <!-- </form> -->
       </div>  
-
     </div>
     <div class="carousel-item">
       <img src="{{url('')}}/public/front/img/Pre-workout.png" alt="Pre-workout nutrition is necessary for performance and post-workout nutrition is necessary for progress." style="max-height: 520px;width: 100%">
       <div class="carousel-caption">
         <h1 class="ff-h1 _38">Pre-workout nutrition is necessary for performance and post-workout nutrition is necessary for progress.  <br/> Subscribe Now!
         </h1>
-        
         <div class="input-group mx-auto" style="max-width: 460px;">
           <input type="text" class="form-control pincode1" placeholder="Pincode" maxlength="6"  aria-describedby="basic-addon3" required="required">
           <div class="input-group-append">
             <span class="input-group-text btn btn-darkblue">
-              <!-- <a href="https://nutridock.com/subscribe_now" class="text-white btn get-start-btn">Get Started</a> -->
                <button type="submit" value="submit" class="text-white btn get-start-btn" onclick="searchPincode1()">Get Started</button>
             </span>
           </div>
@@ -53,12 +46,10 @@
       <div class="carousel-caption">
         <h1 class="ff-h1 _38">You can’t fix your health, until you fix your diet. Reach your health goals with personalised meal plans by our expert nutritionist. 
         </h1>
-        
        <div class="input-group mx-auto" style="max-width: 460px;">
           <input type="text" class="form-control pincode2" id="command" placeholder="Pincode" maxlength="6"  aria-describedby="basic-addon3" required="required">
           <div class="input-group-append">
             <span class="input-group-text btn btn-darkblue">
-              <!-- <a href="https://nutridock.com/subscribe_now" class="text-white btn get-start-btn">Get Started</a> -->
               <button type="submit" value="submit" class="text-white btn get-start-btn" onclick="searchPincode2()">Get Started</button>
             </span>
           </div>
@@ -74,12 +65,10 @@
       <div class="carousel-caption">
         <h1 class="ff-h1 _38">Exercise is king. Nutrition is queen. Put them together and you have got a kingdom. Let us help you build your kingdom. 
         </h1>
-        
         <div class="input-group mx-auto" style="max-width: 460px;">
           <input type="text" class="form-control pincode3" id="command" placeholder="Pincode" maxlength="6" aria-describedby="basic-addon3" required="required">
           <div class="input-group-append">
             <span class="input-group-text btn btn-darkblue">
-              <!-- <a href="https://nutridock.com/subscribe_now" class="text-white btn get-start-btn">Get Started</a> -->
               <button type="submit" value="submit" class="text-white btn get-start-btn" onclick="searchPincode3()">Get Started</button>
             </span>
           </div>
@@ -95,12 +84,10 @@
       <div class="carousel-caption">
         <h1 class="ff-h1 _38">Eating well is a habit. Cultivate it with our subscription plans customised as per your needs and loaded with flavours. 
         </h1>
-        
        <div class="input-group mx-auto" style="max-width: 460px;">
           <input type="text" class="form-control pincode4" id="command" placeholder="Pincode" maxlength="6" aria-describedby="basic-addon3" required="required">
           <div class="input-group-append">
             <span class="input-group-text btn btn-darkblue">
-              <!-- <a href="https://nutridock.com/subscribe_now" class="text-white btn get-start-btn">Get Started</a> -->
               <button type="submit" value="submit" class="text-white btn get-start-btn" onclick="searchPincode4()">Get Started</button>
             </span>
           </div>
@@ -114,7 +101,6 @@
     </div>
   </div>
 </div>
-
 
   <section class="how-to-work">
     <h2>How does it work?</h2>
@@ -228,7 +214,6 @@
           <span class="darkgrey light-weight text-transform-none">What 
             <strong>will you get?</strong> </span> 
           </h3>
-         <!--  <p class="mx-auto" style="max-width: 700px">Nutritdock ensures our food has all these qualities and more.Here is a quick view on what you can expect from our subscription plans.</p> -->
       </div>
       <div class="row row-xl row-30 row-md-40 row-lg-50 align-items-center">
         <div class="col-md-5 col-xl-4">
@@ -301,13 +286,11 @@
       </div>
     </div>
   </section>
-
   <section class="Subscription-Plans">
     <div class="container">
      <div class="row">  
       <div class="col-md-6  d-none d-md-block d-lg-block">
         <div class="zig-zag-left-image fit-home"></div>
-       <!--  <img src="{{url('')}}/public/front/img/10.jpeg" alt="New York" style="max-height: 520px;width: 100%"> -->
       </div>
       <div class="col-md-6 align-self-center">
         <div class="zig-zac-text-div">
@@ -320,25 +303,13 @@
                     <input type="checkbox" id="radio{{ $getMealTypeData['meal_type_name'] }}" name="radioFruit[]" data-value="radioFruitValue" class="meal_type_id valid" value="{{ $getMealTypeData['meal_type_id'] }}" onclick="calculatePrice();" required="required" aria-required="true" aria-invalid="false">
                     <label for="radio{{ $getMealTypeData['meal_type_name'] }}">{{ $getMealTypeData['meal_type_name'] }}</label>
                 @endforeach
-                  <!--<input type="checkbox" id="radioBreakfast" name="radioFruit[]" data-value="radioFruitValue" class="meal_type_id valid" value="1" onclick="calculatePrice();" required="required" aria-required="true" aria-invalid="false">
-                    <label for="radioBreakfast">Breakfast</label>
-                  <input type="checkbox" id="radioLunch" name="radioFruit[]" data-value="radioFruitValue" class="meal_type_id" value="2" onclick="calculatePrice();" required="required" aria-required="true" aria-invalid="false">
-                    <label for="radioLunch">Lunch</label>
-                  <input type="checkbox" id="radioSnack" name="radioFruit[]" data-value="radioFruitValue" class="meal_type_id" value="3" onclick="calculatePrice();" required="required" aria-required="true" aria-invalid="false">
-                    <label for="radioSnack">Snack</label>
-                  <input type="checkbox" id="radioDinner" name="radioFruit[]" data-value="radioFruitValue" class="meal_type_id" value="4" onclick="calculatePrice();" required="required" aria-required="true">
-                    <label for="radioDinner">Dinner</label>-->
               </div>
-
             </div>
             <div class="form-group">
-              
               <div class="row">
                 <div class="col-4 pr-0 px-md-2">
                   <label class="label-control">Pincode</label>
                   <input type="number" placeholder="Pincode" class="form-control pincode_form" maxlength="6" required="required">
-                  
-
                 </div>
                 <div class="col-4 ">
                   <label class="label-control">Number&nbsp;of&nbsp;days</label>
@@ -346,10 +317,6 @@
                   @foreach($data['getSubscribeNowPlan']['duration'] as $key => $duration_dtl)
                   <option value="{{ $duration_dtl['subscribe_now_duration'] }}">{{ $duration_dtl['subscribe_now_duration'] }}</option>
                   @endforeach
-                  <!--<option>7</option>
-                  <option>15</option>
-                  <option>30</option>
-                  <option>60</option>-->
                 </select>
                 </div>
                 <div class="col-4 col-lg-4 px-0 px-md-2">
@@ -357,8 +324,6 @@
                   <span class="Plans-price" style="margin-top: 31px; text-align:left" id="final_value"></span>
                   <span style="color:red; font-size: 12px;"><b>* 5% GST applicable</b></span>
                 </div>
-
-
               </div>
               <div class="row">
                 <div class="col-md-12">
@@ -366,11 +331,8 @@
                   <span id="err_pincode_value_form" style="color: red; font-size: 14px;"></span>
               </div>
               </div>
-
             </div>
-            <!--<a href="{{url('')}}/subscribe_now" class="btn btn-darkblue text-white">Get Started</a>-->
             <button type="submit" value="submit" class="btn btn-darkblue text-white" onclick="searchPincodeForm()">Get Started</button><br>
-            
           </form>
           <a href="{{url('')}}/faq" style="color: #222;" class="d-block mt-3"> <strong style="color: red;">*</strong> Please find answers to all your subscription related queries</a>
         </div>
@@ -378,58 +340,6 @@
      </div> 
     </div>
   </section>
-   
-  <!--Only Mobile -->
-  <!-- <section class="d-block d-md-none d-lg-none">
-    <div class="container">
-      <div class="w-100 d-flex justify-content-center mt-3"> 
-        <ul class="nav nav-pills Categories-portfolio" role="tablist">
-          <li class="nav-item"> <a class="nav-link active pl-3 pr-3" data-toggle="pill" href="#tab1"> 7 </a> </li>
-          <li class="nav-item"> <a class="nav-link pl-3 pr-3" data-toggle="pill" href="#tab2"> 15 </a> </li>
-          <li class="nav-item"> <a class="nav-link pl-3 pr-3" data-toggle="pill" href="#tab3"> 30 </a> </li>
-          <li class="nav-item"> <a class="nav-link pl-3 pr-3" data-toggle="pill" href="#tab4"> 60 </a> </li>
-        </ul>
-      </div>
-      <div class="w-100 d-flex justify-content-center mt-2 text-center">
-        <div class="tab-content w-100">
-          <div id="tab1" class="tab-pane active filter-active">
-            <div>
-              <div class="plan-card-title">7 MEALS</div>
-              <div class="plane-time-text">per week</div>
-              <div class="meal-price-text">$11.49 / meal</div>
-              <div class="meal-price-text bottom-padding"> </div>
-              <a href="" class="btn btn-success btn-lg">Select the 4 meal plan</a></div>
-          </div>
-          <div id="tab2" class="tab-pane">
-            <div>
-              <div class="plan-card-title">15 MEALS</div>
-              <div class="plane-time-text">per week</div>
-              <div class="meal-price-text">$11.49 / meal</div>
-              <div class="meal-price-text bottom-padding"> </div>
-              <a href="" class="btn btn-success btn-lg">Select the 6 meal plan</a></div>
-          </div>
-
-          <div id="tab3" class="tab-pane">
-            <div>
-              <div class="plan-card-title">30 Days MEALS</div>
-              <div class="plane-time-text">per week</div>
-              <div class="meal-price-text">$11.49 / meal</div>
-              <div class="meal-price-text bottom-padding"> </div>
-              <a href="{{url('')}}/subscribe_now" class="btn btn-success btn-lg">Select the 6 meal plan</a></div>
-          </div>
-
-          <div id="tab4" class="tab-pane">
-            <div>
-              <div class="plan-card-title">60 Days MEALS</div>
-              <div class="plane-time-text">per week</div>
-              <div class="meal-price-text">$11.49 / meal</div>
-              <div class="meal-price-text bottom-padding"> </div>
-              <a href="" class="btn btn-success btn-lg">Select the 6 meal plan</a></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section> -->
 
   <section class="section bg-green"><!-- bg-default -->
     <div class="container">
@@ -447,9 +357,6 @@
                 <div class="product-body">
                   <div class="product-figure"><img src="{{url('')}}/uploads/images/15ed36a41ed2238aa0512bff66308d3ac215505d.jpg" class="img-fluid" /> </div>
                   <h5 class="product-title"><a href="">Forbidden Rice Bowl</a></h5>
-                  <!-- <div class="product-price-wrap">
-                    <div class="product-price"><i class="fa fa-inr" aria-hidden="true"></i> 15.00</div>
-                  </div> -->
                   <div class="new-meal-sub-text">Black Rice, Tofu, Herb Vegetables, Peri Peri Sauce</div>
                   <div class="new-meal-cal-and-btn-div fit">
                     <div class="carbs-info">
@@ -549,13 +456,9 @@
         </div>
       </div>
       <div class="helper-div ff text-center">
-        
-        <!--<a href="{{url('')}}/subscribe_now" class="btn btn-darkblue">Get Started</a>-->
       </div>
     </div>
   </section>
-  
-  
   <div class="section-2 gray">
     <div class="container">
       <div class="section-title-div">
@@ -584,15 +487,12 @@
           </div>
         </div>
       </div>
-
       <div class="container" style="text-align: center;">
         <a href="{{url('')}}/faq#tab2" style="color: #222;" class="d-block mt-3"> <strong style="color: red;">*</strong> Please find answers to all your subscription related queries</a>
       </div>
-      
     </div>
   </div>
 </main>
-
 
 <script type="text/javascript">
 $(document).ready(function() {
