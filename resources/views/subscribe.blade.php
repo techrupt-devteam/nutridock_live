@@ -602,7 +602,6 @@ function calculatePrice()
     var final_gst_value = '';
     var discount_amt = subscribe_now_price_per_meal_value * discount_in_percent_value / 100;
     var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
-    console.log(cal_value2);
     var cal_value = no_of_days * mealtype * Math.round(cal_value2);
    
     var gst_value = cal_value * 5 / 100;
@@ -705,11 +704,13 @@ function submitFirstForm(){
               },
         'async': false,
         success: function(response){
-          //console.log(response);
+          console.log(response);
           var data = $.parseJSON(response);
+          //console.log(data.personal_data.id);
           if(data){
             var subscribe_id = data.personal_data.id;
             $('#subscribe_id').val(subscribe_id);  
+            console.log(subscribe_id);
             /*if(data.duplicate_message){
               alert("You are already subscribed with us.Want to purchase new subscription plan ?");
               $('#subscribe_id').val(data.personal_data);

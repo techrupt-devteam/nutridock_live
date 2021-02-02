@@ -6,11 +6,10 @@
       <div class="card shadow mb-4">
             <div class="card-header py-3">
              View Subscribe Now Details
-              <a href="{{url('')}}/admin/view-subscribe-now-user" class="btn btn-dark btn-sm float-right" data-toggle="tooltip" data-placement="left" title="Back"><i class="fas fa-long-arrow-alt-right"></i></a>
+              <a href="{{url('')}}/admin/view-subscribe-now" class="btn btn-dark btn-sm float-right" data-toggle="tooltip" data-placement="left" title="Back"><i class="fas fa-long-arrow-alt-right"></i></a>
             </div>
             <div class="card-body">
                 <?php 
-                foreach($user_arr_data as $user_row);
                  foreach($arr_data as $row); ?>
                 <form action="{{url('')}}/admin/subscribe-now/update/{{$row->id }}" method="post" enctype="multipart/form-data">
                 {{csrf_field()}}
@@ -28,7 +27,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Email</label>
-                                <input type="text" class="form-control" name="" placeholder="Email" value="<?php echo $user_row->email ?? '' ?>" readonly="readonly">
+                                <input type="text" class="form-control" name="" placeholder="Email" value="<?php echo $row->email ?? '' ?>" readonly="readonly">
                             </div>
                         </div>
                     </div>
@@ -36,7 +35,7 @@
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Mobile</label>
-                                <input type="text" class="form-control" name="" placeholder="Mobile" value="<?php echo $user_row->phone_no ?? '' ?>" readonly="readonly">
+                                <input type="text" class="form-control" name="" placeholder="Mobile" value="<?php echo $row->phone_no ?? '' ?>" readonly="readonly">
                             </div>
                         </div>
                     </div>
@@ -107,14 +106,19 @@
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food </label><br>
                                 <?php 
+                                /*$var = array_diff( [312, 401, 15, 401, 3], [401] );
+                                print_r($var); die;*/
                                 $avoid_or_dislike_food_id = $row->avoid_or_dislike_food_id;
                                 $abc = explode(",",$avoid_or_dislike_food_id);
                                 $var_value = array_diff( $abc, ['Other'] );
+                                //if($avoid_or_dislike_food_id!="Other") {
                                     for($i=0;$i<count($abc); $i++){ 
                                         if($abc[$i]!='Other'){
                                             $foodavoiddata = \DB::table('food_avoid')->select('food_avoid_name')->where('food_avoid_id',$abc[$i])->get();
+                                            //print_r(count($foodavoiddata)); die;
                                             for($j=0;$j<count($foodavoiddata); $j++){
-                                            foreach($foodavoiddata as $food_avoid_row): ?>
+                                            foreach($foodavoiddata as $food_avoid_row):
+                                            //print_r($food_avoid_row->food_avoid_name); die; ?>
                                             <strong><?php echo $food_avoid_row->food_avoid_name; ?></strong><?php endforeach;
                                          }
                                         }else{ ?>
@@ -127,7 +131,8 @@
                             </div>
                         </div>
                         <?php  } ?>
-                    
+                        
+
                         <div class="row">
                             <div class="col-lg-12 mb-3">
                                 <label class="label-control">Avoid / Dislike Food
@@ -405,36 +410,125 @@ function calculatePrice()
     var cal_value = no_of_days_value * mealtype * subscribe_now_price_per_meal_value;
     var final_gst_value = '';
     
-    var discount_amt = subscribe_now_price_per_meal_value * discount_in_percent_value / 100;
-    var cal_value2 = subscribe_now_price_per_meal_value - discount_amt;
-    var final_value = no_of_days_value * mealtype * Math.round(cal_value2);
-    
-    var gst_value = final_value * 5 / 100;
-    var final_gst_value = final_value + gst_value;
-    
-    if(subscribe_now_pkg_price_value==0){
-        if(discount_on_amount_value == 0){
+    if(no_of_days_value==7){
+        if(subscribe_now_pkg_price_value==0){
+          if(discount_on_amount_value == 0){
+          var discount_amt = cal_value * 5 / 100;
+          var final_value = (cal_value - discount_amt);
+          
+          var gst_value = final_value * 5 / 100;
+          var final_gst_value = final_value + gst_value;
           $('#total').val(final_value);
           $('#price').val(final_gst_value);
           $('#gst_value').val(gst_value);
           $('#discount_value').val(discount_amt);
-    }else{
-        var cal_value = no_of_days * mealtype * subscribe_now_price_per_meal_value;
-        var final_value = cal_value - discount_on_amount_value;
-        
-        /*var gst_value = final_value * 5 / 100;
-        var final_gst_value = final_value + gst_value;*/
-       
-        $('#final_value').html('Rs.'+final_value);
-        $('#price').val(final_gst_value);
-        $('#total').val(final_value);
-        $('#discount_value').val(discount_on_amount_value);
-        $('#gst_value').val(gst_value);
+        }else{
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+            //console.log(final_value);
+           
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
+        }
+        }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
+        }
     }
-    }else{
-        $('#total').val(subscribe_now_pkg_price_value);
-        $('#gst_value').val(0);
-        $('#price').val(subscribe_now_pkg_price_value);
+
+    if(no_of_days_value==15){
+        if(subscribe_now_pkg_price_value==0){
+          if(discount_on_amount_value == 0){
+          var discount_amt = cal_value * 12 / 100;
+          var final_value = (cal_value - discount_amt);
+          var gst_value = final_value * 5 / 100;
+          var final_gst_value = final_value + gst_value;
+          
+          $('#total').val(final_value);
+          $('#price').val(final_gst_value);
+          $('#gst_value').val(gst_value);
+          $('#discount_value').val(discount_amt);
+        }else{
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+            
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
+        }
+        }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
+        }
+    }
+
+    if(no_of_days_value==30){
+        if(subscribe_now_pkg_price_value==0){
+           if(discount_on_amount_value == 0){
+           var discount_amt = cal_value * 20 / 100;
+           var final_value = (cal_value - discount_amt);
+           var gst_value = final_value * 5 / 100;
+           var final_gst_value = final_value + gst_value;
+          
+           $('#total').val(final_value);
+           $('#price').val(final_gst_value);
+           $('#discount_value').val(discount_amt);
+           $('#gst_value').val(gst_value);
+          }else{
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+           
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
+          }
+      }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
+      }
+    }
+
+    if(no_of_days_value==60){
+        if(subscribe_now_pkg_price_value==0){
+           if(discount_on_amount_value == 0){
+           var discount_amt = cal_value * 25 / 100;
+           var final_value = (cal_value - discount_amt);
+           var gst_value = final_value * 5 / 100;
+           var final_gst_value = final_value + gst_value;
+          
+           $('#total').val(final_value);
+           $('#price').val(final_gst_value);
+           $('#discount_value').val(discount_amt);
+           $('#gst_value').val(gst_value);
+          }else{
+            var final_value = cal_value - discount_on_amount_value;
+            var gst_value = final_value * 5 / 100;
+            var final_gst_value = final_value + gst_value;
+           
+            $('#final_value').html('Rs.'+final_value);
+            $('#price').val(final_gst_value);
+            $('#total').val(final_value);
+            $('#discount_value').val(discount_on_amount_value);
+            $('#gst_value').val(gst_value);
+          }
+      }else{
+            $('#total').val(subscribe_now_pkg_price_value);
+            $('#gst_value').val(0);
+            $('#price').val(subscribe_now_pkg_price_value);
+      }
     }
     couponCodeValue();
 }

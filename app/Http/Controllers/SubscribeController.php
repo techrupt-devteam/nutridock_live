@@ -110,10 +110,22 @@ class SubscribeController extends Controller
         $arr_data['phone_no']   =   $request->input('phone_no', null);
         $arr_data['password'] = encrypt('sub_'.rand());
 
+
         $subacribe_now_value     = \DB::table('subscribe_now_user')->where('phone_no',$arr_data['phone_no'])->where('email',$arr_data['email'])->get();
         $subacribe_now_data_exit = $subacribe_now_value->toArray();
+        //print_r($subacribe_now_data_exit); die;
+        if($subacribe_now_data_exit){
+            $id = [];
+            foreach($subacribe_now_data_exit as $row){
+                $id['id'] = $row->id;
+            }
+            $data['personal_data'] = $id;            
+        }else{
+            //print_r($arr_data); die;
+            $data['personal_data'] = SubscribeNowUser::create($arr_data);    
+        }
 
-        $data['personal_data'] = SubscribeNowUser::create($arr_data);
+        
         echo json_encode($data);
     }
 
