@@ -16,7 +16,6 @@
     font-size: 13px;
 }
 </style>
-
 <!-- For Datepickr -->
 <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <style type="text/css">
