@@ -1,4 +1,4 @@
-
+ 
 @extends('admin.layouts.master')
 @section('content')
     <!-- Begin Page Content -->

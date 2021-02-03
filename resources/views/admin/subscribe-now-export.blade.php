@@ -1,4 +1,4 @@
-<?php
+<?php 
     $filename ="All Subscribe Now Export.xls";
     header('Content-type: application/ms-excel');
     header('Content-Disposition: attachment; filename='.$filename); ?>

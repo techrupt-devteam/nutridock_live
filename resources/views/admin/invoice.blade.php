@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('content')
-
+ 
 
 <div id="inventory-invoice" class="mx-auto" style="max-width:1024px">
 

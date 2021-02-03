@@ -1,4 +1,4 @@
-<?php
+<?php 
     $filename ="Subscribe Now Plan Export.xls";
     header('Content-type: application/ms-excel');
     header('Content-Disposition: attachment; filename='.$filename); ?>
