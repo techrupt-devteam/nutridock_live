@@ -16,22 +16,13 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Auth;
 //use Session;
 
-// use Tymon\JWTAuth\Contracts\JWTSubject;
-
 class WebAdmin extends Model implements Authenticatable, CanResetPasswordContract
 {
     use AuthenticableTrait, CanResetPassword, Notifiable;
 
     protected $hidden = array('password', 'remember_token');
 
-    
-
-
     protected $table = 'users';
 
-    //protected $fillable = ['user_name','name','email','password','contact','address','profile_image','role','otp','expired_on'];
-
-     protected $fillable = ['name','email','password'];
-
-  
+    protected $fillable = ['name','email','password'];
 }

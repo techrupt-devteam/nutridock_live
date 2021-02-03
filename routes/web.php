@@ -14,14 +14,11 @@
 
 Auth::routes();
 /*Route::get('/clear', function() {
-
    Artisan::call('cache:clear');
    Artisan::call('config:clear');
    Artisan::call('config:cache');
    Artisan::call('view:clear');
-
    return "Cleared!";
-
 });*/
 Route::get('/', 'HomeController@index')->name('index');
 

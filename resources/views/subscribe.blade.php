@@ -161,7 +161,7 @@
                         <label class="control-label">Height <span style="color: red;">*</span></label>
                         <div class="row">
                           <div class="col-6 pr-1">
-                            <input type="text" name="height_in_feet" class="form-control" placeholder="Feet" required="required" onkeypress="return isNumberKey(event)" maxlength="1" minlength="1">
+                            <input type="text" name="height_in_feet" class="form-control" placeholder="Feet" required="required" onkeypress="return isNumberKey(event)" minlength="1">
                           </div>
                           <div class="col-6 pl-1">
                             <input type="text" name="height_in_inches" class="form-control" placeholder="Inch" onkeypress="return isNumberKey(event)" maxlength="2" minlength="2">
